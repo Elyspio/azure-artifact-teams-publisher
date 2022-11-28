@@ -7,7 +7,7 @@ using System.Net;
 
 namespace AzureArtifact.Api.Web.Controllers;
 
-[Route("api/token")]
+[Route("api/token/{organisation}")]
 [ApiController]
 public class TokenController : ControllerBase
 {
@@ -21,16 +21,16 @@ public class TokenController : ControllerBase
 	[HttpGet]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(Token))]
-	public async Task<IActionResult> GetToken()
+	public async Task<IActionResult> GetToken(string organisation)
 	{
-		return Ok(await _tokenService.GetToken());
+		return Ok(await _tokenService.GetToken(organisation));
 	}
 
-	[HttpPost]
+	[HttpPost()]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> SetToken(SetTokenRequest request)
+	public async Task<IActionResult> SetToken(string organisation, SetTokenRequest request)
 	{
-		await _tokenService.SetToken(request.Pat, request.Expiration);
+		await _tokenService.SetToken(organisation, request.Pat, request.Expiration);
 		return NoContent();
 	}
 }

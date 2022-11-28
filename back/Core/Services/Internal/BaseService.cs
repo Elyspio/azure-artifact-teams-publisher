@@ -20,21 +20,21 @@ public class BaseService
 		_logger = logger;
 	}
 
-	async protected Task<Token?> GetToken()
+	async protected Task<Token?> GetToken(string organisation)
 	{
 		var logger = _logger.Enter();
 
-		var token = await _tokenRepository.GetToken();
+		var token = await _tokenRepository.GetToken(organisation);
 
 		logger.Exit();
 
 		return token is null ? null : _tokenAssembler.Convert(token);
 	}
 
-	async protected Task<Token> RequiredToken()
+	async protected Task<Token> RequiredToken(string organisation)
 	{
 		var logger = _logger.Enter();
-		var token = await GetToken();
+		var token = await GetToken(organisation);
 
 		if (token is null)
 		{

@@ -6,6 +6,7 @@ using AzureArtifact.Api.Db.Repositories.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace AzureArtifact.Api.Db.Repositories;
 
@@ -20,7 +21,7 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 	{
 		var entity = new ArtifactEntity
 		{
-			FeedId = info.FeedId,
+			Feed = info.Feed,
 			Organisation = info.Organisation,
 			Name = info.Name,
 			LatestVersion = version
@@ -31,9 +32,9 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 		return entity;
 	}
 
-	public async Task<List<ArtifactEntity>> GetAll()
+	public async Task<List<ArtifactEntity>> GetAll(string organisation)
 	{
-		return await EntityCollection.AsQueryable().ToListAsync();
+		return await EntityCollection.AsQueryable().Where(artifact => artifact.Organisation == organisation).ToListAsync();
 	}
 
 

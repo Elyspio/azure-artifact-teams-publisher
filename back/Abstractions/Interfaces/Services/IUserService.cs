@@ -8,5 +8,5 @@ public interface IUserService
 	///     Recherche les utilisateurs respectant le critère de recherche dans Azure DevOps
 	/// </summary>
 	/// <returns></returns>
-	Task<List<UserData>> SearchUsers(string nameOrMail);
+	Task<List<UserData>> SearchUsers(string organisation, string nameOrMail);
 }

@@ -35,10 +35,7 @@ public class ArtifactVersion
 {
 	public Guid Id { get; set; }
 	public string NormalizedVersion { get; set; } = default!;
-
-	[JsonPropertyName("version")]
 	public Version Version { get; set; } = default!;
-
 	public bool IsLatest { get; set; }
 	public bool IsListed { get; set; }
 	public string StorageId { get; set; } = default!;

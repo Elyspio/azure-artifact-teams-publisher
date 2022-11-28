@@ -17,7 +17,7 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 	}
 
 
-	public async Task UpdateProject(Project project)
+	public async Task UpdateProject(string organisation, Project project)
 	{
 		var entity = await EntityCollection.AsQueryable().FirstOrDefaultAsync(p => p.IdAzure == project.IdAzure);
 
@@ -25,6 +25,7 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 		{
 			await EntityCollection.InsertOneAsync(new ProjectEntity
 			{
+				Organisation = organisation,
 				Name = project.Name,
 				IdAzure = project.IdAzure,
 				Repositories = project.Repositories
@@ -52,8 +53,8 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 		await EntityCollection.ReplaceOneAsync(project => project.Id == entity.Id, entity);
 	}
 
-	public async Task<List<ProjectEntity>> GetAll()
+	public async Task<List<ProjectEntity>> GetAll(string organisation)
 	{
-		return await EntityCollection.AsQueryable().ToListAsync();
+		return await EntityCollection.AsQueryable().Where(project => project.Organisation == organisation).ToListAsync();
 	}
 }

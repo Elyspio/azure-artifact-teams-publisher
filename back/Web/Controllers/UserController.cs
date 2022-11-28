@@ -6,7 +6,7 @@ using System.Net;
 
 namespace AzureArtifact.Api.Web.Controllers;
 
-[Route("api/users")]
+[Route("api/users/{organisation}")]
 [ApiController]
 public class UserController : ControllerBase
 {
@@ -19,8 +19,8 @@ public class UserController : ControllerBase
 
 	[HttpGet]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<UserData>))]
-	public async Task<IActionResult> Search(string nameOrEmail)
+	public async Task<IActionResult> Search(string organisation, string nameOrEmail)
 	{
-		return Ok(await _userService.SearchUsers(nameOrEmail));
+		return Ok(await _userService.SearchUsers(organisation, nameOrEmail));
 	}
 }

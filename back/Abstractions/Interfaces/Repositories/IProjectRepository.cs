@@ -6,8 +6,8 @@ namespace AzureArtifact.Api.Abstractions.Interfaces.Repositories;
 
 public interface IProjectRepository
 {
-	Task UpdateProject(Project project);
+	Task UpdateProject(string organisation, Project project);
 
 	Task UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers);
-	Task<List<ProjectEntity>> GetAll();
+	Task<List<ProjectEntity>> GetAll(string organisation);
 }

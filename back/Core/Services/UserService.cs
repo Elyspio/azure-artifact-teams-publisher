@@ -23,11 +23,11 @@ public class UserService : IUserService
 		_tokenRepository = tokenRepository;
 	}
 
-	public async Task<List<UserData>> SearchUsers(string nameOrMail)
+	public async Task<List<UserData>> SearchUsers(string organisation,  string nameOrMail)
 	{
 		var logger = _logger.Enter(Log.Format(nameOrMail));
 
-		var pat = (await _tokenRepository.GetToken())?.Pat;
+		var pat = (await _tokenRepository.GetToken(organisation))?.Pat;
 
 		if (pat is null)
 		{

@@ -12,7 +12,7 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 		return new Artifact
 		{
 			Id = obj.Id.AsGuid(),
-			FeedId = obj.FeedId,
+			Feed = obj.Feed,
 			Organisation = obj.Organisation,
 			Name = obj.Name,
 			LatestVersion = obj.LatestVersion
@@ -24,7 +24,7 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 		return new ArtifactEntity
 		{
 			Id = obj.Id.AsObjectId(),
-			FeedId = obj.FeedId,
+			Feed = obj.Feed,
 			Organisation = obj.Organisation,
 			Name = obj.Name,
 			LatestVersion = obj.LatestVersion

@@ -1,6 +1,7 @@
 ﻿using AzureArtifact.Api.Abstractions.Common.Extensions;
 using AzureArtifact.Api.Abstractions.Transports.Artifacts;
 using AzureArtifact.Api.Abstractions.Transports.Project;
+using AzureArtifact.Api.Abstractions.Transports.Token;
 using AzureArtifact.Api.Adapters.Types.Requests;
 using AzureArtifact.Api.Adapters.Types.Responses;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 using Directory = AzureArtifact.Api.Adapters.Types.Responses.Directory;
 
 namespace AzureArtifact.Api.Adapters.Adapters;
@@ -26,11 +28,11 @@ public class AzureDevopsAdapter
 	{
 		// Connect to Azure DevOps Services
 
-		var logger = _logger.Enter($"{Log.Format(info.Organisation)} {Log.Format(info.FeedId)} {Log.Format(info.Name)} {Log.Format(!pat.IsNullOrEmpty())}");
+		var logger = _logger.Enter($"{Log.Format(info.Organisation)} {Log.Format(info.Feed)} {Log.Format(info.Name)} {Log.Format(!pat.IsNullOrEmpty())}");
 		using var client = GetAzureClient(pat);
 
 		var responseBody = await client.GetStringAsync(
-			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.FeedId}/Packages?packageNameQuery={info.Name}&includeDescription=true&%24top=100&includeDeleted=true"
+			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.Feed}/Packages?packageNameQuery={info.Name}&includeDescription=true&%24top=100&includeDeleted=true"
 		);
 
 
@@ -81,9 +83,9 @@ public class AzureDevopsAdapter
 	}
 
 
-	public async Task<List<Project>> GetProjects(string pat)
+	public async Task<List<Project>> GetProjects(Token token)
 	{
-		using var client = GetAzureClient(pat);
+		using var client = GetAzureClient(token.Pat);
 
 		var response = await client.GetAsync("https://dev.azure.com/coexya-swl-sante/_apis/projects");
 
@@ -94,16 +96,17 @@ public class AzureDevopsAdapter
 		var rawProjects = JsonConvert.DeserializeObject<AzureGetProjectsResponse>(content)!;
 		var projects = new ConcurrentBag<Project>();
 
-		await Parallel.ForEachAsync(rawProjects.Value, async (project, token) =>
+		await Parallel.ForEachAsync(rawProjects.Value, async (project, cancelToken) =>
 		{
-			var repoResponse = await client.GetAsync($"https://dev.azure.com/coexya-swl-sante/{project.Id}/_apis/git/repositories", token);
-			var repoContent = await repoResponse.Content.ReadAsStringAsync(token);
+			var repoResponse = await client.GetAsync($"https://dev.azure.com/coexya-swl-sante/{project.Id}/_apis/git/repositories", cancelToken);
+			var repoContent = await repoResponse.Content.ReadAsStringAsync(cancelToken);
 			repoResponse.EnsureSuccessStatusCode();
 
 			var repositories = JsonConvert.DeserializeObject<AzureGetRepositoryResponse>(repoContent)!.Value;
 
 			projects.Add(new Project
 			{
+				Organisation = token.Organisation,
 				IdAzure = project.Id,
 				Name = project.Name,
 				Repositories = repositories.Select(repo => new Repository
@@ -123,11 +126,42 @@ public class AzureDevopsAdapter
 	/// </summary>
 	/// <param name="pat"></param>
 	/// <returns></returns>
-	private static HttpClient GetAzureClient(string pat)
+	private HttpClient GetAzureClient(string pat)
 	{
 		var client = new HttpClient();
 		client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{""}:{pat}")));
 		return client;
+	}
+
+	public async Task<List<RawArtifact>> SearchArtifacts(string query, string feed, Token token)
+	{
+		using var client = GetAzureClient(token.Pat);
+
+		var qs = $"packageNameQuery={HttpUtility.UrlEncode(query)}&includeDescription=true&%24top=100&includeDeleted=true";
+		var response = await client.GetAsync($"https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds/{feed}/Packages?{qs}");
+
+		var content = await response.Content.ReadAsStringAsync();
+
+		response.EnsureSuccessStatusCode();
+
+		var data = JsonConvert.DeserializeObject<AzureArtifacts>(content)!;
+
+		return data.Value;
+	}
+
+	public async Task<List<AzureGetFeedsResponse.AzureFeed>> GetArtifactFeeds(Token token)
+	{
+		using var client = GetAzureClient(token.Pat);
+
+		var response = await client.GetAsync("https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds");
+
+		var content = await response.Content.ReadAsStringAsync();
+
+		response.EnsureSuccessStatusCode();
+
+		var data = JsonConvert.DeserializeObject<AzureGetFeedsResponse>(content)!;
+
+		return data.Value;
 	}
 }

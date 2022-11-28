@@ -5,6 +5,7 @@ using AzureArtifact.Api.Db.Repositories.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace AzureArtifact.Api.Db.Repositories;
 
@@ -14,18 +15,19 @@ internal class TokenRepository : BaseRepository<TokenEntity>, ITokenRepository
 	{
 	}
 
-	public async Task<TokenEntity?> GetToken()
+	public async Task<TokenEntity?> GetToken(string organisation)
 	{
-		return await EntityCollection.AsQueryable().FirstOrDefaultAsync();
+		return await EntityCollection.AsQueryable().FirstOrDefaultAsync(token => token.Organisation == organisation);
 	}
 
-	public async Task<TokenEntity> SetToken(string pat, TokenExpiration expiration)
+	public async Task<TokenEntity> SetToken(string organisation, string pat, TokenExpiration expiration)
 	{
 		await EntityCollection.DeleteManyAsync(entity => true);
 		var entity = new TokenEntity
 		{
 			Pat = pat,
-			Expiration = expiration
+			Expiration = expiration,
+			Organisation = organisation
 		};
 
 		await EntityCollection.InsertOneAsync(entity);

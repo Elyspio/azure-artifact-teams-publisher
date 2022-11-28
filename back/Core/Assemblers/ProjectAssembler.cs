@@ -10,6 +10,7 @@ public class ProjectAssembler : BaseAssembler<Project, ProjectEntity>
 	{
 		return new Project
 		{
+			Organisation = obj.Organisation,
 			Name = obj.Name,
 			IdAzure = obj.IdAzure,
 			Repositories = obj.Repositories

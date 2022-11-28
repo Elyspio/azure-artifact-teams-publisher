@@ -24,29 +24,29 @@ public class ProjectService : BaseService, IProjectService
 		_projectRepository = projectRepository;
 	}
 
-	public async Task<List<Project>> GetAll()
+	public async Task<List<Project>> GetAll(string organisation)
 	{
 		var logger = _logger.Enter();
 
-		var projects = await _projectRepository.GetAll();
+		var projects = await _projectRepository.GetAll(organisation);
 
 		logger.Exit();
 
 		return _projectAssembler.Convert(projects);
 	}
 
-	public async Task RefreshAll()
+	public async Task RefreshAll(string organisation)
 	{
-		var token = await RequiredToken();
+		var token = await RequiredToken(organisation);
 
-		var projects = await _devopsAdapter.GetProjects(token.Pat);
+		var projects = await _devopsAdapter.GetProjects(token);
 
-		await Parallel.ForEachAsync(projects, async (project, _) => { await _projectRepository.UpdateProject(project); });
+		await Parallel.ForEachAsync(projects, async (project, _) => { await _projectRepository.UpdateProject(organisation, project); });
 	}
 
-	public async Task UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers)
+	public async Task UpdateRepositoryMaintainers(string organisation, Guid repositoryId, List<UserData> maintainers)
 	{
-		var logger = _logger.Enter($"{Log.Format(repositoryId)} {Log.Format(maintainers)}");
+		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(repositoryId)} {Log.Format(maintainers)}");
 
 		await _projectRepository.UpdateRepositoryMaintainers(repositoryId, maintainers);
 	}

@@ -21,21 +21,21 @@ public class TokenService : BaseService, ITokenService
 		_logger = logger;
 	}
 
-	public async new Task<Token?> GetToken()
+	public async new Task<Token?> GetToken(string organisation)
 	{
 		var logger = _logger.Enter();
 
-		var token = await base.GetToken();
+		var token = await base.GetToken(organisation);
 
 		logger.Exit();
 		return token;
 	}
 
-	public async Task SetToken(string pat, TokenExpiration expiration)
+	public async Task SetToken(string organisation,  string pat, TokenExpiration expiration)
 	{
 		var logger = _logger.Enter(Log.Format(expiration));
 
-		await _tokenRepository.SetToken(pat, expiration);
+		await _tokenRepository.SetToken(organisation, pat, expiration);
 
 		logger.Exit();
 	}

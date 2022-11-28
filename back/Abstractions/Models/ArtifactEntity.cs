@@ -10,5 +10,5 @@ public class ArtifactEntity : ArtifactBase
 	[BsonRepresentation(BsonType.ObjectId)]
 	public ObjectId Id { get; init; }
 
-	public string Info => $"{Organisation} {FeedId} {Name}";
+	public string Info => $"{Organisation} {Feed} {Name}";
 }
