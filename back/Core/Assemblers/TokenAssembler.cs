@@ -15,6 +15,7 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 			Id = obj.Id.AsGuid(),
 			Pat = obj.Pat,
 			Expiration = obj.Expiration,
+			Organisation = obj.Organisation,
 			ExpireAt = obj.Id.CreationTime.Add(obj.Expiration switch
 			{
 				TokenExpiration.Year => TimeSpan.FromDays(364),
@@ -32,7 +33,8 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 		{
 			Id = obj.Id.AsObjectId(),
 			Pat = obj.Pat,
-			Expiration = obj.Expiration
+			Expiration = obj.Expiration,
+			Organisation = obj.Organisation
 		};
 	}
 }

@@ -1,18 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./module/theme/theme.reducer";
-import { authenticationReducer } from "./module/authentication/authentication.reducer";
 import { container } from "../core/di";
-import { todoReducer } from "./module/todo/todo.reducer";
+import { azureReducer } from "./module/azure/azure.reducer";
 
 const store = configureStore({
 	reducer: {
 		theme: themeReducer,
-		authentication: authenticationReducer,
-		todo: todoReducer,
+		azure: azureReducer,
 	},
 	devTools: process.env.NODE_ENV !== "production",
-	middleware: (getDefaultMiddleware) => [...getDefaultMiddleware({ thunk: { extraArgument: { container } as ExtraArgument } })],
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument: { container } as ExtraArgument } }),
 });
 
 export type StoreState = ReturnType<typeof store.getState>;

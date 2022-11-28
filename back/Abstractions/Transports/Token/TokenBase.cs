@@ -9,7 +9,7 @@ public class TokenBase
 	/// </summary>
 	public required string Pat { get; init; }
 
-	public TokenExpiration Expiration { get; set; }
+	public required TokenExpiration Expiration { get; set; }
 	
-	public string Organisation { get; set; }
+	public required string Organisation { get; set; }
 }

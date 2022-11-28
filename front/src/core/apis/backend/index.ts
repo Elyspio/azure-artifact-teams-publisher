@@ -1,17 +1,16 @@
 import { injectable } from "inversify";
 import axios from "axios";
-import { TodoClient, TodoUserClient } from "./generated";
+import { ArtifactClient, ProjectClient, TokenClient, UserClient } from "./generated";
 
 const instance = axios.create({
 	withCredentials: true,
+	transformResponse: []
 });
 
 @injectable()
 export class BackendApi {
-
-
-	public readonly todo = {
-		common: new TodoClient(window.config.endpoints.core, instance),
-		user: new TodoUserClient(window.config.endpoints.core, instance),
-	};
+	token = new TokenClient(window.config.endpoints.core, instance);
+	user = new UserClient(window.config.endpoints.core, instance);
+	artifact = new ArtifactClient(window.config.endpoints.core, instance);
+	project = new ProjectClient(window.config.endpoints.core, instance);
 }

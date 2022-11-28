@@ -1,6 +1,5 @@
 import path from "path";
-import { EOL } from "os";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import { execSync } from "child_process";
 
 type NSwagConf = {
@@ -19,13 +18,13 @@ function generateFromNswag({ outputFile, file, input }: NSwagConf) {
 	} = JSON.parse(readFileSync(file).toString());
 
 	console.log(`Executing "${command}"`);
-	execSync(command, {stdio: "inherit"});
+	execSync(command, { stdio: "inherit" });
 }
 
 if (require.main === module) {
 	console.log("Generating http clients for Api");
 	generateFromNswag({
-		input: "http://localhost:4000/swagger/Example.Api/swagger.json",
+		input: "http://localhost:4000/swagger/AzureArtifact.Api/swagger.json",
 		file: path.resolve(__dirname, "nswag-api-rest.nswag"),
 		outputFile: path.resolve(
 			__dirname,
@@ -34,7 +33,7 @@ if (require.main === module) {
 			"core",
 			"apis",
 			"backend",
-			"generated.ts"
+			"generated.ts",
 		),
 	});
 }

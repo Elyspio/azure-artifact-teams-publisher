@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import React from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.scss";
 import { Provider } from "react-redux";
@@ -10,16 +10,21 @@ import { themes } from "./config/theme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Provider as DiProvider } from "inversify-react";
-import { container } from "./core/di";
+import { container, initDI } from "./core/di";
 
 declare module "@mui/styles/defaultTheme" {
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
 	interface DefaultTheme extends Theme {
 	}
 }
 
 function Wrapper() {
-	const { theme, current } = useAppSelector((state) => ({ theme: state.theme.current === "dark" ? themes.dark : themes.light, current: state.theme.current }));
+	const {
+		theme,
+		current,
+	} = useAppSelector((state) => ({
+		theme: state.theme.current === "dark" ? themes.dark : themes.light,
+		current: state.theme.current,
+	}));
 
 	return (
 		<StyledEngineProvider injectFirst>
@@ -33,13 +38,18 @@ function Wrapper() {
 
 function App() {
 	return (
-		<DiProvider container={container}>
-			<Provider store={store}>
-				<Wrapper />
-			</Provider>
-		</DiProvider>
+		<StrictMode>
+			<DiProvider container={container}>
+				<Provider store={store}>
+					<Wrapper />
+				</Provider>
+			</DiProvider>
+		</StrictMode>
+
 	);
 }
+
+initDI();
 
 createRoot(document.getElementById("root")!).render(<App />);
 
