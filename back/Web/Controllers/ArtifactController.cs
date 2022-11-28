@@ -20,14 +20,14 @@ public class ArtifactController : ControllerBase
 
 	[HttpGet]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<Artifact>))]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAllArtifact()
 	{
 		return Ok(await _artefactService.GetAll());
 	}
 
 	[HttpGet("new")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(Dictionary<ArtifactInfo, Version>))]
-	public async Task<IActionResult> GetAllWithNewVersion()
+	public async Task<IActionResult> GetAllArtifactWithNewVersion()
 	{
 		return Ok(await _artefactService.GetAllWithNewVersion());
 	}
@@ -35,7 +35,7 @@ public class ArtifactController : ControllerBase
 
 	[HttpPost]
 	[SwaggerResponse(HttpStatusCode.Created, typeof(Artifact))]
-	public async Task<IActionResult> Add(AddArtifactRequest request)
+	public async Task<IActionResult> AddArtifact(AddArtifactRequest request)
 	{
 		var artifact = await _artefactService.Add(request.Info, request.Version);
 		return Created($"api/artifacts/{artifact.Id}", artifact);
@@ -43,7 +43,7 @@ public class ArtifactController : ControllerBase
 
 	[HttpDelete("{id:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> Delete(Guid id)
+	public async Task<IActionResult> DeleteArtifact(Guid id)
 	{
 		await _artefactService.Delete(id);
 		return NoContent();

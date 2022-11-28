@@ -7,7 +7,7 @@ public class TokenBase
 	/// <summary>
 	///     Access token d'un utilisateur azure ayant la permission de voir les repos et les feeds d'artéfact
 	/// </summary>
-	public string Pat { get; init; }
+	public required string Pat { get; init; }
 
 	public TokenExpiration Expiration { get; set; }
 }

@@ -3,7 +3,6 @@ using AzureArtifact.Api.Abstractions.Interfaces.Injections;
 using AzureArtifact.Api.Adapters.Injections;
 using AzureArtifact.Api.Core.Injections;
 using AzureArtifact.Api.Db.Injections;
-using AzureArtifact.Api.Web.Technical.Filters;
 using AzureArtifact.Api.Web.Technical.Processors;
 using AzureArtifact.Api.Web.Technical.Utils;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -20,7 +19,6 @@ namespace AzureArtifact.Api.Web.Server;
 
 public class ServerBuilder
 {
-	private readonly string appPath = "/example";
 	private readonly string frontPath = Env.Get("FRONT_PATH", "/front");
 
 	public ServerBuilder(string[] args)
@@ -31,7 +29,7 @@ public class ServerBuilder
 				options.Listen(IPAddress.Any, 4000, listenOptions =>
 					{
 						// Use HTTP/3
-						listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+						listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
 					}
 				);
 			}
@@ -82,7 +80,7 @@ public class ServerBuilder
 			document.DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
 			document.SchemaProcessors.Add(new NullableSchemaProcessor());
 			document.OperationProcessors.Add(new NullableOperationProcessor());
-			document.OperationProcessors.Add(new RequireAuthAttribute.Swagger());
+			// document.OperationProcessors.Add(new RequireAuthAttribute.Swagger());
 		});
 		// Setup SPA Serving
 		if (builder.Environment.IsProduction()) Console.WriteLine($"Server in production, serving SPA from {frontPath} folder");

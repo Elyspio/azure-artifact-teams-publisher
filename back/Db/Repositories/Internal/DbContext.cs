@@ -1,5 +1,4 @@
-﻿using AzureArtifact.Api.Db.Configs;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
@@ -11,8 +10,6 @@ public class MongoContext
 {
 	public MongoContext(IConfiguration configuration)
 	{
-		var conf = new DbConfig();
-
 		var connectionString = configuration["Database"];
 
 		var url = new MongoUrl(connectionString);

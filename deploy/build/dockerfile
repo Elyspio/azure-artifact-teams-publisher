@@ -1,5 +1,5 @@
 # Building back
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS builder-back
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS builder-back
 WORKDIR /app
 
 COPY back/AzureArtifact.sln ./
@@ -17,23 +17,23 @@ RUN dotnet publish -c Release -o out
 
 
 # Building front
-FROM --platform=linux/amd64 node:16 as builder-front
-
-COPY front/package.json /front/
-COPY front/yarn.lock /front/
-RUN cd /front && yarn
-
-COPY front /front/
-RUN cd /front && yarn build
+#FROM --platform=linux/amd64 node:16 as builder-front
+#
+#COPY front/package.json /front/
+#COPY front/yarn.lock /front/
+#RUN cd /front && yarn
+#
+#COPY front /front/
+#RUN cd /front && yarn build
 
 
 # Running
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS production
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS production
 WORKDIR /back
 COPY --from=builder-back /app/out .
 
-COPY --from=builder-front /front/dist /back/wwwroot
-ENV FRONT_PATH /back/wwwroot
+#COPY --from=builder-front /front/build /back/wwwroot
+#ENV FRONT_PATH /back/wwwroot
 
 EXPOSE 4003
 ENTRYPOINT ["dotnet", "AzureArtifact.Api.Web.dll"]

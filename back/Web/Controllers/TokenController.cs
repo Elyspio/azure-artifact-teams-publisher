@@ -21,14 +21,14 @@ public class TokenController : ControllerBase
 	[HttpGet]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(Token))]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetToken()
 	{
 		return Ok(await _tokenService.GetToken());
 	}
 
 	[HttpPost]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> GetAllWithNewVersion(SetTokenRequest request)
+	public async Task<IActionResult> SetToken(SetTokenRequest request)
 	{
 		await _tokenService.SetToken(request.Pat, request.Expiration);
 		return NoContent();

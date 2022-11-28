@@ -1,8 +1,8 @@
 version: "3"
 services:
-    react-api-template:
-        container_name: "react-api-template"
-        image: elyspio/react-api-template
+    coexya-azure-artifact-teams-publisher:
+        container_name: coexya-azure-artifact-teams-publisher
+        image: elyspio/azure-artifact-teams-publisher
         volumes:
             - "./config/front/conf.js:/back/wwwroot/conf.js"
             - "./config/back/appsettings.json:/back/appsettings.json"
@@ -12,11 +12,11 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.docker.network=external"
-            - "traefik.http.middlewares.react-api-template-prefix.stripprefix.prefixes=/react-api-template"
-            - "traefik.http.routers.react-api-template.middlewares=react-api-template-prefix@docker"
-            - "traefik.http.routers.react-api-template.rule=PathPrefix(`/react-api-template`)"
-            - "traefik.http.services.react-api-template.loadbalancer.server.port=4000"
-            - "traefik.http.routers.react-api-template.entrypoints=external"
+            - "traefik.http.middlewares.coexya-azure-artifact-teams-publisher-prefix.stripprefix.prefixes=/coexya/azure-artifact-teams-publisher"
+            - "traefik.http.routers.coexya-azure-artifact-teams-publisher.middlewares=coexya-azure-artifact-teams-publisher-prefix@docker"
+            - "traefik.http.routers.coexya-azure-artifact-teams-publisher.rule=PathPrefix(`/coexya/azure-artifact-teams-publisher`)"
+            - "traefik.http.services.coexya-azure-artifact-teams-publisher.loadbalancer.server.port=4000"
+            - "traefik.http.routers.coexya-azure-artifact-teams-publisher.entrypoints=external"
 
 
 

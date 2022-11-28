@@ -2,11 +2,11 @@
 
 public class GetAzureUsersRequest
 {
-	public string Query { get; set; }
-	public List<string> IdentityTypes { get; set; }
-	public List<string> OperationScopes { get; set; }
-	public Options Options { get; set; }
-	public List<string> Properties { get; set; }
+	public required string Query { get; set; }
+	public required List<string> IdentityTypes { get; set; }
+	public required List<string> OperationScopes { get; set; }
+	public required Options Options { get; set; }
+	public required List<string> Properties { get; set; }
 }
 
 public class Options

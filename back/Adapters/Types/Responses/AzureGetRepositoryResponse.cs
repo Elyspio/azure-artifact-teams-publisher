@@ -2,20 +2,20 @@
 
 public class AzureGetRepositoryResponse
 {
-	public List<AzureRepository> Value { get; set; }
+	public required List<AzureRepository> Value { get; set; }
 	public long Count { get; set; }
 }
 
 public class AzureRepository
 {
 	public Guid Id { get; set; }
-	public string Name { get; set; }
-	public Uri Url { get; set; }
-	public string DefaultBranch { get; set; }
+	public required string Name { get; set; }
+	public required Uri Url { get; set; }
+	public required string DefaultBranch { get; set; }
 	public long Size { get; set; }
-	public Uri RemoteUrl { get; set; }
-	public string SshUrl { get; set; }
-	public Uri WebUrl { get; set; }
+	public required Uri RemoteUrl { get; set; }
+	public required string SshUrl { get; set; }
+	public required Uri WebUrl { get; set; }
 	public bool IsDisabled { get; set; }
 }
 

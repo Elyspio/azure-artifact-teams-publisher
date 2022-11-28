@@ -51,4 +51,9 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 
 		await EntityCollection.ReplaceOneAsync(project => project.Id == entity.Id, entity);
 	}
+
+	public async Task<List<ProjectEntity>> GetAll()
+	{
+		return await EntityCollection.AsQueryable().ToListAsync();
+	}
 }

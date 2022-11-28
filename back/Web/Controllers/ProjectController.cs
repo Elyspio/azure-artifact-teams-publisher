@@ -20,7 +20,7 @@ public class ProjectController : ControllerBase
 
 	[HttpGet]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<Project>))]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAllProjects()
 	{
 		return Ok(await _projectService.GetAll());
 	}
@@ -35,7 +35,7 @@ public class ProjectController : ControllerBase
 	}
 
 
-	[HttpPut("{repositoryId}")]
+	[HttpPut("{repositoryId:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> UpdateRepositoryMaintainers([FromRoute] Guid repositoryId, [FromBody] List<UserData> maintainers)
 	{

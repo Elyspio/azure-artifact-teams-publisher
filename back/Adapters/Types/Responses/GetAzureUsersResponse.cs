@@ -2,26 +2,26 @@
 
 public class GetAzureUsersResponse
 {
-	public List<Result> Results { get; set; }
+	public required List<Result> Results { get; set; }
 }
 
 public class Result
 {
-	public string QueryToken { get; set; }
-	public List<Identity> Identities { get; set; }
-	public string PagingToken { get; set; }
+	public required string QueryToken { get; set; }
+	public required List<Identity> Identities { get; set; }
+	public required string PagingToken { get; set; }
 }
 
 public class Identity
 {
-	public string EntityId { get; set; }
+	public required string EntityId { get; set; }
 	public EntityType EntityType { get; set; }
 	public Directory OriginDirectory { get; set; }
 	public Guid OriginId { get; set; }
 	public Directory LocalDirectory { get; set; }
 	public Guid LocalId { get; set; }
-	public string DisplayName { get; set; }
-	public string Mail { get; set; }
+	public required string DisplayName { get; set; }
+	public required string Mail { get; set; }
 }
 
 public enum EntityType
