@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setOrganisation, setSelectedFeed } from "./azure.actions";
+import { setOrganisation, setSelectedArtifact, setSelectedFeed } from "./azure.actions";
 import { getFeeds, searchArtifacts } from "./azure.async.actions";
-import { ArtifactInfo, AzureFeed } from "../../../core/apis/backend/generated";
+import { ArtifactBase, AzureFeed } from "../../../core/apis/backend/generated";
 
 export type AzureState = {
 	organisation: string
 	feeds: AzureFeed[]
-	artifacts: ArtifactInfo["name"][]
+	artifacts: ArtifactBase[]
 
 	selected: {
-		feed?: AzureFeed
+		feed?: AzureFeed,
+		artifact?: ArtifactBase
 	}
 };
 
@@ -29,7 +30,7 @@ const slice = createSlice({
 			state.organisation = action.payload;
 		});
 		addCase(setSelectedFeed, (state, action) => {
-			state.selected.feed = state.feeds.find(feed => feed.id ===  action.payload);
+			state.selected.feed = state.feeds.find(feed => feed.id === action.payload);
 		});
 
 		addCase(getFeeds.fulfilled, (state, action) => {
@@ -37,8 +38,12 @@ const slice = createSlice({
 		});
 
 		addCase(searchArtifacts.fulfilled, (state, action) => {
-			state.artifacts = action.payload.map(a => a.name);
-		})
+			state.artifacts = action.payload;
+		});
+
+		addCase(setSelectedArtifact, (state, action) => {
+			state.selected.artifact = action.payload;
+		});
 
 	},
 });

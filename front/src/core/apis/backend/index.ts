@@ -4,7 +4,7 @@ import { ArtifactClient, ProjectClient, TokenClient, UserClient } from "./genera
 
 const instance = axios.create({
 	withCredentials: true,
-	transformResponse: []
+	transformResponse: [],
 });
 
 @injectable()

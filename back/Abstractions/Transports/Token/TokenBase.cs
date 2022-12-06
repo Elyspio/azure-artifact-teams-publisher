@@ -10,6 +10,6 @@ public class TokenBase
 	public required string Pat { get; init; }
 
 	public required TokenExpiration Expiration { get; set; }
-	
+
 	public required string Organisation { get; set; }
 }

@@ -1,20 +1,18 @@
 import * as React from "react";
 import "./Application.scss";
-import Login from "@mui/icons-material/Login";
-import Logout from "@mui/icons-material/Logout";
 import { useAppSelector } from "../../store";
 import { toggleTheme } from "../../store/module/theme/theme.action";
 import { createDrawerAction, withDrawer } from "./utils/drawer/Drawer.hoc";
 import { Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Azure } from "./azure/Azure";
+import { AddArtifact } from "./azure/add-artifact/AddArtifact";
 import { DarkMode, LightMode } from "@mui/icons-material";
 
 function Application() {
 	const dispatch = useDispatch();
 
-	const { theme, themeIcon,  } = useAppSelector((s) => ({
+	const { theme, themeIcon } = useAppSelector((s) => ({
 		theme: s.theme.current,
 		themeIcon: s.theme.current === "dark" ? <LightMode /> : <DarkMode />,
 	}));
@@ -29,9 +27,8 @@ function Application() {
 	];
 
 
-
 	const drawer = withDrawer({
-		component: <Azure />,
+		component: <AddArtifact />,
 		actions,
 		title: "Azure",
 	});

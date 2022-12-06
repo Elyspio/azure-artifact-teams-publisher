@@ -26,7 +26,7 @@ public class TokenController : ControllerBase
 		return Ok(await _tokenService.GetToken(organisation));
 	}
 
-	[HttpPost()]
+	[HttpPost]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> SetToken(string organisation, SetTokenRequest request)
 	{

@@ -18,3 +18,12 @@ export const searchArtifacts = createAsyncThunk("azure/searchArtifacts", (query:
 
 	return azure.searchArtifact(organisation, selected.feed!.name, query);
 });
+
+
+export const manageArtifact = createAsyncThunk("azure/addArtifact", (_: void, { extra, getState }) => {
+	const azure = getService(AzureService, extra);
+	const { azure: { selected: { artifact } } } = getState() as StoreState;
+	if (!artifact) return;
+	return azure.manageArtifact(artifact);
+
+});

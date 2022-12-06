@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AzureArtifact.Api.Adapters.Types.Responses;
+﻿namespace AzureArtifact.Api.Adapters.Types.Responses;
 
 public class AzureArtifacts
 {
@@ -35,7 +33,7 @@ public class ArtifactVersion
 {
 	public Guid Id { get; set; }
 	public string NormalizedVersion { get; set; } = default!;
-	public Version Version { get; set; } = default!;
+	public string Version { get; set; } = default!;
 	public bool IsLatest { get; set; }
 	public bool IsListed { get; set; }
 	public string StorageId { get; set; } = default!;

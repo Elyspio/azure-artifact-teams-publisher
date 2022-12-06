@@ -31,7 +31,7 @@ public class TokenService : BaseService, ITokenService
 		return token;
 	}
 
-	public async Task SetToken(string organisation,  string pat, TokenExpiration expiration)
+	public async Task SetToken(string organisation, string pat, TokenExpiration expiration)
 	{
 		var logger = _logger.Enter(Log.Format(expiration));
 

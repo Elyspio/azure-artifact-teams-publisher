@@ -26,7 +26,7 @@ public class ProjectController : ControllerBase
 	}
 
 
-	[HttpPatch()]
+	[HttpPatch]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> RefreshAll(string organisation)
 	{
@@ -37,7 +37,7 @@ public class ProjectController : ControllerBase
 
 	[HttpPut("repositories/{repositoryId:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> UpdateRepositoryMaintainers(string organisation,  [FromRoute] Guid repositoryId, [FromBody] List<UserData> maintainers)
+	public async Task<IActionResult> UpdateRepositoryMaintainers(string organisation, [FromRoute] Guid repositoryId, [FromBody] List<UserData> maintainers)
 	{
 		await _projectService.UpdateRepositoryMaintainers(organisation, repositoryId, maintainers);
 		return NoContent();

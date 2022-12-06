@@ -17,7 +17,7 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 	}
 
 
-	public async Task<ArtifactEntity> Add(ArtifactInfo info, Version version)
+	public async Task<ArtifactEntity> Add(ArtifactInfo info, string version)
 	{
 		var entity = new ArtifactEntity
 		{

@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import { BackendApi } from "../apis/backend";
 import { BaseService } from "./common/base.service";
+import { ArtifactBase } from "../apis/backend/generated";
 
 
 @injectable()
@@ -17,4 +18,10 @@ export class AzureService extends BaseService {
 		return this.backendApiClient.artifact.searchArtifact(organisation, feed, query);
 	}
 
+	manageArtifact(artifact: ArtifactBase) {
+		return this.backendApiClient.artifact.addArtifact(artifact.organisation, artifact.feed, {
+			artifact: artifact.name,
+			version: artifact.latestVersion,
+		});
+	}
 }

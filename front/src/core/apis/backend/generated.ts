@@ -85,7 +85,7 @@ export class ArtifactClient {
 		});
 	}
 
-	getAllArtifact(organisation: string, cancelToken?: CancelToken | undefined): Promise<Artifact[]> {
+	getAllArtifact(organisation: string, cancelToken?: CancelToken | undefined): Promise<ArtifactBase[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/managed";
 		if (organisation === undefined || organisation === null)
 			throw new Error("The parameter 'organisation' must be defined.");
@@ -250,7 +250,7 @@ export class ArtifactClient {
 		return Promise.resolve<ArtifactInfo[]>(null as any);
 	}
 
-	protected processGetAllArtifact(response: AxiosResponse): Promise<Artifact[]> {
+	protected processGetAllArtifact(response: AxiosResponse): Promise<ArtifactBase[]> {
 		const status = response.status;
 		let _headers: any = {};
 		if (response.headers && typeof response.headers === "object") {
@@ -265,13 +265,13 @@ export class ArtifactClient {
 			let result200: any = null;
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
-			return Promise.resolve<Artifact[]>(result200);
+			return Promise.resolve<ArtifactBase[]>(result200);
 
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
 		}
-		return Promise.resolve<Artifact[]>(null as any);
+		return Promise.resolve<ArtifactBase[]>(null as any);
 	}
 
 	protected processGetAllArtifactWithNewVersion(response: AxiosResponse): Promise<{ [key: string]: string; }> {

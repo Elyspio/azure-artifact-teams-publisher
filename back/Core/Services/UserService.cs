@@ -23,7 +23,7 @@ public class UserService : IUserService
 		_tokenRepository = tokenRepository;
 	}
 
-	public async Task<List<UserData>> SearchUsers(string organisation,  string nameOrMail)
+	public async Task<List<UserData>> SearchUsers(string organisation, string nameOrMail)
 	{
 		var logger = _logger.Enter(Log.Format(nameOrMail));
 

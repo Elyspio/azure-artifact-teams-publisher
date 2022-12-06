@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import React, { useState } from "react";
 import { debounce } from "lodash";
-import { setOrganisation } from "../../../store/module/azure/azure.actions";
+import { setOrganisation } from "../../../../store/module/azure/azure.actions";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { getFeeds } from "../../../store/module/azure/azure.async.actions";
+import { getFeeds } from "../../../../store/module/azure/azure.async.actions";
 
 export function Organisation() {
 	const organisation = useAppSelector(s => s.azure.organisation);
@@ -27,16 +27,16 @@ export function Organisation() {
 
 	React.useEffect(() => {
 		dispatch(getFeeds());
-	}, [dispatch, organisation])
+	}, [dispatch, organisation]);
 
 
 	return <Autocomplete
-		sx={{ width: 300 }}
+
+		sx={{ minWidth: 210 }}
 		id="organisation-select"
-		freeSolo
 		options={["coexya-swl-sante"]}
 		onChange={onChange as any}
 		value={text}
-		renderInput={(params) => <TextField {...params} label="Organisation"  />}
+		renderInput={(params) => <TextField {...params} label="Organisation" />}
 	/>;
 }

@@ -2,5 +2,5 @@
 
 public class ArtifactBase : ArtifactInfo
 {
-	public required Version LatestVersion { get; set; }
+	public required string LatestVersion { get; set; }
 }

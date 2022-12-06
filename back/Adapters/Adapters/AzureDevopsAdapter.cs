@@ -138,7 +138,7 @@ public class AzureDevopsAdapter
 	{
 		using var client = GetAzureClient(token.Pat);
 
-		var qs = $"packageNameQuery={HttpUtility.UrlEncode(query)}&includeDescription=true&%24top=100&includeDeleted=true";
+		var qs = $"packageNameQuery={HttpUtility.UrlEncode(query)}&includeDescription=true&%24top=1000&includeDeleted=true";
 		var response = await client.GetAsync($"https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds/{feed}/Packages?{qs}");
 
 		var content = await response.Content.ReadAsStringAsync();

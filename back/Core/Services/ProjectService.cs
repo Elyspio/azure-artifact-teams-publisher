@@ -14,8 +14,8 @@ public class ProjectService : BaseService, IProjectService
 {
 	private readonly AzureDevopsAdapter _devopsAdapter;
 	private readonly ILogger<ProjectService> _logger;
-	private readonly IProjectRepository _projectRepository;
 	private readonly ProjectAssembler _projectAssembler = new();
+	private readonly IProjectRepository _projectRepository;
 
 	public ProjectService(ITokenRepository tokenRepository, ILogger<ProjectService> logger, AzureDevopsAdapter devopsAdapter, IProjectRepository projectRepository) : base(tokenRepository, logger)
 	{

@@ -35,7 +35,7 @@ public class ArtifactController : ControllerBase
 	}
 
 	[HttpGet("{organisation}/managed")]
-	[SwaggerResponse(HttpStatusCode.OK, typeof(List<Artifact>))]
+	[SwaggerResponse(HttpStatusCode.OK, typeof(List<ArtifactBase>))]
 	public async Task<IActionResult> GetAllArtifact(string organisation)
 	{
 		return Ok(await _artefactService.GetAll(organisation));
@@ -51,13 +51,13 @@ public class ArtifactController : ControllerBase
 
 	[HttpPost("{organisation}/feeds/{feed}/managed")]
 	[SwaggerResponse(HttpStatusCode.Created, typeof(Artifact))]
-	public async Task<IActionResult> AddArtifact(string organisation, string feed, AddArtifactRequest request )
+	public async Task<IActionResult> AddArtifact(string organisation, string feed, AddArtifactRequest request)
 	{
 		var artifact = await _artefactService.Add(organisation, new ArtifactInfo
 		{
-			Organisation = organisation, 
+			Organisation = organisation,
 			Name = request.artifact,
-			Feed = feed,
+			Feed = feed
 		}, request.Version);
 		return Created($"api/artifacts/{artifact.Id}", artifact);
 	}

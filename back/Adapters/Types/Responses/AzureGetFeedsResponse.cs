@@ -1,19 +1,12 @@
 ﻿namespace AzureArtifact.Api.Adapters.Types.Responses;
 
-public  class AzureGetFeedsResponse
+public class AzureGetFeedsResponse
 {
 	public long Count { get; set; }
 	public List<AzureFeed> Value { get; set; }
-	
+
 	public class AzureFeed
 	{
-		public class LinksV
-		{
-			public required Packages Self { get; set; }
-			public required Packages Packages { get; set; }
-			public required Packages Permissions { get; set; }
-		}
-
 		public string? Description { get; set; }
 		public required Uri Url { get; set; }
 		public required LinksV Links { get; set; }
@@ -27,6 +20,13 @@ public  class AzureGetFeedsResponse
 		public List<UpstreamSource> UpstreamSources { get; set; }
 		public string Capabilities { get; set; }
 		public bool? BadgesEnabled { get; set; }
+
+		public class LinksV
+		{
+			public required Packages Self { get; set; }
+			public required Packages Packages { get; set; }
+			public required Packages Permissions { get; set; }
+		}
 
 
 		public class Packages

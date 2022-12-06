@@ -26,9 +26,9 @@ public class ArtefactService : BaseService, IArtefactService
 	}
 
 
-	public async Task<Artifact> Add(string organisation, ArtifactInfo info, Version version)
+	public async Task<Artifact> Add(string organisation, ArtifactInfo info, string version)
 	{
-		var logger = _logger.Enter($"{Log.Format(info)} {Log.Format(version)}");
+		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(info)} {Log.Format(version)}");
 
 		var entity = await _artifactRepository.Add(info, version);
 		var artifact = _artifactAssembler.Convert(entity);
@@ -39,7 +39,7 @@ public class ArtefactService : BaseService, IArtefactService
 
 	public async Task<List<Artifact>> GetAll(string organisation)
 	{
-		var logger = _logger.Enter();
+		var logger = _logger.Enter($"{Log.Format(organisation)}");
 
 		var entities = await _artifactRepository.GetAll(organisation);
 		var artifacts = _artifactAssembler.Convert(entities);
@@ -48,14 +48,14 @@ public class ArtefactService : BaseService, IArtefactService
 		return artifacts;
 	}
 
-	public async Task<Dictionary<ArtifactInfo, Version>> GetAllWithNewVersion(string organisation)
+	public async Task<Dictionary<ArtifactInfo, string>> GetAllWithNewVersion(string organisation)
 	{
-		var logger = _logger.Enter();
+		var logger = _logger.Enter($"{Log.Format(organisation)}");
 		var entities = await _artifactRepository.GetAll(organisation);
 
 		var token = await RequiredToken(organisation);
 
-		var newArtifacts = new ConcurrentDictionary<Artifact, Version>();
+		var newArtifacts = new ConcurrentDictionary<Artifact, string>();
 
 		await Parallel.ForEachAsync(entities, async (entity, _) =>
 		{
@@ -89,16 +89,16 @@ public class ArtefactService : BaseService, IArtefactService
 
 	public async Task Delete(string organisation, Guid id)
 	{
-		var logger = _logger.Enter(Log.Format(id));
+		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(id)}");
 
 		await _artifactRepository.Delete(id);
 
 		logger.Exit();
 	}
 
-	public async Task<List<ArtifactInfo>> Search(string organisation, string feed, string query)
+	public async Task<List<ArtifactBase>> Search(string organisation, string feed, string query)
 	{
-		var logger = _logger.Enter($"{Log.Format(query)} {Log.Format(feed)}");
+		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(query)} {Log.Format(feed)}");
 
 		var token = await RequiredToken(organisation);
 
@@ -106,17 +106,18 @@ public class ArtefactService : BaseService, IArtefactService
 
 		logger.Exit();
 
-		return artifacts.Select(artifact => new ArtifactInfo
+		return artifacts.Select(artifact => new ArtifactBase
 		{
 			Name = artifact.Name,
 			Organisation = token.Organisation,
-			Feed = feed
+			Feed = feed,
+			LatestVersion = artifact.Versions.First().Version
 		}).ToList();
 	}
 
 	public async Task<List<AzureFeed>> GetFeeds(string organisation)
 	{
-		var logger = _logger.Enter();
+		var logger = _logger.Enter($"{Log.Format(organisation)}");
 
 		var token = await RequiredToken(organisation);
 
@@ -127,8 +128,7 @@ public class ArtefactService : BaseService, IArtefactService
 		return feeds.Select(artifact => new AzureFeed
 		{
 			Id = artifact.Id,
-			Name = artifact.Name,
-			
+			Name = artifact.Name
 		}).ToList();
 	}
 }

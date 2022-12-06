@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-import { MenuItem, TextField } from "@mui/material";
-import { setSelectedFeed } from "../../../store/module/azure/azure.actions";
-import { AzureFeed } from "../../../core/apis/backend/generated";
+import { TextField } from "@mui/material";
+import { setSelectedFeed } from "../../../../store/module/azure/azure.actions";
+import { AzureFeed } from "../../../../core/apis/backend/generated";
 
 export function Feeds() {
 
@@ -16,8 +16,8 @@ export function Feeds() {
 	}, [dispatch]);
 
 	return <Autocomplete
-		sx={{ width: 300 }}
 		id="feeds-select"
+		sx={{ minWidth: 270 }}
 		options={feeds}
 		onChange={onChange}
 		getOptionLabel={feed => feed.name}
