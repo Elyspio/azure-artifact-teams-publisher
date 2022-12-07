@@ -13,8 +13,7 @@ import { Provider as DiProvider } from "inversify-react";
 import { container, initDI } from "./core/di";
 
 declare module "@mui/styles/defaultTheme" {
-	interface DefaultTheme extends Theme {
-	}
+	interface DefaultTheme extends Theme {}
 }
 
 function Wrapper() {

@@ -6,8 +6,8 @@ import { createDrawerAction, withDrawer } from "./utils/drawer/Drawer.hoc";
 import { Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { AddArtifact } from "./azure/add-artifact/AddArtifact";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { ArtifactManager } from "./azure/ArtifactManager";
 
 function Application() {
 	const dispatch = useDispatch();
@@ -26,9 +26,8 @@ function Application() {
 		}),
 	];
 
-
 	const drawer = withDrawer({
-		component: <AddArtifact />,
+		component: <ArtifactManager />,
 		actions,
 		title: "Azure",
 	});

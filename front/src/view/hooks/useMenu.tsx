@@ -11,13 +11,13 @@ export function useMenu() {
 		setContextMenu((contextMenu) =>
 			contextMenu === null
 				? {
-					mouseX: event.clientX - 2,
-					mouseY: event.clientY - 4,
-				}
+						mouseX: event.clientX - 2,
+						mouseY: event.clientY - 4,
+				  }
 				: // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
 				  // Other native context menus might behave different.
 				  // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-				null,
+				  null
 		);
 	}, []);
 
@@ -32,4 +32,3 @@ export function useMenu() {
 		onContextMenu: handleContextMenu,
 	};
 }
-

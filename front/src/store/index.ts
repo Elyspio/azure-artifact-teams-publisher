@@ -2,12 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./module/theme/theme.reducer";
 import { container } from "../core/di";
+import { artifactReducer } from "./module/artifact/artifact.reducer";
+import { projectsReducer } from "./module/projects/projects.reducer";
 import { azureReducer } from "./module/azure/azure.reducer";
 
 const store = configureStore({
 	reducer: {
 		theme: themeReducer,
+		artifact: artifactReducer,
 		azure: azureReducer,
+		project: projectsReducer,
 	},
 	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument: { container } as ExtraArgument } }),

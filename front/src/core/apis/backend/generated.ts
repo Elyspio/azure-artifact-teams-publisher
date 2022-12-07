@@ -17,17 +17,14 @@ export class ArtifactClient {
 	private baseUrl: string;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
-
 		this.instance = instance ? instance : axios.create();
 
 		this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:4000";
-
 	}
 
 	getFeeds(organisation: string, cancelToken?: CancelToken | undefined): Promise<AzureFeed[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -35,60 +32,61 @@ export class ArtifactClient {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processGetFeeds(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processGetFeeds(_response);
+			});
 	}
 
 	searchArtifact(organisation: string, feed: string, query: string, cancelToken?: CancelToken | undefined): Promise<ArtifactInfo[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds/{feed}?";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
-		if (feed === undefined || feed === null)
-			throw new Error("The parameter 'feed' must be defined.");
+		if (feed === undefined || feed === null) throw new Error("The parameter 'feed' must be defined.");
 		url_ = url_.replace("{feed}", encodeURIComponent("" + feed));
-		if (query === undefined || query === null)
-			throw new Error("The parameter 'query' must be defined and cannot be null.");
-		else
-			url_ += "query=" + encodeURIComponent("" + query) + "&";
+		if (query === undefined || query === null) throw new Error("The parameter 'query' must be defined and cannot be null.");
+		else url_ += "query=" + encodeURIComponent("" + query) + "&";
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processSearchArtifact(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processSearchArtifact(_response);
+			});
 	}
 
 	getAllArtifact(organisation: string, cancelToken?: CancelToken | undefined): Promise<ArtifactBase[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/managed";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -96,26 +94,28 @@ export class ArtifactClient {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processGetAllArtifact(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processGetAllArtifact(_response);
+			});
 	}
 
-	getAllArtifactWithNewVersion(organisation: string, cancelToken?: CancelToken | undefined): Promise<{ [key: string]: string; }> {
+	getAllArtifactWithNewVersion(organisation: string, cancelToken?: CancelToken | undefined): Promise<{ [key: string]: string }> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/managed/new";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -123,29 +123,30 @@ export class ArtifactClient {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processGetAllArtifactWithNewVersion(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processGetAllArtifactWithNewVersion(_response);
+			});
 	}
 
 	addArtifact(organisation: string, feed: string, request: AddArtifactRequest, cancelToken?: CancelToken | undefined): Promise<Artifact> {
 		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds/{feed}/managed";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
-		if (feed === undefined || feed === null)
-			throw new Error("The parameter 'feed' must be defined.");
+		if (feed === undefined || feed === null) throw new Error("The parameter 'feed' must be defined.");
 		url_ = url_.replace("{feed}", encodeURIComponent("" + feed));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -157,31 +158,31 @@ export class ArtifactClient {
 			url: url_,
 			headers: {
 				"Content-Type": "application/json",
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processAddArtifact(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processAddArtifact(_response);
+			});
 	}
 
 	deleteArtifact(organisation: string, id: string, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/managed/{id}?";
-		if (id === undefined || id === null)
-			throw new Error("The parameter 'id' must be defined.");
+		if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
 		url_ = url_.replace("{id}", encodeURIComponent("" + id));
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined and cannot be null.");
-		else
-			url_ += "organisation=" + encodeURIComponent("" + organisation) + "&";
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined and cannot be null.");
+		else url_ += "organisation=" + encodeURIComponent("" + organisation) + "&";
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
@@ -191,15 +192,18 @@ export class ArtifactClient {
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processDeleteArtifact(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processDeleteArtifact(_response);
+			});
 	}
 
 	protected processGetFeeds(response: AxiosResponse): Promise<AzureFeed[]> {
@@ -218,7 +222,6 @@ export class ArtifactClient {
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<AzureFeed[]>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -242,7 +245,6 @@ export class ArtifactClient {
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<ArtifactInfo[]>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -266,7 +268,6 @@ export class ArtifactClient {
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<ArtifactBase[]>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -274,7 +275,7 @@ export class ArtifactClient {
 		return Promise.resolve<ArtifactBase[]>(null as any);
 	}
 
-	protected processGetAllArtifactWithNewVersion(response: AxiosResponse): Promise<{ [key: string]: string; }> {
+	protected processGetAllArtifactWithNewVersion(response: AxiosResponse): Promise<{ [key: string]: string }> {
 		const status = response.status;
 		let _headers: any = {};
 		if (response.headers && typeof response.headers === "object") {
@@ -289,13 +290,12 @@ export class ArtifactClient {
 			let result200: any = null;
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
-			return Promise.resolve<{ [key: string]: string; }>(result200);
-
+			return Promise.resolve<{ [key: string]: string }>(result200);
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
 		}
-		return Promise.resolve<{ [key: string]: string; }>(null as any);
+		return Promise.resolve<{ [key: string]: string }>(null as any);
 	}
 
 	protected processAddArtifact(response: AxiosResponse): Promise<Artifact> {
@@ -314,7 +314,6 @@ export class ArtifactClient {
 			let resultData201 = _responseText;
 			result201 = JSON.parse(resultData201);
 			return Promise.resolve<Artifact>(result201);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -335,7 +334,6 @@ export class ArtifactClient {
 		if (status === 204) {
 			const _responseText = response.data;
 			return Promise.resolve<void>(null as any);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
