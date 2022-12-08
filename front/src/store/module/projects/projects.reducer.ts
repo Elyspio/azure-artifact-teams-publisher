@@ -6,15 +6,14 @@ import { setSelectedProject, setSelectedRepo } from "./projects.actions";
 export type ProjectState = {
 	all: Record<Project["name"], Project>;
 	selected: {
-		project?: Project["name"]
-		repository?: Repository["name"]
-	}
+		project?: Project["name"];
+		repository?: Repository["name"];
+	};
 };
 
 const initialState: ProjectState = {
 	all: {},
-	selected: {
-	}
+	selected: {},
 };
 
 const slice = createSlice({
@@ -23,19 +22,18 @@ const slice = createSlice({
 	reducers: {},
 	extraReducers: ({ addCase }) => {
 		addCase(getProjects.fulfilled, (state, action) => {
-			action.payload.forEach(project => {
+			action.payload.forEach((project) => {
 				state.all[project.name] = project;
-			})
+			});
 		});
 
 		addCase(setSelectedProject, (state, action) => {
 			state.selected.project = action.payload;
-		})
-
+		});
 
 		addCase(setSelectedRepo, (state, action) => {
 			state.selected.repository = action.payload;
-		})
+		});
 	},
 });
 

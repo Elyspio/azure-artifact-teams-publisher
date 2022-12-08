@@ -6,7 +6,7 @@ import { AzureFeed } from "../../../../core/apis/backend/generated";
 import { setSelectedFeed } from "../../../../store/module/artifact/artifact.actions";
 
 export function Feeds() {
-	const feeds = useAppSelector((s) => s.artifact.feeds);
+	const feeds = useAppSelector((s) => s.artifacts.feeds);
 
 	const dispatch = useAppDispatch();
 

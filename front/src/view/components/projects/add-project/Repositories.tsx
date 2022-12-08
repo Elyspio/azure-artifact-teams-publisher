@@ -7,10 +7,10 @@ import { Repository } from "../../../../core/apis/backend/generated";
 
 export function Repositories() {
 	const { repositories, selected } = useAppSelector((s) => {
-		let repos = s.project.all[s.project.selected.project!]?.repositories ?? [];
+		let repos = s.projects.all[s.projects.selected.project!]?.repositories ?? [];
 		return {
 			repositories: repos,
-			selected: repos.find((repo) => repo.name === s.project.selected.repository),
+			selected: repos.find((repo) => repo.name === s.projects.selected.repository),
 		};
 	});
 

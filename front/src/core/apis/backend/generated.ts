@@ -348,17 +348,14 @@ export class ProjectClient {
 	private baseUrl: string;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
-
 		this.instance = instance ? instance : axios.create();
 
 		this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:4000";
-
 	}
 
 	getAllProjects(organisation: string, cancelToken?: CancelToken | undefined): Promise<Project[]> {
 		let url_ = this.baseUrl + "/api/projects/{organisation}";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -366,26 +363,28 @@ export class ProjectClient {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processGetAllProjects(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processGetAllProjects(_response);
+			});
 	}
 
 	refreshAll(organisation: string, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/projects/{organisation}";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -396,24 +395,25 @@ export class ProjectClient {
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processRefreshAll(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processRefreshAll(_response);
+			});
 	}
 
 	updateRepositoryMaintainers(organisation: string, repositoryId: string, maintainers: UserData[], cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/projects/{organisation}/repositories/{repositoryId}";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
-		if (repositoryId === undefined || repositoryId === null)
-			throw new Error("The parameter 'repositoryId' must be defined.");
+		if (repositoryId === undefined || repositoryId === null) throw new Error("The parameter 'repositoryId' must be defined.");
 		url_ = url_.replace("{repositoryId}", encodeURIComponent("" + repositoryId));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -429,15 +429,18 @@ export class ProjectClient {
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processUpdateRepositoryMaintainers(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processUpdateRepositoryMaintainers(_response);
+			});
 	}
 
 	protected processGetAllProjects(response: AxiosResponse): Promise<Project[]> {
@@ -456,7 +459,6 @@ export class ProjectClient {
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<Project[]>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -477,7 +479,6 @@ export class ProjectClient {
 		if (status === 204) {
 			const _responseText = response.data;
 			return Promise.resolve<void>(null as any);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -498,7 +499,6 @@ export class ProjectClient {
 		if (status === 204) {
 			const _responseText = response.data;
 			return Promise.resolve<void>(null as any);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -513,17 +513,14 @@ export class TokenClient {
 	private baseUrl: string;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
-
 		this.instance = instance ? instance : axios.create();
 
 		this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:4000";
-
 	}
 
 	getToken(organisation: string, cancelToken?: CancelToken | undefined): Promise<Token> {
 		let url_ = this.baseUrl + "/api/token/{organisation}";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -531,26 +528,28 @@ export class TokenClient {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processGetToken(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processGetToken(_response);
+			});
 	}
 
 	setToken(organisation: string, request: SetTokenRequest, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/token/{organisation}";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		url_ = url_.replace(/[?&]$/, "");
 
@@ -566,15 +565,18 @@ export class TokenClient {
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processSetToken(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processSetToken(_response);
+			});
 	}
 
 	protected processGetToken(response: AxiosResponse): Promise<Token> {
@@ -590,14 +592,12 @@ export class TokenClient {
 		if (status === 204) {
 			const _responseText = response.data;
 			return throwException("A server side error occurred.", status, _responseText, _headers);
-
 		} else if (status === 200) {
 			const _responseText = response.data;
 			let result200: any = null;
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<Token>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -618,7 +618,6 @@ export class TokenClient {
 		if (status === 204) {
 			const _responseText = response.data;
 			return Promise.resolve<void>(null as any);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -633,42 +632,40 @@ export class UserClient {
 	private baseUrl: string;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
-
 		this.instance = instance ? instance : axios.create();
 
 		this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:4000";
-
 	}
 
 	search(organisation: string, nameOrEmail: string, cancelToken?: CancelToken | undefined): Promise<UserData[]> {
 		let url_ = this.baseUrl + "/api/users/{organisation}?";
-		if (organisation === undefined || organisation === null)
-			throw new Error("The parameter 'organisation' must be defined.");
+		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
-		if (nameOrEmail === undefined || nameOrEmail === null)
-			throw new Error("The parameter 'nameOrEmail' must be defined and cannot be null.");
-		else
-			url_ += "nameOrEmail=" + encodeURIComponent("" + nameOrEmail) + "&";
+		if (nameOrEmail === undefined || nameOrEmail === null) throw new Error("The parameter 'nameOrEmail' must be defined and cannot be null.");
+		else url_ += "nameOrEmail=" + encodeURIComponent("" + nameOrEmail) + "&";
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
 			method: "GET",
 			url: url_,
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 			},
 			cancelToken,
 		};
 
-		return this.instance.request(options_).catch((_error: any) => {
-			if (isAxiosError(_error) && _error.response) {
-				return _error.response;
-			} else {
-				throw _error;
-			}
-		}).then((_response: AxiosResponse) => {
-			return this.processSearch(_response);
-		});
+		return this.instance
+			.request(options_)
+			.catch((_error: any) => {
+				if (isAxiosError(_error) && _error.response) {
+					return _error.response;
+				} else {
+					throw _error;
+				}
+			})
+			.then((_response: AxiosResponse) => {
+				return this.processSearch(_response);
+			});
 	}
 
 	protected processSearch(response: AxiosResponse): Promise<UserData[]> {
@@ -687,7 +684,6 @@ export class UserClient {
 			let resultData200 = _responseText;
 			result200 = JSON.parse(resultData200);
 			return Promise.resolve<UserData[]>(result200);
-
 		} else if (status !== 200 && status !== 204) {
 			const _responseText = response.data;
 			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -766,11 +762,11 @@ export class ApiException extends Error {
 	override message: string;
 	status: number;
 	response: string;
-	headers: { [key: string]: any; };
+	headers: { [key: string]: any };
 	result: any;
 	protected isApiException = true;
 
-	constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+	constructor(message: string, status: number, response: string, headers: { [key: string]: any }, result: any) {
 		super();
 
 		this.message = message;
@@ -785,11 +781,9 @@ export class ApiException extends Error {
 	}
 }
 
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-	if (result !== null && result !== undefined)
-		throw result;
-	else
-		throw new ApiException(message, status, response, headers, null);
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): any {
+	if (result !== null && result !== undefined) throw result;
+	else throw new ApiException(message, status, response, headers, null);
 }
 
 function isAxiosError(obj: any | undefined): obj is AxiosError {

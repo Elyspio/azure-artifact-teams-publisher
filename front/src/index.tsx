@@ -17,10 +17,7 @@ declare module "@mui/styles/defaultTheme" {
 }
 
 function Wrapper() {
-	const {
-		theme,
-		current,
-	} = useAppSelector((state) => ({
+	const { theme, current } = useAppSelector((state) => ({
 		theme: state.theme.current === "dark" ? themes.dark : themes.light,
 		current: state.theme.current,
 	}));
@@ -44,7 +41,6 @@ function App() {
 				</Provider>
 			</DiProvider>
 		</StrictMode>
-
 	);
 }
 

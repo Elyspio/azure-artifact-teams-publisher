@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import { manageArtifact } from "../../../../store/module/artifact/artifact.async.actions";
 
 export function AddArtifact() {
-	const selected = useAppSelector((s) => s.artifact.selected);
+	const selected = useAppSelector((s) => s.artifacts.selected);
 
 	const {
 		palette: { primary },

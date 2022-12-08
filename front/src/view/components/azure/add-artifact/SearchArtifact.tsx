@@ -9,7 +9,7 @@ import { setSelectedArtifact } from "../../../../store/module/artifact/artifact.
 export function SearchArtifact() {
 	const dispatch = useAppDispatch();
 
-	const { feed, artifacts } = useAppSelector((s) => ({ feed: s.artifact.selected.feed, artifacts: s.artifact.artifacts }));
+	const { feed, artifacts } = useAppSelector((s) => ({ feed: s.artifacts.selected.feed, artifacts: s.artifacts.artifacts }));
 
 	const onChange = React.useCallback((e: React.SyntheticEvent, value: ArtifactInfo | null) => {
 		dispatch(setSelectedArtifact(value ?? undefined));

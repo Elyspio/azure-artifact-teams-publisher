@@ -4,6 +4,7 @@ import { DiKeysService } from "./di.keys.service";
 import { AzureService } from "../../services/azure.service";
 import { Container } from "inversify";
 import { ProjectService } from "../../services/project.service";
+import { UserService } from "../../services/user.service";
 
 export const addServices = (container: Container) => {
 	container.bind(ThemeService).toSelf();
@@ -11,5 +12,6 @@ export const addServices = (container: Container) => {
 	container.bind<LocalStorageService>(DiKeysService.localStorage.validation).toConstantValue(new LocalStorageService("elyspio-authentication-validation"));
 
 	container.bind(AzureService).toSelf();
+	container.bind(UserService).toSelf();
 	container.bind(ProjectService).toSelf();
 };

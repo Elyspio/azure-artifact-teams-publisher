@@ -6,9 +6,10 @@ import { Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { manageArtifact } from "../../../../store/module/artifact/artifact.async.actions";
 import { Projects } from "./Projects";
 import { Repositories } from "./Repositories";
+import { Maintainers } from "./Maintainers";
 
 export function EditProject() {
-	const selected = useAppSelector((s) => s.project.selected);
+	const selected = useAppSelector((s) => s.projects.selected);
 
 	const {
 		palette: { primary },
@@ -28,9 +29,10 @@ export function EditProject() {
 
 				<Stack direction={"row"} spacing={2}>
 					<Projects />
-					{selected.project && <Repositories/>}
+					{selected.project && <Repositories />}
 				</Stack>
 
+				{selected.repository && <Maintainers />}
 				<Divider flexItem />
 
 				<Stack alignItems={"flex-end"}>

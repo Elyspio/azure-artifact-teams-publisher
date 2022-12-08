@@ -7,10 +7,10 @@ import { Project } from "../../../../core/apis/backend/generated";
 import { setSelectedProject } from "../../../../store/module/projects/projects.actions";
 
 export function Projects() {
-	const projects = useAppSelector((s) => s.project.all);
+	const projects = useAppSelector((s) => s.projects.all);
 
 	const projectsArr = React.useMemo(() => {
-		const ret =  Object.values(projects);
+		const ret = Object.values(projects);
 		ret.sort((p1, p2) => p1.name.localeCompare(p2.name));
 		return ret;
 	}, [projects]);
@@ -34,7 +34,7 @@ export function Projects() {
 			sx={{ minWidth: 270 }}
 			options={projectsArr}
 			getOptionLabel={(project) => project.name}
-			groupBy={project => project.name[0]}
+			groupBy={(project) => project.name[0]}
 			onChange={onChange}
 			renderInput={(params) => <TextField {...params} label="Project" />}
 		/>

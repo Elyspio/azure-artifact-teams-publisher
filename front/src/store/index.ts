@@ -5,13 +5,15 @@ import { container } from "../core/di";
 import { artifactReducer } from "./module/artifact/artifact.reducer";
 import { projectsReducer } from "./module/projects/projects.reducer";
 import { azureReducer } from "./module/azure/azure.reducer";
+import { usersReducer } from "./module/users/users.reducer";
 
 const store = configureStore({
 	reducer: {
 		theme: themeReducer,
-		artifact: artifactReducer,
+		artifacts: artifactReducer,
 		azure: azureReducer,
-		project: projectsReducer,
+		projects: projectsReducer,
+		users: usersReducer,
 	},
 	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument: { container } as ExtraArgument } }),

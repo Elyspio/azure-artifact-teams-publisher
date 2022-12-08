@@ -1,24 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 /**
  *
  * @param defaultState initial state of modal (open or not)
  */
-export function useModal(defaultState: boolean) {
+export function useModal(defaultState: boolean = false) {
 	const [state, setOpen] = React.useState<boolean>(defaultState);
 
-	const open = (e?: any) => {
+	const open = useCallback((e?: any) => {
 		e?.stopPropagation();
-		if (!state) {
-			setOpen(true);
-		}
-	};
-	const close = (e?: any) => {
+		setOpen(true);
+	}, []);
+	const close = useCallback((e?: any) => {
 		e?.stopPropagation();
-		if (state) {
-			setOpen(false);
-		}
-	};
+		setOpen(false);
+	}, []);
 
 	return {
 		open: state,
