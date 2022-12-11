@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { setSelectedRepo } from "../../../../store/module/projects/projects.actions";
-import { Repository } from "../../../../core/apis/backend/generated";
+import { setSelectedRepo } from "../../../../../store/module/projects/projects.actions";
+import { Repository } from "../../../../../core/apis/backend/generated";
 
 export function Repositories() {
 	const { repositories, selected } = useAppSelector((s) => {

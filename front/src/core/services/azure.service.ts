@@ -18,8 +18,9 @@ export class AzureService extends BaseService {
 
 	manageArtifact(artifact: ArtifactBase) {
 		return this.backendApiClient.artifact.addArtifact(artifact.organisation, artifact.feed, {
-			artifact: artifact.name,
+			name: artifact.name,
 			version: artifact.latestVersion,
+			notifies: artifact.notifies,
 		});
 	}
 }

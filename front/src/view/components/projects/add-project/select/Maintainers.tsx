@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { Box, IconButton, List, ListItem, Stack, Typography } from "@mui/material";
-import { useAppSelector } from "../../../../store";
+import { useAppSelector } from "../../../../../store";
 import { Add, DeleteForever } from "@mui/icons-material";
-import { useModal } from "../../../hooks/useModal";
-import { AddMaintainerDialog } from "./AddMaintainerDialog";
-import { useActions } from "../../../hooks/useActions";
-import { removeMaintainer } from "../../../../store/module/projects/projects.async.actions";
-import { UserData } from "../../../../core/apis/backend/generated";
+import { useModal } from "../../../../hooks/useModal";
+import { AddMaintainerDialog } from "../AddMaintainerDialog";
+import { useActions } from "../../../../hooks/useActions";
+import { removeMaintainer } from "../../../../../store/module/projects/projects.async.actions";
+import { UserData } from "../../../../../core/apis/backend/generated";
 
 export function Maintainers() {
 	const { repo } = useAppSelector((s) => {
@@ -42,7 +42,7 @@ export function Maintainers() {
 							Maintainers
 						</Typography>
 						<Box>
-							<IconButton color={"primary"} onClick={setOpen} sx={{ border: "1px solid currentColor" }}>
+							<IconButton color={"primary"} size={"small"} onClick={setOpen} sx={{ border: "1px solid currentColor" }}>
 								<Add />
 							</IconButton>
 						</Box>

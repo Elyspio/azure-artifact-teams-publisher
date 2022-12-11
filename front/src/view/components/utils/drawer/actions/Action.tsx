@@ -5,7 +5,7 @@ export type ActionComponentProps = {
 	icon: React.ReactNode;
 	children?: React.ReactNode;
 	className?: string;
-	onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+	onClick: (e?: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 export const ActionComponent = ({ children, icon, onClick, className }: ActionComponentProps) => {

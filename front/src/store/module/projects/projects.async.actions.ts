@@ -70,3 +70,20 @@ export const removeMaintainer = createAsyncThunk("projects/addMaintainer", async
 		await dispatch(getProjects());
 	}
 });
+
+export const addSelectedProject = createAsyncThunk("projects/addSelectedProject", async (_, { extra, getState, dispatch }) => {
+	const projectService = getService(ProjectService, extra);
+
+	const {
+		azure: { organisation },
+		projects: { all, selected },
+	} = getState() as StoreState;
+
+	if (selected.project && selected.repository) {
+		let repository = all[selected.project!].repositories.find((repo) => repo.name === selected.repository)!;
+
+		await projectService.setRepositoryMaintainers(organisation, repository.id, repository.maintainers);
+
+		await dispatch(getProjects());
+	}
+});

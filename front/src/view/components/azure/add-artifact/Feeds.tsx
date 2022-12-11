@@ -19,8 +19,8 @@ export function Feeds() {
 
 	return (
 		<Autocomplete
+			fullWidth
 			id="feeds-select"
-			sx={{ minWidth: 270 }}
 			options={feeds}
 			onChange={onChange}
 			getOptionLabel={(feed) => feed.name}

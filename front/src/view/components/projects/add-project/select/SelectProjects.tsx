@@ -1,13 +1,18 @@
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../../store";
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { getProjects } from "../../../../store/module/projects/projects.async.actions";
-import { Project } from "../../../../core/apis/backend/generated";
-import { setSelectedProject } from "../../../../store/module/projects/projects.actions";
+import { Project } from "../../../../../core/apis/backend/generated";
+import { setSelectedProject } from "../../../../../store/module/projects/projects.actions";
 
-export function Projects() {
-	const projects = useAppSelector((s) => s.projects.all);
+export function SelectProjects() {
+	const { projects, selected } = useAppSelector((s) => {
+		let project = s.projects.selected.project;
+		return {
+			projects: s.projects.all,
+			selected: project ? s.projects.all[project] : null,
+		};
+	});
 
 	const projectsArr = React.useMemo(() => {
 		const ret = Object.values(projects);
@@ -16,10 +21,6 @@ export function Projects() {
 	}, [projects]);
 
 	const dispatch = useAppDispatch();
-
-	React.useEffect(() => {
-		dispatch(getProjects());
-	}, [dispatch]);
 
 	const onChange = React.useCallback(
 		(e, val: Project | null) => {
@@ -36,6 +37,7 @@ export function Projects() {
 			getOptionLabel={(project) => project.name}
 			groupBy={(project) => project.name[0]}
 			onChange={onChange}
+			value={selected}
 			renderInput={(params) => <TextField {...params} label="Project" />}
 		/>
 	);

@@ -17,14 +17,15 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 	}
 
 
-	public async Task<ArtifactEntity> Add(ArtifactInfo info, string version)
+	public async Task<ArtifactEntity> Add(ArtifactBase info)
 	{
 		var entity = new ArtifactEntity
 		{
 			Feed = info.Feed,
 			Organisation = info.Organisation,
 			Name = info.Name,
-			LatestVersion = version
+			LatestVersion = info.LatestVersion,
+			Notifies = info.Notifies
 		};
 
 		await EntityCollection.InsertOneAsync(entity);

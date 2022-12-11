@@ -5,7 +5,7 @@ namespace AzureArtifact.Api.Abstractions.Interfaces.Repositories;
 
 public interface IArtifactRepository
 {
-	Task<ArtifactEntity> Add(ArtifactInfo info, string version);
+	Task<ArtifactEntity> Add(ArtifactBase info);
 	Task<List<ArtifactEntity>> GetAll(string organisation);
 	Task Delete(Guid id);
 }

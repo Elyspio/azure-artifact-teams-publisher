@@ -1,6 +1,8 @@
-﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
 public class Artifact : ArtifactBase
 {
-	public Guid Id { get; set; }
+	[Required] public required Guid Id { get; set; }
 }

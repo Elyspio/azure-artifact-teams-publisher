@@ -35,7 +35,7 @@ public class ProjectController : ControllerBase
 	}
 
 
-	[HttpPut("repositories/{repositoryId:guid}")]
+	[HttpPatch("repositories/{repositoryId:guid}/maintainers")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> UpdateRepositoryMaintainers(string organisation, [FromRoute] Guid repositoryId, [FromBody] List<UserData> maintainers)
 	{

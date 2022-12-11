@@ -22,10 +22,10 @@ export class ArtifactClient {
 		this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:4000";
 	}
 
-	getFeeds(organisation: string, cancelToken?: CancelToken | undefined): Promise<AzureFeed[]> {
-		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds";
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
-		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
+	getFeeds(organization: string, cancelToken?: CancelToken | undefined): Promise<AzureFeed[]> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/feeds";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
@@ -51,10 +51,10 @@ export class ArtifactClient {
 			});
 	}
 
-	searchArtifact(organisation: string, feed: string, query: string, cancelToken?: CancelToken | undefined): Promise<ArtifactInfo[]> {
-		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds/{feed}?";
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
-		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
+	searchArtifact(organization: string, feed: string, query: string, cancelToken?: CancelToken | undefined): Promise<ArtifactInfo[]> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/feeds/{feed}?";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		if (feed === undefined || feed === null) throw new Error("The parameter 'feed' must be defined.");
 		url_ = url_.replace("{feed}", encodeURIComponent("" + feed));
 		if (query === undefined || query === null) throw new Error("The parameter 'query' must be defined and cannot be null.");
@@ -84,10 +84,10 @@ export class ArtifactClient {
 			});
 	}
 
-	getAllArtifact(organisation: string, cancelToken?: CancelToken | undefined): Promise<ArtifactBase[]> {
-		let url_ = this.baseUrl + "/api/artifacts/{organisation}/managed";
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
-		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
+	getAllArtifact(organization: string, cancelToken?: CancelToken | undefined): Promise<ArtifactBase[]> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/managed";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
@@ -113,10 +113,10 @@ export class ArtifactClient {
 			});
 	}
 
-	getAllArtifactWithNewVersion(organisation: string, cancelToken?: CancelToken | undefined): Promise<{ [key: string]: string }> {
-		let url_ = this.baseUrl + "/api/artifacts/{organisation}/managed/new";
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
-		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
+	getAllArtifactWithNewVersion(organization: string, cancelToken?: CancelToken | undefined): Promise<{ [key: string]: string }> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/managed/new";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
@@ -142,10 +142,10 @@ export class ArtifactClient {
 			});
 	}
 
-	addArtifact(organisation: string, feed: string, request: AddArtifactRequest, cancelToken?: CancelToken | undefined): Promise<Artifact> {
-		let url_ = this.baseUrl + "/api/artifacts/{organisation}/feeds/{feed}/managed";
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
-		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
+	addArtifact(organization: string, feed: string, request: AddArtifactRequest, cancelToken?: CancelToken | undefined): Promise<Artifact> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/feeds/{feed}/managed";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		if (feed === undefined || feed === null) throw new Error("The parameter 'feed' must be defined.");
 		url_ = url_.replace("{feed}", encodeURIComponent("" + feed));
 		url_ = url_.replace(/[?&]$/, "");
@@ -177,12 +177,12 @@ export class ArtifactClient {
 			});
 	}
 
-	deleteArtifact(organisation: string, id: string, cancelToken?: CancelToken | undefined): Promise<void> {
-		let url_ = this.baseUrl + "/managed/{id}?";
+	deleteArtifact(organization: string, id: string, cancelToken?: CancelToken | undefined): Promise<void> {
+		let url_ = this.baseUrl + "/api/artifacts/{organization}/managed/{id}";
+		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
+		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
 		if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
 		url_ = url_.replace("{id}", encodeURIComponent("" + id));
-		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined and cannot be null.");
-		else url_ += "organisation=" + encodeURIComponent("" + organisation) + "&";
 		url_ = url_.replace(/[?&]$/, "");
 
 		let options_: AxiosRequestConfig = {
@@ -410,7 +410,7 @@ export class ProjectClient {
 	}
 
 	updateRepositoryMaintainers(organisation: string, repositoryId: string, maintainers: UserData[], cancelToken?: CancelToken | undefined): Promise<void> {
-		let url_ = this.baseUrl + "/api/projects/{organisation}/repositories/{repositoryId}";
+		let url_ = this.baseUrl + "/api/projects/{organisation}/repositories/{repositoryId}/maintainers";
 		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
 		url_ = url_.replace("{organisation}", encodeURIComponent("" + organisation));
 		if (repositoryId === undefined || repositoryId === null) throw new Error("The parameter 'repositoryId' must be defined.");
@@ -421,7 +421,7 @@ export class ProjectClient {
 
 		let options_: AxiosRequestConfig = {
 			data: content_,
-			method: "PUT",
+			method: "PATCH",
 			url: url_,
 			headers: {
 				"Content-Type": "application/json",
@@ -701,19 +701,26 @@ export interface ArtifactInfo {
 	name: string;
 	feed: string;
 	organisation: string;
+	latestVersion: string;
 }
 
 export interface ArtifactBase extends ArtifactInfo {
-	latestVersion?: string;
+	notifies: ArtifactRepository[];
+}
+
+export interface ArtifactRepository {
+	project: string;
+	repository: string;
 }
 
 export interface Artifact extends ArtifactBase {
-	id?: string;
+	id: string;
 }
 
 export interface AddArtifactRequest {
-	artifact?: string | undefined;
-	version?: string | undefined;
+	name: string;
+	version: string;
+	notifies: ArtifactRepository[];
 }
 
 export interface Project {
@@ -754,7 +761,7 @@ export enum TokenExpiration {
 }
 
 export interface SetTokenRequest {
-	pat?: string | undefined;
+	pat: string;
 	expiration: TokenExpiration;
 }
 

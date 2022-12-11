@@ -1,6 +1,8 @@
-﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
 public class ArtifactBase : ArtifactInfo
 {
-	public required string LatestVersion { get; set; }
+	[Required] public required List<ArtifactRepository> Notifies { get; set; }
 }

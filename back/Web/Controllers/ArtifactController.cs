@@ -8,7 +8,7 @@ using System.Net;
 
 namespace AzureArtifact.Api.Web.Controllers;
 
-[Route("api/artifacts/")]
+[Route("api/artifacts/{organization}")]
 [ApiController]
 public class ArtifactController : ControllerBase
 {
@@ -19,54 +19,56 @@ public class ArtifactController : ControllerBase
 		_artefactService = artefactService;
 	}
 
-	[HttpGet("{organisation}/feeds")]
+	[HttpGet("feeds")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<AzureFeed>))]
-	public async Task<IActionResult> GetFeeds(string organisation)
+	public async Task<IActionResult> GetFeeds(string organization)
 	{
-		return Ok(await _artefactService.GetFeeds(organisation));
+		return Ok(await _artefactService.GetFeeds(organization));
 	}
 
 
-	[HttpGet("{organisation}/feeds/{feed}")]
+	[HttpGet("feeds/{feed}")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<ArtifactInfo>))]
-	public async Task<IActionResult> SearchArtifact(string organisation, string feed, string query)
+	public async Task<IActionResult> SearchArtifact(string organization, string feed, string query = "")
 	{
-		return Ok(await _artefactService.Search(organisation, feed, query));
+		return Ok(await _artefactService.Search(organization, feed, query));
 	}
 
-	[HttpGet("{organisation}/managed")]
+	[HttpGet("managed")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<ArtifactBase>))]
-	public async Task<IActionResult> GetAllArtifact(string organisation)
+	public async Task<IActionResult> GetAllArtifact(string organization)
 	{
-		return Ok(await _artefactService.GetAll(organisation));
+		return Ok(await _artefactService.GetAll(organization));
 	}
 
-	[HttpGet("{organisation}/managed/new")]
+	[HttpGet("managed/new")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(Dictionary<ArtifactInfo, Version>))]
-	public async Task<IActionResult> GetAllArtifactWithNewVersion(string organisation)
+	public async Task<IActionResult> GetAllArtifactWithNewVersion(string organization)
 	{
-		return Ok(await _artefactService.GetAllWithNewVersion(organisation));
+		return Ok(await _artefactService.GetAllWithNewVersion(organization));
 	}
 
 
-	[HttpPost("{organisation}/feeds/{feed}/managed")]
+	[HttpPost("feeds/{feed}/managed")]
 	[SwaggerResponse(HttpStatusCode.Created, typeof(Artifact))]
-	public async Task<IActionResult> AddArtifact(string organisation, string feed, AddArtifactRequest request)
+	public async Task<IActionResult> AddArtifact(string organization, string feed, AddArtifactRequest request)
 	{
-		var artifact = await _artefactService.Add(organisation, new ArtifactInfo
+		var artifact = await _artefactService.Add(new ArtifactBase
 		{
-			Organisation = organisation,
-			Name = request.artifact,
-			Feed = feed
-		}, request.Version);
+			Organisation = organization,
+			Feed = feed,
+			LatestVersion = request.Version,
+			Name = request.Name,
+			Notifies = request.Notifies
+		});
 		return Created($"api/artifacts/{artifact.Id}", artifact);
 	}
 
-	[HttpDelete("/managed/{id:guid}")]
+	[HttpDelete("managed/{id:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> DeleteArtifact(string organisation, Guid id)
+	public async Task<IActionResult> DeleteArtifact(string organization, Guid id)
 	{
-		await _artefactService.Delete(organisation, id);
+		await _artefactService.Delete(organization, id);
 		return NoContent();
 	}
 }

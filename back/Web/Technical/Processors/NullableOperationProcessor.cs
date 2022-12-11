@@ -6,7 +6,7 @@ namespace AzureArtifact.Api.Web.Technical.Processors;
 
 public class NullableOperationProcessor : IOperationProcessor
 {
-	private static readonly NullabilityInfoContext context = new();
+	private static readonly NullabilityInfoContext nullCtx = new();
 
 	/// <summary>
 	///     Permet d'indiquer dans le schéma OpenApi que les champs non-Nullables notamment certaines string sont required
@@ -31,7 +31,7 @@ public class NullableOperationProcessor : IOperationProcessor
 
 	public static bool IsNullable(ParameterInfo p)
 	{
-		var nullabilityInfo = context.Create(p);
+		var nullabilityInfo = nullCtx.Create(p);
 		return nullabilityInfo.WriteState is NullabilityState.Nullable;
 	}
 }

@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { ArtifactInfo } from "../../../../core/apis/backend/generated";
+import { ArtifactBase } from "../../../../core/apis/backend/generated";
 import { searchArtifacts } from "../../../../store/module/artifact/artifact.async.actions";
 import { setSelectedArtifact } from "../../../../store/module/artifact/artifact.actions";
 
@@ -11,7 +11,7 @@ export function SearchArtifact() {
 
 	const { feed, artifacts } = useAppSelector((s) => ({ feed: s.artifacts.selected.feed, artifacts: s.artifacts.artifacts }));
 
-	const onChange = React.useCallback((e: React.SyntheticEvent, value: ArtifactInfo | null) => {
+	const onChange = React.useCallback((e: React.SyntheticEvent, value: ArtifactBase | null) => {
 		dispatch(setSelectedArtifact(value ?? undefined));
 	}, []);
 

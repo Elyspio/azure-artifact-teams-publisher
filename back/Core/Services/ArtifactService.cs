@@ -26,15 +26,15 @@ public class ArtefactService : BaseService, IArtefactService
 	}
 
 
-	public async Task<Artifact> Add(string organisation, ArtifactInfo info, string version)
+	public async Task<Artifact> Add(ArtifactBase artifact)
 	{
-		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(info)} {Log.Format(version)}");
+		var logger = _logger.Enter($"{Log.Format(artifact)}");
 
-		var entity = await _artifactRepository.Add(info, version);
-		var artifact = _artifactAssembler.Convert(entity);
+		var entity = await _artifactRepository.Add(artifact);
+		var data = _artifactAssembler.Convert(entity);
 
 		logger.Exit();
-		return artifact;
+		return data;
 	}
 
 	public async Task<List<Artifact>> GetAll(string organisation)
@@ -63,7 +63,8 @@ public class ArtefactService : BaseService, IArtefactService
 			{
 				Name = entity.Name,
 				Feed = entity.Feed,
-				Organisation = entity.Organisation
+				Organisation = entity.Organisation,
+				LatestVersion = entity.LatestVersion
 			}, token.Pat);
 
 			if (artifact == default)
@@ -83,7 +84,8 @@ public class ArtefactService : BaseService, IArtefactService
 		{
 			Name = pair.Key.Name,
 			Organisation = pair.Key.Organisation,
-			Feed = pair.Key.Feed
+			Feed = pair.Key.Feed,
+			LatestVersion = pair.Key.LatestVersion
 		}, pair => pair.Value);
 	}
 
@@ -96,7 +98,7 @@ public class ArtefactService : BaseService, IArtefactService
 		logger.Exit();
 	}
 
-	public async Task<List<ArtifactBase>> Search(string organisation, string feed, string query)
+	public async Task<List<ArtifactInfo>> Search(string organisation, string feed, string query)
 	{
 		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(query)} {Log.Format(feed)}");
 
@@ -106,7 +108,7 @@ public class ArtefactService : BaseService, IArtefactService
 
 		logger.Exit();
 
-		return artifacts.Select(artifact => new ArtifactBase
+		return artifacts.Select(artifact => new ArtifactInfo
 		{
 			Name = artifact.Name,
 			Organisation = token.Organisation,

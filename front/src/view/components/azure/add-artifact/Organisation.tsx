@@ -2,8 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import React, { useState } from "react";
 import { debounce } from "lodash";
 import Autocomplete from "@mui/material/Autocomplete";
-import { TextField } from "@mui/material";
-import { getFeeds } from "../../../../store/module/artifact/artifact.async.actions";
+import { Box, Paper, TextField } from "@mui/material";
 import { setOrganisation } from "../../../../store/module/azure/azure.actions";
 
 export function Organisation() {
@@ -24,18 +23,18 @@ export function Organisation() {
 		syncOrganisation(value);
 	}, []);
 
-	React.useEffect(() => {
-		dispatch(getFeeds());
-	}, [dispatch, organisation]);
-
 	return (
-		<Autocomplete
-			sx={{ minWidth: 210 }}
-			id="organisation-select"
-			options={["coexya-swl-sante"]}
-			onChange={onChange as any}
-			value={text}
-			renderInput={(params) => <TextField {...params} label="Organisation" />}
-		/>
+		<Paper sx={{ width: "100%" }}>
+			<Box p={2}>
+				<Autocomplete
+					sx={{ minWidth: 210 }}
+					id="organisation-select"
+					options={["coexya-swl-sante"]}
+					onChange={onChange as any}
+					value={text}
+					renderInput={(params) => <TextField {...params} label="Organisation" />}
+				/>
+			</Box>
+		</Paper>
 	);
 }

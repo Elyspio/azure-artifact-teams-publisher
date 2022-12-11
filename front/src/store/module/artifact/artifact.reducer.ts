@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ArtifactBase, AzureFeed } from "../../../core/apis/backend/generated";
-import { setSelectedArtifact, setSelectedFeed } from "./artifact.actions";
+import { setSelectedArtifact, setSelectedFeed, setSelectedNotifies } from "./artifact.actions";
 import { getFeeds, searchArtifacts } from "./artifact.async.actions";
 
 export type ArtifactState = {
@@ -26,6 +26,7 @@ const slice = createSlice({
 	extraReducers: ({ addCase }) => {
 		addCase(setSelectedFeed, (state, action) => {
 			state.selected.feed = state.feeds.find((feed) => feed.id === action.payload);
+			state.selected.artifact = undefined;
 		});
 
 		addCase(getFeeds.fulfilled, (state, action) => {
@@ -33,11 +34,16 @@ const slice = createSlice({
 		});
 
 		addCase(searchArtifacts.fulfilled, (state, action) => {
-			state.artifacts = action.payload;
+			state.artifacts = action.payload.map((artifact) => ({ ...artifact, notifies: [] }));
 		});
 
 		addCase(setSelectedArtifact, (state, action) => {
 			state.selected.artifact = action.payload;
+		});
+		addCase(setSelectedNotifies, (state, action) => {
+			if (state.selected.artifact) {
+				state.selected.artifact.notifies = action.payload;
+			}
 		});
 	},
 });

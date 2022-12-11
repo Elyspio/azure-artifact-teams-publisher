@@ -15,7 +15,8 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 			Feed = obj.Feed,
 			Organisation = obj.Organisation,
 			Name = obj.Name,
-			LatestVersion = obj.LatestVersion
+			LatestVersion = obj.LatestVersion,
+			Notifies = obj.Notifies
 		};
 	}
 
@@ -27,7 +28,8 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 			Feed = obj.Feed,
 			Organisation = obj.Organisation,
 			Name = obj.Name,
-			LatestVersion = obj.LatestVersion
+			LatestVersion = obj.LatestVersion,
+			Notifies = obj.Notifies
 		};
 	}
 }
