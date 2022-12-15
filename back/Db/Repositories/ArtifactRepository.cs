@@ -44,4 +44,20 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 	{
 		await EntityCollection.DeleteOneAsync(artifact => artifact.Id == id.AsObjectId());
 	}
+
+	public async Task Update(string organization, Guid id, ArtifactBase artifact)
+	{
+		var entity = new ArtifactEntity
+		{
+			Id = id.AsObjectId(),
+			Name = artifact.Name,
+			Feed = artifact.Feed,
+			Organisation = artifact.Organisation,
+			LatestVersion = artifact.LatestVersion,
+			Protocol = artifact.Protocol,
+			Notifies = artifact.Notifies
+		};
+
+		await EntityCollection.ReplaceOneAsync(a => a.Id == entity.Id, entity);
+	}
 }

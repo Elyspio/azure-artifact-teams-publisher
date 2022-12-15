@@ -78,5 +78,5 @@ type StyledTreeItemProps = TreeItemProps & {
 	labelIcon: React.ElementType<SvgIconProps>;
 	labelInfo?: string;
 	labelText: string;
-	level?: 0 | 1;
+	level?: 0 | number;
 };

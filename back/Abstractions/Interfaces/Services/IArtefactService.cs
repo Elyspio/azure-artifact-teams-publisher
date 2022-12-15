@@ -11,4 +11,5 @@ public interface IArtefactService
 	Task Delete(string organisation, Guid id);
 	Task<List<ArtifactInfo>> Search(string organisation, string feed, string query);
 	Task<List<AzureFeed>> GetFeeds(string organisation);
+	Task Update(string organization, Guid id, ArtifactBase artifact);
 }

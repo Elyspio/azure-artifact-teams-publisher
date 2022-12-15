@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { BackendApi } from "../apis/backend";
 import { BaseService } from "./common/base.service";
-import { ArtifactBase } from "../apis/backend/generated";
+import { Artifact, ArtifactBase } from "../apis/backend/generated";
 
 @injectable()
 export class ArtifactService extends BaseService {
@@ -20,12 +20,16 @@ export class ArtifactService extends BaseService {
 		return this.backendApiClient.artifact.searchArtifact(organisation, feed, query);
 	}
 
-	manageArtifact(artifact: ArtifactBase) {
+	addManagedArtifact(artifact: ArtifactBase) {
 		return this.backendApiClient.artifact.addArtifact(artifact.organisation, artifact.feed, {
 			name: artifact.name,
 			version: artifact.latestVersion,
 			notifies: artifact.notifies,
 			protocol: artifact.protocol,
 		});
+	}
+
+	updateManagedArtifact(artifact: Artifact) {
+		return this.backendApiClient.artifact.updateArtifact(artifact.organisation, artifact.id, artifact);
 	}
 }

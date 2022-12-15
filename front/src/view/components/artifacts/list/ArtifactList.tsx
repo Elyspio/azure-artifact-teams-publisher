@@ -1,38 +1,36 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import TreeView from "@mui/lab/TreeView";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { ReactComponent as ArtifactIcon } from "../../../icons/artifact.svg";
-import { ReactComponent as NpmIcon } from "../../../icons/npm.svg";
-import { ReactComponent as NugetIcon } from "../../../icons/nuget.svg";
-import { SvgIcon } from "@mui/material";
-import { SvgIconProps } from "@mui/material/SvgIcon";
 import { useModal } from "../../../hooks/useModal";
 import { StyledTreeItem } from "../../common/StyledTreeItem";
 import { groupBy } from "../../../../core/utils/array";
-import { ArtifactProtocol } from "../../../../core/apis/backend/generated";
-
-const NugetIconComponent = (props: SvgIconProps) => <SvgIcon component={NugetIcon} inheritViewBox {...props} sx={{ width: 24, height: 24 }} />;
-const NpmIconComponent = (props: SvgIconProps) => <SvgIcon component={NpmIcon} inheritViewBox {...props} sx={{ width: 24, height: 24 }} />;
-const ArtifactIconComponent = (props: SvgIconProps) => <SvgIcon component={ArtifactIcon} inheritViewBox {...props} sx={{ width: 20, height: 20 }} />;
+import { Artifact, ArtifactProtocol } from "../../../../core/apis/backend/generated";
+import { AddArtifacts } from "../add/AddArtifacts";
+import { AlterArtifact } from "../alter/AlterArtifact";
+import { ArtifactIconComponent, NpmIconComponent, NugetIconComponent } from "../../../icons/Icon";
 
 export function ArtifactList() {
 	const { managedArtifacts, feeds } = useAppSelector((s) => ({ managedArtifacts: s.artifacts.managed, feeds: s.artifacts.feeds }));
 
-	const allArtifacts = useMemo(() => {
-		console.count("allArtifacts");
-		let arr = [...managedArtifacts];
-		return groupBy(arr, "feed");
-	}, [managedArtifacts]);
+	const [selectedArtifact, setSelectedArtifact] = useState<Artifact>();
+
+	const allArtifacts = useMemo(() => groupBy([...managedArtifacts], "feed"), [managedArtifacts]);
 
 	const dispatch = useAppDispatch();
+
+	const editArtifact = useCallback(
+		(artifact: Artifact) => () => {
+			setSelectedArtifact(artifact);
+		},
+		[dispatch]
+	);
 
 	const { open, setOpen, setClose } = useModal();
 
 	const tree = useMemo(() => {
-		console.count("tree");
 		const entries = Object.entries(allArtifacts);
 		if (!entries.length || !feeds.length) return null;
 		return (
@@ -48,6 +46,7 @@ export function ArtifactList() {
 									labelText={artifact.name}
 									nodeId={artifact.id}
 									level={1}
+									onClick={editArtifact(artifact)}
 								/>
 							))}
 						</StyledTreeItem>
@@ -59,9 +58,9 @@ export function ArtifactList() {
 
 	return (
 		<Box p={2} minWidth={400}>
-			{null}
 			{tree}
-			{/*<AddArtifacts open={open} setClose={setClose} />*/}
+			<AddArtifacts open={open} setClose={setClose} />
+			<AlterArtifact data={selectedArtifact} setData={setSelectedArtifact} />
 		</Box>
 	);
 }

@@ -65,6 +65,15 @@ public class ArtifactController : ControllerBase
 		return Created($"api/artifacts/{artifact.Id}", artifact);
 	}
 
+	[HttpPut("managed/{id:guid}")]
+	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
+	public async Task<IActionResult> UpdateArtifact(string organization, Guid id,  ArtifactBase artifact)
+	{
+		 await _artefactService.Update(organization, id,  artifact);
+		return NoContent();
+	}
+
+	
 	[HttpDelete("managed/{id:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> DeleteArtifact(string organization, Guid id)

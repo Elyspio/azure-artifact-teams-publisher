@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { StoreState } from "../../index";
 import { getService } from "../../common/common.action";
 import { ArtifactService } from "../../../core/services/artifact.service";
+import { Artifact } from "../../../core/apis/backend/generated";
 
 export const getFeeds = createAsyncThunk("artifacts/getFeeds", (_, { extra, getState }) => {
 	const artifactService = getService(ArtifactService, extra);
@@ -30,7 +31,7 @@ export const manageArtifact = createAsyncThunk("artifacts/addArtifact", (_: void
 		},
 	} = getState() as StoreState;
 	if (!artifact) return;
-	return artifactService.manageArtifact(artifact);
+	return artifactService.addManagedArtifact(artifact);
 });
 
 export const getManagedArtifacts = createAsyncThunk("artifacts/getManagedArtifacts", async (_, { extra, getState }) => {
@@ -40,4 +41,9 @@ export const getManagedArtifacts = createAsyncThunk("artifacts/getManagedArtifac
 	} = getState() as StoreState;
 
 	return artifactService.getManagedArtifacts(organisation);
+});
+
+export const updateManagedArtifact = createAsyncThunk("artifacts/updateManagedArtifact", async (artifact: Artifact, { extra }) => {
+	const artifactService = getService(ArtifactService, extra);
+	return artifactService.updateManagedArtifact(artifact);
 });

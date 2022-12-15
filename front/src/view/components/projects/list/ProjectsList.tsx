@@ -4,10 +4,7 @@ import TreeView from "@mui/lab/TreeView";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { ReactComponent as ProjectIcon } from "../../../icons/project.svg";
-import { ReactComponent as RepositoryIcon } from "../../../icons/repository.svg";
-import { Stack, SvgIcon } from "@mui/material";
-import { SvgIconProps } from "@mui/material/SvgIcon";
+import { Stack } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { Project, Repository } from "../../../../core/apis/backend/generated";
@@ -15,9 +12,7 @@ import { setSelectedProject, setSelectedRepo } from "../../../../store/module/pr
 import { AlterProject } from "../alter/AlterProject";
 import { useModal } from "../../../hooks/useModal";
 import { StyledTreeItem } from "../../common/StyledTreeItem";
-
-const ProjectIconComponent = (props: SvgIconProps) => <SvgIcon component={ProjectIcon} inheritViewBox {...props} sx={{ width: 20, height: 20 }} />;
-const RepositoryIconComponent = (props: SvgIconProps) => <SvgIcon component={RepositoryIcon} inheritViewBox {...props} />;
+import { ProjectIconComponent, RepositoryIconComponent } from "../../../icons/Icon";
 
 export function ProjectsList() {
 	const allProjects = useAppSelector((s) => s.projects.all);

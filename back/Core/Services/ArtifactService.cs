@@ -136,4 +136,9 @@ public class ArtefactService : BaseService, IArtefactService
 			Name = artifact.Name
 		}).ToList();
 	}
+
+	public async Task Update(string organization, Guid id, ArtifactBase artifact)
+	{
+		await _artifactRepository.Update(organization, id, artifact);
+	}
 }
