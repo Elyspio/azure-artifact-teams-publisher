@@ -7,6 +7,8 @@ public class ArtifactInfo
 	public required string Organisation { get; set; }
 	public required string LatestVersion { get; set; }
 
+	public required ArtifactProtocol Protocol { get; set; }
+
 	/**
 	 * Repositories to notify on update
 	 */

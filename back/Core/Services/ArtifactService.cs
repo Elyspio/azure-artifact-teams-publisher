@@ -64,7 +64,8 @@ public class ArtefactService : BaseService, IArtefactService
 				Name = entity.Name,
 				Feed = entity.Feed,
 				Organisation = entity.Organisation,
-				LatestVersion = entity.LatestVersion
+				LatestVersion = entity.LatestVersion,
+				Protocol = entity.Protocol
 			}, token.Pat);
 
 			if (artifact == default)
@@ -85,7 +86,8 @@ public class ArtefactService : BaseService, IArtefactService
 			Name = pair.Key.Name,
 			Organisation = pair.Key.Organisation,
 			Feed = pair.Key.Feed,
-			LatestVersion = pair.Key.LatestVersion
+			LatestVersion = pair.Key.LatestVersion,
+			Protocol = pair.Key.Protocol
 		}, pair => pair.Value);
 	}
 
@@ -113,7 +115,8 @@ public class ArtefactService : BaseService, IArtefactService
 			Name = artifact.Name,
 			Organisation = token.Organisation,
 			Feed = feed,
-			LatestVersion = artifact.Versions.First().Version
+			LatestVersion = artifact.Versions.First().Version,
+			Protocol = Enum.Parse<ArtifactProtocol>(artifact.ProtocolType)
 		}).ToList();
 	}
 

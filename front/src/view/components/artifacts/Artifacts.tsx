@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import React from "react";
+import { useAppDispatch } from "../../../store";
 import { Button, Divider, Paper, Stack, Typography, useTheme } from "@mui/material";
-import { getManagedArtifacts } from "../../../store/module/artifact/artifact.async.actions";
-import { AddProject } from "../projects/add/AddProject";
 import { ArtifactList } from "./list/ArtifactList";
 import { useModal } from "../../hooks/useModal";
 import { AddArtifacts } from "./add/AddArtifacts";

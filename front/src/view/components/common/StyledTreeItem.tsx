@@ -17,11 +17,12 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
 			fontWeight: theme.typography.fontWeightRegular,
 		},
 		"&:hover": {
-			backgroundColor: theme.palette.action.hover,
+			backgroundColor: "transparent",
+			color: theme.palette.secondary.main,
 		},
 		"&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused": {
-			backgroundColor: `var(--tree-view-bg-color, ${theme.palette.action.selected})`,
-			color: "var(--tree-view-color)",
+			backgroundColor: `transparent`,
+			// color: "var(--tree-view-color)",
 		},
 		[`& .${treeItemClasses.label}`]: {
 			fontWeight: "inherit",
@@ -43,14 +44,15 @@ declare module "react" {
 	}
 }
 
-export function StyledTreeItem(props: StyledTreeItemProps) {
-	const { bgColor, color, labelIcon: LabelIcon, labelInfo, labelText, endIcon, ...others } = props;
-
+export function StyledTreeItem({ bgColor, color, labelIcon, labelInfo, labelText, endIcon, level = 0, ...others }: StyledTreeItemProps) {
 	return (
 		<StyledTreeItemRoot
+			sx={{
+				my: level === 0 ? 1 : 0.5,
+			}}
 			label={
 				<Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
-					<Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
+					<Box component={labelIcon} color="inherit" sx={{ mr: 1 }} />
 					<Typography variant="body2" sx={{ fontWeight: "inherit", flexGrow: 1 }}>
 						{labelText}
 					</Typography>
@@ -76,4 +78,5 @@ type StyledTreeItemProps = TreeItemProps & {
 	labelIcon: React.ElementType<SvgIconProps>;
 	labelInfo?: string;
 	labelText: string;
+	level?: 0 | 1;
 };

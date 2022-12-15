@@ -51,6 +51,7 @@ export function ProjectsList() {
 							.filter((repo) => repo.maintainers.length > 0)
 							.map((repo) => (
 								<StyledTreeItem
+									level={1}
 									key={repo.id}
 									labelIcon={RepositoryIconComponent}
 									labelText={repo.name}

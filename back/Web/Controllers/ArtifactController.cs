@@ -59,7 +59,8 @@ public class ArtifactController : ControllerBase
 			Feed = feed,
 			LatestVersion = request.Version,
 			Name = request.Name,
-			Notifies = request.Notifies
+			Notifies = request.Notifies,
+			Protocol = request.Protocol
 		});
 		return Created($"api/artifacts/{artifact.Id}", artifact);
 	}

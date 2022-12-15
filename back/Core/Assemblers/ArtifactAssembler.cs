@@ -16,7 +16,8 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 			Organisation = obj.Organisation,
 			Name = obj.Name,
 			LatestVersion = obj.LatestVersion,
-			Notifies = obj.Notifies
+			Notifies = obj.Notifies,
+			Protocol = obj.Protocol
 		};
 	}
 
@@ -29,7 +30,8 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 			Organisation = obj.Organisation,
 			Name = obj.Name,
 			LatestVersion = obj.LatestVersion,
-			Notifies = obj.Notifies
+			Notifies = obj.Notifies,
+			Protocol = obj.Protocol
 		};
 	}
 }

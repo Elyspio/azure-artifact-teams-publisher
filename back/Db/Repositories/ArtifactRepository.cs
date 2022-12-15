@@ -25,7 +25,8 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 			Organisation = info.Organisation,
 			Name = info.Name,
 			LatestVersion = info.LatestVersion,
-			Notifies = info.Notifies
+			Notifies = info.Notifies,
+			Protocol = info.Protocol
 		};
 
 		await EntityCollection.InsertOneAsync(entity);

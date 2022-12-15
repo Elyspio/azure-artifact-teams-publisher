@@ -11,6 +11,7 @@ export class ArtifactService extends BaseService {
 	getFeeds(organisation: string) {
 		return this.backendApiClient.artifact.getFeeds(organisation);
 	}
+
 	getManagedArtifacts(organisation: string) {
 		return this.backendApiClient.artifact.getAllArtifact(organisation);
 	}
@@ -24,6 +25,7 @@ export class ArtifactService extends BaseService {
 			name: artifact.name,
 			version: artifact.latestVersion,
 			notifies: artifact.notifies,
+			protocol: artifact.protocol,
 		});
 	}
 }
