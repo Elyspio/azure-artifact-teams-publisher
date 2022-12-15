@@ -55,7 +55,8 @@ public class ServerBuilder
 		// Setup Logging
 		builder.Host.UseSerilog((_, lc) => lc
 			.Enrich.FromLogContext()
-			.WriteTo.Console(LogEventLevel.Verbose, "[{Timestamp:HH:mm:ss} {Level}{Caller}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code)
+			.MinimumLevel.Debug()
+			.WriteTo.Console(LogEventLevel.Verbose, "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext:l} -- {Message}{NewLine}{Exception}")
 		);
 		builder.Services.AddModule<AdapterModule>(builder.Configuration);
 		builder.Services.AddModule<CoreModule>(builder.Configuration);

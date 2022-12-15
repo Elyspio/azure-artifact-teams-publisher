@@ -26,7 +26,7 @@ public class ProjectService : BaseService, IProjectService
 
 	public async Task<List<Project>> GetAll(string organisation)
 	{
-		var logger = _logger.Enter();
+		var logger = _logger.Enter(Log.Format(organisation));
 
 		var projects = await _projectRepository.GetAll(organisation);
 
@@ -37,17 +37,24 @@ public class ProjectService : BaseService, IProjectService
 
 	public async Task RefreshAll(string organisation)
 	{
+		var logger = _logger.Enter(Log.Format(organisation));
+
 		var token = await RequiredToken(organisation);
 
 		var projects = await _devopsAdapter.GetProjects(token);
 
 		await Parallel.ForEachAsync(projects, async (project, _) => { await _projectRepository.UpdateProject(organisation, project); });
+		
+		logger.Exit();
 	}
+	
 
 	public async Task UpdateRepositoryMaintainers(string organisation, Guid repositoryId, List<UserData> maintainers)
 	{
 		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(repositoryId)} {Log.Format(maintainers)}");
 
 		await _projectRepository.UpdateRepositoryMaintainers(repositoryId, maintainers);
+		
+		logger.Exit();
 	}
 }

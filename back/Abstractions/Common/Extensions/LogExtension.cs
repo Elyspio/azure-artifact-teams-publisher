@@ -49,15 +49,15 @@ public static class Log
 
 		public void Error(string content)
 		{
-			var sb = new StringBuilder($"Erreur méthode {method} : {content}");
+			var sb = new StringBuilder($"{method} -- {content}");
 			logger.LogError(sb.ToString());
 		}
 
 		public void Enter()
 		{
 			if (!logger.IsEnabled(level)) return;
-			var sb = new StringBuilder($"Entrée méthode {method}");
-			if (arguments?.Length > 0) sb.Append($": {arguments}");
+			var sb = new StringBuilder($"{method} -- IN");
+			if (arguments?.Length > 0) sb.Append($" -- {arguments}");
 
 			logger.Log(level, sb.ToString());
 		}
@@ -66,11 +66,10 @@ public static class Log
 		public void Exit()
 		{
 			if (!logger.IsEnabled(level)) return;
-			var sb = new StringBuilder($"Sortie méthode {method}");
-			if (arguments?.Length > 0) sb.Append($": {arguments}");
+			var sb = new StringBuilder($"{method} -- OUT");
+			if (arguments?.Length > 0) sb.Append($" -- {arguments}");
 
 			logger.Log(level, sb.ToString());
-			logger.Log(level, arguments);
 		}
 	}
 }
