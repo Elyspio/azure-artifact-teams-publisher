@@ -8,13 +8,13 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from "axios";
 import axios, { AxiosError } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from "axios";
 
 export class ArtifactClient {
-	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 	private instance: AxiosInstance;
 	private baseUrl: string;
+	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
 		this.instance = instance ? instance : axios.create();
@@ -51,6 +51,29 @@ export class ArtifactClient {
 			});
 	}
 
+	protected processGetFeeds(response: AxiosResponse): Promise<AzureFeed[]> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<AzureFeed[]>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<AzureFeed[]>(null as any);
+	}
+
 	searchArtifact(organization: string, feed: string, query: string, cancelToken?: CancelToken | undefined): Promise<ArtifactInfo[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organization}/feeds/{feed}?";
 		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
@@ -84,7 +107,30 @@ export class ArtifactClient {
 			});
 	}
 
-	getAllArtifact(organization: string, cancelToken?: CancelToken | undefined): Promise<ArtifactBase[]> {
+	protected processSearchArtifact(response: AxiosResponse): Promise<ArtifactInfo[]> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<ArtifactInfo[]>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<ArtifactInfo[]>(null as any);
+	}
+
+	getAllArtifact(organization: string, cancelToken?: CancelToken | undefined): Promise<Artifact[]> {
 		let url_ = this.baseUrl + "/api/artifacts/{organization}/managed";
 		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
 		url_ = url_.replace("{organization}", encodeURIComponent("" + organization));
@@ -111,6 +157,29 @@ export class ArtifactClient {
 			.then((_response: AxiosResponse) => {
 				return this.processGetAllArtifact(_response);
 			});
+	}
+
+	protected processGetAllArtifact(response: AxiosResponse): Promise<Artifact[]> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<Artifact[]>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<Artifact[]>(null as any);
 	}
 
 	getAllArtifactWithNewVersion(organization: string, cancelToken?: CancelToken | undefined): Promise<{ [key: string]: string }> {
@@ -140,6 +209,29 @@ export class ArtifactClient {
 			.then((_response: AxiosResponse) => {
 				return this.processGetAllArtifactWithNewVersion(_response);
 			});
+	}
+
+	protected processGetAllArtifactWithNewVersion(response: AxiosResponse): Promise<{ [key: string]: string }> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<{ [key: string]: string }>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<{ [key: string]: string }>(null as any);
 	}
 
 	addArtifact(organization: string, feed: string, request: AddArtifactRequest, cancelToken?: CancelToken | undefined): Promise<Artifact> {
@@ -177,6 +269,29 @@ export class ArtifactClient {
 			});
 	}
 
+	protected processAddArtifact(response: AxiosResponse): Promise<Artifact> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 201) {
+			const _responseText = response.data;
+			let result201: any = null;
+			let resultData201 = _responseText;
+			result201 = JSON.parse(resultData201);
+			return Promise.resolve<Artifact>(result201);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<Artifact>(null as any);
+	}
+
 	deleteArtifact(organization: string, id: string, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/artifacts/{organization}/managed/{id}";
 		if (organization === undefined || organization === null) throw new Error("The parameter 'organization' must be defined.");
@@ -206,121 +321,6 @@ export class ArtifactClient {
 			});
 	}
 
-	protected processGetFeeds(response: AxiosResponse): Promise<AzureFeed[]> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<AzureFeed[]>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<AzureFeed[]>(null as any);
-	}
-
-	protected processSearchArtifact(response: AxiosResponse): Promise<ArtifactInfo[]> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<ArtifactInfo[]>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<ArtifactInfo[]>(null as any);
-	}
-
-	protected processGetAllArtifact(response: AxiosResponse): Promise<ArtifactBase[]> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<ArtifactBase[]>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<ArtifactBase[]>(null as any);
-	}
-
-	protected processGetAllArtifactWithNewVersion(response: AxiosResponse): Promise<{ [key: string]: string }> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<{ [key: string]: string }>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<{ [key: string]: string }>(null as any);
-	}
-
-	protected processAddArtifact(response: AxiosResponse): Promise<Artifact> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 201) {
-			const _responseText = response.data;
-			let result201: any = null;
-			let resultData201 = _responseText;
-			result201 = JSON.parse(resultData201);
-			return Promise.resolve<Artifact>(result201);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<Artifact>(null as any);
-	}
-
 	protected processDeleteArtifact(response: AxiosResponse): Promise<void> {
 		const status = response.status;
 		let _headers: any = {};
@@ -343,9 +343,9 @@ export class ArtifactClient {
 }
 
 export class ProjectClient {
-	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 	private instance: AxiosInstance;
 	private baseUrl: string;
+	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
 		this.instance = instance ? instance : axios.create();
@@ -382,6 +382,29 @@ export class ProjectClient {
 			});
 	}
 
+	protected processGetAllProjects(response: AxiosResponse): Promise<Project[]> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<Project[]>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<Project[]>(null as any);
+	}
+
 	refreshAll(organisation: string, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/projects/{organisation}";
 		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
@@ -407,6 +430,26 @@ export class ProjectClient {
 			.then((_response: AxiosResponse) => {
 				return this.processRefreshAll(_response);
 			});
+	}
+
+	protected processRefreshAll(response: AxiosResponse): Promise<void> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 204) {
+			const _responseText = response.data;
+			return Promise.resolve<void>(null as any);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<void>(null as any);
 	}
 
 	updateRepositoryMaintainers(organisation: string, repositoryId: string, maintainers: UserData[], cancelToken?: CancelToken | undefined): Promise<void> {
@@ -443,49 +486,6 @@ export class ProjectClient {
 			});
 	}
 
-	protected processGetAllProjects(response: AxiosResponse): Promise<Project[]> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<Project[]>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<Project[]>(null as any);
-	}
-
-	protected processRefreshAll(response: AxiosResponse): Promise<void> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 204) {
-			const _responseText = response.data;
-			return Promise.resolve<void>(null as any);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<void>(null as any);
-	}
-
 	protected processUpdateRepositoryMaintainers(response: AxiosResponse): Promise<void> {
 		const status = response.status;
 		let _headers: any = {};
@@ -508,9 +508,9 @@ export class ProjectClient {
 }
 
 export class TokenClient {
-	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 	private instance: AxiosInstance;
 	private baseUrl: string;
+	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
 		this.instance = instance ? instance : axios.create();
@@ -547,6 +547,32 @@ export class TokenClient {
 			});
 	}
 
+	protected processGetToken(response: AxiosResponse): Promise<Token> {
+		const status = response.status;
+		let _headers: any = {};
+		if (response.headers && typeof response.headers === "object") {
+			for (let k in response.headers) {
+				if (response.headers.hasOwnProperty(k)) {
+					_headers[k] = response.headers[k];
+				}
+			}
+		}
+		if (status === 204) {
+			const _responseText = response.data;
+			return throwException("A server side error occurred.", status, _responseText, _headers);
+		} else if (status === 200) {
+			const _responseText = response.data;
+			let result200: any = null;
+			let resultData200 = _responseText;
+			result200 = JSON.parse(resultData200);
+			return Promise.resolve<Token>(result200);
+		} else if (status !== 200 && status !== 204) {
+			const _responseText = response.data;
+			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+		}
+		return Promise.resolve<Token>(null as any);
+	}
+
 	setToken(organisation: string, request: SetTokenRequest, cancelToken?: CancelToken | undefined): Promise<void> {
 		let url_ = this.baseUrl + "/api/token/{organisation}";
 		if (organisation === undefined || organisation === null) throw new Error("The parameter 'organisation' must be defined.");
@@ -579,32 +605,6 @@ export class TokenClient {
 			});
 	}
 
-	protected processGetToken(response: AxiosResponse): Promise<Token> {
-		const status = response.status;
-		let _headers: any = {};
-		if (response.headers && typeof response.headers === "object") {
-			for (let k in response.headers) {
-				if (response.headers.hasOwnProperty(k)) {
-					_headers[k] = response.headers[k];
-				}
-			}
-		}
-		if (status === 204) {
-			const _responseText = response.data;
-			return throwException("A server side error occurred.", status, _responseText, _headers);
-		} else if (status === 200) {
-			const _responseText = response.data;
-			let result200: any = null;
-			let resultData200 = _responseText;
-			result200 = JSON.parse(resultData200);
-			return Promise.resolve<Token>(result200);
-		} else if (status !== 200 && status !== 204) {
-			const _responseText = response.data;
-			return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-		}
-		return Promise.resolve<Token>(null as any);
-	}
-
 	protected processSetToken(response: AxiosResponse): Promise<void> {
 		const status = response.status;
 		let _headers: any = {};
@@ -627,9 +627,9 @@ export class TokenClient {
 }
 
 export class UserClient {
-	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 	private instance: AxiosInstance;
 	private baseUrl: string;
+	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 	constructor(baseUrl?: string, instance?: AxiosInstance) {
 		this.instance = instance ? instance : axios.create();
@@ -708,13 +708,13 @@ export interface ArtifactBase extends ArtifactInfo {
 	notifies: ArtifactRepository[];
 }
 
+export interface Artifact extends ArtifactBase {
+	id: string;
+}
+
 export interface ArtifactRepository {
 	project: string;
 	repository: string;
-}
-
-export interface Artifact extends ArtifactBase {
-	id: string;
 }
 
 export interface AddArtifactRequest {
@@ -771,7 +771,6 @@ export class ApiException extends Error {
 	response: string;
 	headers: { [key: string]: any };
 	result: any;
-	protected isApiException = true;
 
 	constructor(message: string, status: number, response: string, headers: { [key: string]: any }, result: any) {
 		super();
@@ -782,6 +781,8 @@ export class ApiException extends Error {
 		this.headers = headers;
 		this.result = result;
 	}
+
+	protected isApiException = true;
 
 	static isApiException(obj: any): obj is ApiException {
 		return obj.isApiException === true;

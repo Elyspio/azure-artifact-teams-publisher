@@ -6,7 +6,7 @@ import { UserData } from "../../../core/apis/backend/generated";
 import { useModal } from "../../hooks/useModal";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { ProjectsList } from "./list/ProjectsList";
-import { AddProject } from "./add-project/AddProject";
+import { AddProject } from "./add/AddProject";
 
 export function Projects() {
 	const { allProjects } = useAppSelector((s) => ({

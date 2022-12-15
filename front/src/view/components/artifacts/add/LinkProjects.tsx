@@ -54,7 +54,7 @@ export function LinkProjects() {
 					<Autocomplete
 						fullWidth
 						value={elem.project}
-						renderInput={(params) => <TextField {...params} label={"Projet"} />}
+						renderInput={(params) => <TextField {...params} label={"Projet"} datatype={"other"} />}
 						options={managedProjects.map((project) => project.name)}
 						groupBy={(option) => option[0].toUpperCase()}
 						onChange={onChange("project", elem)}

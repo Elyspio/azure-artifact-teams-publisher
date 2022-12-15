@@ -7,12 +7,12 @@ import { Maintainers } from "./select/Maintainers";
 import { addSelectedProject } from "../../../../store/module/projects/projects.async.actions";
 import { useActions } from "../../../hooks/useActions";
 
-type AddProjectProps = {
+export type ModalProps = {
 	open: boolean;
 	setClose: () => void;
 };
 
-export function AddProject({ setClose, open }: AddProjectProps) {
+export function AddProject({ setClose, open }: ModalProps) {
 	const selected = useAppSelector((s) => s.projects.selected);
 	const dispatch = useAppDispatch();
 	const actions = useActions({ addSelectedProject });

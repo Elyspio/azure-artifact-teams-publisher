@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ArtifactBase, AzureFeed } from "../../../core/apis/backend/generated";
+import { Artifact, ArtifactBase, AzureFeed } from "../../../core/apis/backend/generated";
 import { setSelectedArtifact, setSelectedFeed, setSelectedNotifies } from "./artifact.actions";
-import { getFeeds, searchArtifacts } from "./artifact.async.actions";
+import { getFeeds, getManagedArtifacts, searchArtifacts } from "./artifact.async.actions";
 
 export type ArtifactState = {
 	feeds: AzureFeed[];
-	artifacts: ArtifactBase[];
+	searchResult: ArtifactBase[];
+	managed: Artifact[];
 
 	selected: {
 		feed?: AzureFeed;
@@ -15,7 +16,8 @@ export type ArtifactState = {
 
 const initialState: ArtifactState = {
 	feeds: [],
-	artifacts: [],
+	searchResult: [],
+	managed: [],
 	selected: {},
 };
 
@@ -34,7 +36,7 @@ const slice = createSlice({
 		});
 
 		addCase(searchArtifacts.fulfilled, (state, action) => {
-			state.artifacts = action.payload.map((artifact) => ({ ...artifact, notifies: [] }));
+			state.searchResult = action.payload.map((artifact) => ({ ...artifact, notifies: [] }));
 		});
 
 		addCase(setSelectedArtifact, (state, action) => {
@@ -44,6 +46,10 @@ const slice = createSlice({
 			if (state.selected.artifact) {
 				state.selected.artifact.notifies = action.payload;
 			}
+		});
+
+		addCase(getManagedArtifacts.fulfilled, (state, action) => {
+			state.managed = action.payload;
 		});
 	},
 });

@@ -34,13 +34,11 @@ function Wrapper() {
 
 function App() {
 	return (
-		<StrictMode>
-			<DiProvider container={container}>
-				<Provider store={store}>
-					<Wrapper />
-				</Provider>
-			</DiProvider>
-		</StrictMode>
+		<DiProvider container={container}>
+			<Provider store={store}>
+				<Wrapper />
+			</Provider>
+		</DiProvider>
 	);
 }
 

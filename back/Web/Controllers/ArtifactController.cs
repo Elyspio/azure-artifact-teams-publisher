@@ -35,7 +35,7 @@ public class ArtifactController : ControllerBase
 	}
 
 	[HttpGet("managed")]
-	[SwaggerResponse(HttpStatusCode.OK, typeof(List<ArtifactBase>))]
+	[SwaggerResponse(HttpStatusCode.OK, typeof(List<Artifact>))]
 	public async Task<IActionResult> GetAllArtifact(string organization)
 	{
 		return Ok(await _artefactService.GetAll(organization));

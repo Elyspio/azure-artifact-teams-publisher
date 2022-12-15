@@ -9,7 +9,7 @@ import { setSelectedArtifact } from "../../../../store/module/artifact/artifact.
 export function SearchArtifact() {
 	const dispatch = useAppDispatch();
 
-	const { feed, artifacts } = useAppSelector((s) => ({ feed: s.artifacts.selected.feed, artifacts: s.artifacts.artifacts }));
+	const { feed, artifacts } = useAppSelector((s) => ({ feed: s.artifacts.selected.feed, artifacts: s.artifacts.searchResult }));
 
 	const onChange = React.useCallback((e: React.SyntheticEvent, value: ArtifactBase | null) => {
 		dispatch(setSelectedArtifact(value ?? undefined));
@@ -22,7 +22,7 @@ export function SearchArtifact() {
 	return (
 		<Autocomplete
 			fullWidth
-			renderInput={(params) => <TextField {...params} label={"Artifacts"} />}
+			renderInput={(params) => <TextField {...params} label={"Artifacts"} datatype={"other"} />}
 			options={artifacts}
 			groupBy={(option) => option.name[0].toUpperCase()}
 			getOptionLabel={(option) => option.name}

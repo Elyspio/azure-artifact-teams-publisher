@@ -1,9 +1,9 @@
 import React from "react";
 import { useAppSelector } from "../../../../store";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
-import { Repositories } from "../add-project/select/Repositories";
-import { SelectProjects } from "../add-project/select/SelectProjects";
-import { Maintainers } from "../add-project/select/Maintainers";
+import { Repositories } from "../add/select/Repositories";
+import { SelectProjects } from "../add/select/SelectProjects";
+import { Maintainers } from "../add/select/Maintainers";
 
 type AddProjectProps = {
 	open: boolean;

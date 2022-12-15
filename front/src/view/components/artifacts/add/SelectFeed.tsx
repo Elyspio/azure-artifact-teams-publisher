@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import { AzureFeed } from "../../../../core/apis/backend/generated";
 import { setSelectedFeed } from "../../../../store/module/artifact/artifact.actions";
 
-export function Feeds() {
+export function SelectFeed() {
 	const feeds = useAppSelector((s) => s.artifacts.feeds);
 
 	const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export function Feeds() {
 			options={feeds}
 			onChange={onChange}
 			getOptionLabel={(feed) => feed.name}
-			renderInput={(params) => <TextField {...params} label="Feed" />}
+			renderInput={(params) => <TextField {...params} label="Feed" datatype={"other"} />}
 		/>
 	);
 }

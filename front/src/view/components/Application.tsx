@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import "./Application.scss";
 import { useAppSelector } from "../../store";
 import { toggleTheme } from "../../store/module/theme/theme.action";
-import { createDrawerAction, withDrawer } from "./utils/drawer/Drawer.hoc";
+import { createDrawerAction, withDrawer } from "./common/drawer/Drawer.hoc";
 import { Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { DarkMode, LightMode } from "@mui/icons-material";

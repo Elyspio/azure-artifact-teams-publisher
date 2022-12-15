@@ -6,7 +6,6 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { ReactComponent as ProjectIcon } from "../../../icons/project.svg";
 import { ReactComponent as RepositoryIcon } from "../../../icons/repository.svg";
-import { StyledTreeItem } from "./ProjectItem";
 import { Stack, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import { Edit } from "@mui/icons-material";
@@ -15,6 +14,7 @@ import { Project, Repository } from "../../../../core/apis/backend/generated";
 import { setSelectedProject, setSelectedRepo } from "../../../../store/module/projects/projects.actions";
 import { AlterProject } from "../alter/AlterProject";
 import { useModal } from "../../../hooks/useModal";
+import { StyledTreeItem } from "../../common/StyledTreeItem";
 
 const ProjectIconComponent = (props: SvgIconProps) => <SvgIcon component={ProjectIcon} inheritViewBox {...props} sx={{ width: 20, height: 20 }} />;
 const RepositoryIconComponent = (props: SvgIconProps) => <SvgIcon component={RepositoryIcon} inheritViewBox {...props} />;

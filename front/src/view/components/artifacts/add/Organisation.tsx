@@ -32,7 +32,7 @@ export function Organisation() {
 					options={["coexya-swl-sante"]}
 					onChange={onChange as any}
 					value={text}
-					renderInput={(params) => <TextField {...params} label="Organisation" />}
+					renderInput={(params) => <TextField {...params} label="Organisation" datatype={"other"} />}
 				/>
 			</Box>
 		</Paper>
