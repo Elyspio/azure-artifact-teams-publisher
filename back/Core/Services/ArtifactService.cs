@@ -1,11 +1,14 @@
 ﻿using AzureArtifact.Api.Abstractions.Common.Extensions;
+using AzureArtifact.Api.Abstractions.Interfaces.Hubs;
 using AzureArtifact.Api.Abstractions.Interfaces.Repositories;
 using AzureArtifact.Api.Abstractions.Interfaces.Services;
 using AzureArtifact.Api.Abstractions.Transports.Artifacts;
+using AzureArtifact.Api.Abstractions.Transports.Enums;
 using AzureArtifact.Api.Adapters.Adapters;
-using AzureArtifact.Api.Adapters.Types.Responses;
 using AzureArtifact.Api.Core.Assemblers;
 using AzureArtifact.Api.Core.Services.Internal;
+using AzureArtifact.Api.Sockets.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
@@ -17,12 +20,16 @@ public class ArtefactService : BaseService, IArtefactService
 	private readonly IArtifactRepository _artifactRepository;
 	private readonly AzureDevopsAdapter _devopsAdapter;
 	private readonly ILogger<ArtefactService> _logger;
+	private readonly IHubContext<UpdateHub, IUpdateHub> _updateHub;
 
-	public ArtefactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtefactService> logger, AzureDevopsAdapter devopsAdapter) : base(tokenRepository, logger)
+	public ArtefactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtefactService> logger, AzureDevopsAdapter devopsAdapter,
+		IHubContext<UpdateHub, IUpdateHub> updateHub) :
+		base(tokenRepository, logger)
 	{
 		_artifactRepository = artifactRepository;
 		_logger = logger;
 		_devopsAdapter = devopsAdapter;
+		_updateHub = updateHub;
 	}
 
 
@@ -34,6 +41,9 @@ public class ArtefactService : BaseService, IArtefactService
 		var data = _artifactAssembler.Convert(entity);
 
 		logger.Exit();
+
+		await _updateHub.Clients.All.ArtifactUpdated(data);
+
 		return data;
 	}
 
@@ -139,6 +149,7 @@ public class ArtefactService : BaseService, IArtefactService
 
 	public async Task Update(string organization, Guid id, ArtifactBase artifact)
 	{
-		await _artifactRepository.Update(organization, id, artifact);
+		var updated = await _artifactRepository.Update(id, artifact);
+		await _updateHub.Clients.All.ArtifactUpdated(_artifactAssembler.Convert(updated));
 	}
 }

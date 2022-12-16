@@ -1,4 +1,4 @@
-﻿namespace AzureArtifact.Api.Adapters.Types.Responses;
+﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
 public class AzureFeed
 {

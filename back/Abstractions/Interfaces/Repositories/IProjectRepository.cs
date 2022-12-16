@@ -8,6 +8,6 @@ public interface IProjectRepository
 {
 	Task UpdateProject(string organisation, Project project);
 
-	Task UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers);
+	Task<ProjectEntity> UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers);
 	Task<List<ProjectEntity>> GetAll(string organisation);
 }

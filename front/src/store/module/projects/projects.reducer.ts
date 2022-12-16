@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Project, Repository } from "../../../core/apis/backend/generated";
 import { getProjects } from "./projects.async.actions";
-import { setSelectedProject, setSelectedRepo } from "./projects.actions";
+import { setSelectedProject, setSelectedRepo, updateProject } from "./projects.actions";
 
 export type ProjectState = {
 	all: Record<Project["name"], Project>;
@@ -33,6 +33,10 @@ const slice = createSlice({
 
 		addCase(setSelectedRepo, (state, action) => {
 			state.selected.repository = action.payload;
+		});
+
+		addCase(updateProject, (state, action) => {
+			state.all[action.payload.name] = action.payload;
 		});
 	},
 });

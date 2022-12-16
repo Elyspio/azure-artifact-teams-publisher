@@ -8,6 +8,7 @@ COPY back/Abstractions/AzureArtifact.Api.Abstractions.csproj ./Abstractions/
 COPY back/Db/AzureArtifact.Api.Db.csproj ./Db/
 COPY back/Adapters/AzureArtifact.Api.Adapters.csproj ./Adapters/
 COPY back/Web/AzureArtifact.Api.Web.csproj ./Web/
+COPY back/Sockets/AzureArtifact.Api.Sockets.csproj ./Sockets/
 
 RUN dotnet restore
 

@@ -5,6 +5,7 @@ import { ArtifactService } from "../../services/artifact.service";
 import { Container } from "inversify";
 import { ProjectService } from "../../services/project.service";
 import { UserService } from "../../services/user.service";
+import { UpdateSocketService } from "../../services/socket/update.socket.service";
 
 export const addServices = (container: Container) => {
 	container.bind(ThemeService).toSelf();
@@ -14,4 +15,5 @@ export const addServices = (container: Container) => {
 	container.bind(ArtifactService).toSelf();
 	container.bind(UserService).toSelf();
 	container.bind(ProjectService).toSelf();
+	container.bind(UpdateSocketService).toSelf();
 };

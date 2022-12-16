@@ -11,7 +11,6 @@ using Newtonsoft.Json.Converters;
 using NJsonSchema.Generation;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
 using System.Net;
 using System.Text.Json.Serialization;
 
@@ -34,7 +33,6 @@ public class ServerBuilder
 				);
 			}
 		);
-
 
 		// Setup CORS
 		builder.Services.AddCors(options =>
@@ -85,6 +83,14 @@ public class ServerBuilder
 		});
 		// Setup SPA Serving
 		if (builder.Environment.IsProduction()) Console.WriteLine($"Server in production, serving SPA from {frontPath} folder");
+
+		builder.Services.AddSignalR(options => { options.EnableDetailedErrors = true; })
+			.AddJsonProtocol(options =>
+				{
+					options.PayloadSerializerOptions.IncludeFields = true;
+					options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				}
+			);
 
 		Application = builder.Build();
 	}

@@ -1,5 +1,4 @@
 ﻿using AzureArtifact.Api.Abstractions.Transports.Artifacts;
-using AzureArtifact.Api.Adapters.Types.Responses;
 
 namespace AzureArtifact.Api.Abstractions.Interfaces.Services;
 

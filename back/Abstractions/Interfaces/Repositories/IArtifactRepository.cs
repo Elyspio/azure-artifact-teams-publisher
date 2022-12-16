@@ -8,5 +8,5 @@ public interface IArtifactRepository
 	Task<ArtifactEntity> Add(ArtifactBase info);
 	Task<List<ArtifactEntity>> GetAll(string organisation);
 	Task Delete(Guid id);
-	Task Update(string organization, Guid id, ArtifactBase artifact);
+	Task<ArtifactEntity> Update(Guid id, ArtifactBase artifact);
 }

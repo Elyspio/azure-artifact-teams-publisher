@@ -35,8 +35,8 @@ export function AddMaintainerDialog({ setClose, open }: AddMaintainerDialogProps
 		(e, user: UserData | null) => {
 			if (user) {
 				actions.addMaintainer(user);
-				setClose();
 			}
+			setClose();
 		},
 		[actions]
 	);

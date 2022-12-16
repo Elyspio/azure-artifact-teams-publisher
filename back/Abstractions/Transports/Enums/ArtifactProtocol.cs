@@ -1,4 +1,4 @@
-﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
+﻿namespace AzureArtifact.Api.Abstractions.Transports.Enums;
 
 public enum ArtifactProtocol
 {

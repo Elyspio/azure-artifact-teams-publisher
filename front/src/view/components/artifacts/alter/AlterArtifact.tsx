@@ -57,7 +57,7 @@ export function AlterArtifact({ data, setData }: AddProjectProps) {
 		<Dialog open={true} onClose={setClose}>
 			<DialogTitle> Modifier un artéfact</DialogTitle>
 			<DialogContent dividers sx={{ minWidth: 400 }}>
-				<Stack m={2} spacing={4}>
+				<Stack m={2} spacing={2}>
 					<Stack direction={"row"} spacing={2} alignItems={"center"}>
 						<Typography variant={"overline"}>Feed:</Typography>
 						<Typography>{data.feed}</Typography>

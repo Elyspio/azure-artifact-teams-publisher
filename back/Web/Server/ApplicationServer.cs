@@ -1,4 +1,6 @@
-﻿namespace AzureArtifact.Api.Web.Server;
+﻿using AzureArtifact.Api.Sockets.Hubs;
+
+namespace AzureArtifact.Api.Web.Server;
 
 public static class ApplicationServer
 {
@@ -18,6 +20,8 @@ public static class ApplicationServer
 
 		application.UseAuthentication();
 
+		application.MapHub<UpdateHub>("/ws/update");
+
 		// Start SPA serving
 		if (application.Environment.IsProduction())
 		{
@@ -36,6 +40,7 @@ public static class ApplicationServer
 
 			application.UseEndpoints(endpoints => { endpoints.MapFallbackToFile("/index.html"); });
 		}
+
 
 		return application;
 	}

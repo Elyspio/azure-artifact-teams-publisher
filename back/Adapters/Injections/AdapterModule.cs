@@ -20,5 +20,7 @@ public class AdapterModule : IDotnetModule
 			.AsSelf()
 			.WithSingletonLifetime()
 		);
+
+		services.AddMemoryCache();
 	}
 }

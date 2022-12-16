@@ -1,6 +1,5 @@
 ﻿using AzureArtifact.Api.Abstractions.Interfaces.Services;
 using AzureArtifact.Api.Abstractions.Transports.Artifacts;
-using AzureArtifact.Api.Adapters.Types.Responses;
 using AzureArtifact.Api.Web.Types.Requests;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
@@ -67,13 +66,13 @@ public class ArtifactController : ControllerBase
 
 	[HttpPut("managed/{id:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
-	public async Task<IActionResult> UpdateArtifact(string organization, Guid id,  ArtifactBase artifact)
+	public async Task<IActionResult> UpdateArtifact(string organization, Guid id, ArtifactBase artifact)
 	{
-		 await _artefactService.Update(organization, id,  artifact);
+		await _artefactService.Update(organization, id, artifact);
 		return NoContent();
 	}
 
-	
+
 	[HttpDelete("managed/{id:guid}")]
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> DeleteArtifact(string organization, Guid id)

@@ -43,7 +43,7 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 		}
 	}
 
-	public async Task UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers)
+	public async Task<ProjectEntity> UpdateRepositoryMaintainers(Guid repositoryId, List<UserData> maintainers)
 	{
 		var entity = await EntityCollection.AsQueryable().FirstOrDefaultAsync(project => project.Repositories.Any(repo => repo.Id == repositoryId));
 		if (entity is null) throw new Exception($"Aucun projet ne contient le repo {repositoryId}");
@@ -51,6 +51,8 @@ internal class ProjectRepository : BaseRepository<ProjectEntity>, IProjectReposi
 		repo.Maintainers = maintainers;
 
 		await EntityCollection.ReplaceOneAsync(project => project.Id == entity.Id, entity);
+
+		return entity;
 	}
 
 	public async Task<List<ProjectEntity>> GetAll(string organisation)

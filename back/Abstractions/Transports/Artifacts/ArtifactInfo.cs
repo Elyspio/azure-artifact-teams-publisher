@@ -1,4 +1,6 @@
-﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
+﻿using AzureArtifact.Api.Abstractions.Transports.Enums;
+
+namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
 public class ArtifactInfo
 {

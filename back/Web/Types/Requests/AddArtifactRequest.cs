@@ -1,4 +1,5 @@
 ﻿using AzureArtifact.Api.Abstractions.Transports.Artifacts;
+using AzureArtifact.Api.Abstractions.Transports.Enums;
 
 namespace AzureArtifact.Api.Web.Types.Requests;
 

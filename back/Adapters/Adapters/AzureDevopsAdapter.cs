@@ -4,6 +4,7 @@ using AzureArtifact.Api.Abstractions.Transports.Project;
 using AzureArtifact.Api.Abstractions.Transports.Token;
 using AzureArtifact.Api.Adapters.Types.Requests;
 using AzureArtifact.Api.Adapters.Types.Responses;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.TeamFoundation.Common;
 using Newtonsoft.Json;
@@ -17,11 +18,13 @@ namespace AzureArtifact.Api.Adapters.Adapters;
 
 public class AzureDevopsAdapter
 {
+	private readonly IMemoryCache _cache;
 	private readonly ILogger<AzureDevopsAdapter> _logger;
 
-	public AzureDevopsAdapter(ILogger<AzureDevopsAdapter> logger)
+	public AzureDevopsAdapter(ILogger<AzureDevopsAdapter> logger, IMemoryCache cache)
 	{
 		_logger = logger;
+		_cache = cache;
 	}
 
 	public async Task<RawArtifact?> GetArtifact(ArtifactInfo info, string pat)
@@ -152,6 +155,10 @@ public class AzureDevopsAdapter
 
 	public async Task<List<AzureGetFeedsResponse.AzureFeed>> GetArtifactFeeds(Token token)
 	{
+		const string key = "feeds";
+
+		if (_cache.TryGetValue(key, out List<AzureGetFeedsResponse.AzureFeed> feeds)) return feeds;
+
 		using var client = GetAzureClient(token.Pat);
 
 		var response = await client.GetAsync("https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds");
@@ -160,8 +167,10 @@ public class AzureDevopsAdapter
 
 		response.EnsureSuccessStatusCode();
 
-		var data = JsonConvert.DeserializeObject<AzureGetFeedsResponse>(content)!;
+		feeds = JsonConvert.DeserializeObject<AzureGetFeedsResponse>(content)!.Value;
 
-		return data.Value;
+		_cache.Set(key, feeds, TimeSpan.FromMinutes(30));
+
+		return feeds;
 	}
 }

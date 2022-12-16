@@ -19,7 +19,8 @@ export function AddProject({ setClose, open }: ModalProps) {
 
 	const validate = useCallback(() => {
 		actions.addSelectedProject();
-	}, [dispatch, actions]);
+		setClose();
+	}, [setClose, dispatch, actions]);
 
 	return (
 		<Dialog open={open} onClose={setClose}>
