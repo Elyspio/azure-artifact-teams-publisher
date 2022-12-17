@@ -1,4 +1,5 @@
-﻿using AzureArtifact.Api.Sockets.Hubs;
+﻿using AzureArtifact.Api.Abstractions.Interfaces.Services;
+using AzureArtifact.Api.Sockets.Hubs;
 
 namespace AzureArtifact.Api.Web.Server;
 
@@ -41,6 +42,7 @@ public static class ApplicationServer
 			application.UseEndpoints(endpoints => { endpoints.MapFallbackToFile("/index.html"); });
 		}
 
+		application.Services.GetRequiredService<IManagementService>().WatchChanged();
 
 		return application;
 	}

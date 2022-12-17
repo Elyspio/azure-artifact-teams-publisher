@@ -68,7 +68,8 @@ public class ArtifactController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> UpdateArtifact(string organization, Guid id, ArtifactBase artifact)
 	{
-		await _artifactService.Update(organization, id, artifact);
+		artifact.Organisation = organization;
+		await _artifactService.Update(id, artifact);
 		return NoContent();
 	}
 

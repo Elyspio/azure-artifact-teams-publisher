@@ -39,7 +39,6 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 		return await EntityCollection.AsQueryable().Where(artifact => artifact.Organisation == organisation).ToListAsync();
 	}
 
-
 	public async Task Delete(Guid id)
 	{
 		await EntityCollection.DeleteOneAsync(artifact => artifact.Id == id.AsObjectId());

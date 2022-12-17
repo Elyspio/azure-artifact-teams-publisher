@@ -1,4 +1,5 @@
-﻿using AzureArtifact.Api.Abstractions.Transports.Artifacts;
+﻿using AzureArtifact.Api.Abstractions.Common.Extensions;
+using AzureArtifact.Api.Abstractions.Transports.Artifacts;
 using AzureArtifact.Api.Abstractions.Transports.User;
 using Microsoft.Extensions.Logging;
 using System.Text;
@@ -7,7 +8,7 @@ namespace AzureArtifact.Api.Adapters.Adapters.Teams;
 
 public class TeamsAdapter
 {
-	private ILogger<TeamsAdapter> _logger;
+	private readonly ILogger<TeamsAdapter> _logger;
 
 	public TeamsAdapter(ILogger<TeamsAdapter> logger)
 	{
@@ -16,10 +17,12 @@ public class TeamsAdapter
 
 	public async Task Notify(string webhook, Artifact artifact, Dictionary<ArtifactRepositoryId, List<UserData>> usersMap)
 	{
+		var logger = _logger.Enter($"{Log.Format(artifact.Name)} {Log.Format(artifact.LatestVersion)}");
+
 		var builder = new TeamsMessageBuilder();
 
 		builder
-			.AddText($"Nouvelle version de **{artifact.Name}**", TextBlockSize.Larger)
+			.AddText($"Nouvelle version de {artifact.Name}", TextBlockSize.Larger)
 			.AddDictionary(new()
 			{
 				{
@@ -46,5 +49,7 @@ public class TeamsAdapter
 		var response = await client.PostAsync(webhook, new StringContent(json, Encoding.UTF8, "application/json"));
 
 		response.EnsureSuccessStatusCode();
+
+		logger.Exit();
 	}
 }

@@ -58,7 +58,7 @@ public class ArtifactService : BaseService, IArtifactService
 		return artifacts;
 	}
 
-	public async Task<Dictionary<ArtifactInfo, string>> GetAllWithNewVersion(string organisation)
+	public async Task<Dictionary<Artifact, string>> GetAllWithNewVersion(string organisation)
 	{
 		var logger = _logger.Enter($"{Log.Format(organisation)}");
 		var entities = await _artifactRepository.GetAll(organisation);
@@ -91,14 +91,7 @@ public class ArtifactService : BaseService, IArtifactService
 
 		logger.Exit();
 
-		return newArtifacts.ToDictionary(pair => new ArtifactInfo
-		{
-			Name = pair.Key.Name,
-			Organisation = pair.Key.Organisation,
-			Feed = pair.Key.Feed,
-			LatestVersion = pair.Key.LatestVersion,
-			Protocol = pair.Key.Protocol
-		}, pair => pair.Value);
+		return newArtifacts.ToDictionary(pair => pair.Key, pair => pair.Value);
 	}
 
 	public async Task Delete(string organisation, Guid id)
@@ -147,9 +140,14 @@ public class ArtifactService : BaseService, IArtifactService
 		}).ToList();
 	}
 
-	public async Task Update(string organization, Guid id, ArtifactBase artifact)
+	public async Task Update(Guid id, ArtifactBase artifact)
 	{
+		var logger = _logger.Enter($"{Log.Format(id)}");
+
 		var updated = await _artifactRepository.Update(id, artifact);
+
 		await _updateHub.Clients.All.ArtifactUpdated(_artifactAssembler.Convert(updated));
+
+		logger.Exit();
 	}
 }
