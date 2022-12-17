@@ -34,42 +34,45 @@ public static class Log
 
 	public class LoggerInstance<T>
 	{
-		private readonly string arguments;
-		private readonly LogLevel level;
-		private readonly ILogger<T> logger;
-		private readonly string method;
+		private readonly string _arguments;
+		private readonly LogLevel _level;
+		private readonly ILogger<T> _logger;
+		private readonly string _method;
+		private readonly DateTime _startedAt = DateTime.Now;
 
 		public LoggerInstance(ILogger<T> logger, string method, string arguments, LogLevel level)
 		{
-			this.arguments = arguments;
-			this.level = level;
-			this.method = method;
-			this.logger = logger;
+			_arguments = arguments;
+			_level = level;
+			_method = method;
+			_logger = logger;
 		}
 
 		public void Error(string content)
 		{
-			var sb = new StringBuilder($"{method} -- {content}");
-			logger.LogError(sb.ToString());
+			var sb = new StringBuilder($"{_method} -- {content}");
+			_logger.LogError(sb.ToString());
 		}
 
 		public void Enter()
 		{
-			if (!logger.IsEnabled(level)) return;
-			var sb = new StringBuilder($"{method} -- IN");
-			if (arguments?.Length > 0) sb.Append($" -- {arguments}");
+			if (!_logger.IsEnabled(_level)) return;
+			var sb = new StringBuilder($"{_method} -- IN");
+			if (_arguments?.Length > 0) sb.Append($" -- {_arguments}");
 
-			logger.Log(level, sb.ToString());
+			_logger.Log(_level, sb.ToString());
 		}
 
 
 		public void Exit()
 		{
-			if (!logger.IsEnabled(level)) return;
-			var sb = new StringBuilder($"{method} -- OUT");
-			if (arguments?.Length > 0) sb.Append($" -- {arguments}");
+			if (!_logger.IsEnabled(_level)) return;
+			var sb = new StringBuilder($"{_method} -- OUT");
+			if (_arguments?.Length > 0) sb.Append($" -- {_arguments}");
 
-			logger.Log(level, sb.ToString());
+			sb.Append($" -- {(DateTime.Now - _startedAt).Milliseconds}ms");
+
+			_logger.Log(_level, sb.ToString());
 		}
 	}
 }

@@ -30,7 +30,7 @@ public class AzureDevopsAdapter
 	{
 		// Connect to Azure DevOps Services
 
-		var logger = _logger.Enter($"{Log.Format(info.Organisation)} {Log.Format(info.Feed)} {Log.Format(info.Name)} {Log.Format(!pat.IsNullOrEmpty())}");
+		var logger = _logger.Enter($"{Log.Format(info.Organisation)} {Log.Format(info.Feed)} {Log.Format(info.Name)} {Log.Format(pat.IsNullOrEmpty())}");
 		using var client = GetAzureClient(pat);
 
 		var responseBody = await client.GetStringAsync(
