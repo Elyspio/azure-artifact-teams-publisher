@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.TeamFoundation.Common;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using Directory = AzureArtifact.Api.Adapters.Types.Responses.Directory;
@@ -55,21 +54,21 @@ public class AzureDevopsAdapter
 		var response = await client.PostAsJsonAsync("https://dev.azure.com/coexya-swl-sante/_apis/IdentityPicker/Identities?api-version=5.0-preview.1", new GetAzureUsersRequest
 		{
 			Query = nameOrEmail,
-			Options = new Options
+			Options = new()
 			{
 				MinResults = 1,
 				MaxResults = 100
 			},
-			Properties = new List<string>
+			Properties = new()
 			{
 				"DisplayName",
 				"Mail"
 			},
-			IdentityTypes = new List<string>
+			IdentityTypes = new()
 			{
 				"user"
 			},
-			OperationScopes = new List<string>
+			OperationScopes = new()
 			{
 				"ims"
 			}
@@ -107,7 +106,7 @@ public class AzureDevopsAdapter
 
 			var repositories = JsonConvert.DeserializeObject<AzureGetRepositoryResponse>(repoContent)!.Value;
 
-			projects.Add(new Project
+			projects.Add(new()
 			{
 				Organisation = token.Organisation,
 				IdAzure = project.Id,
@@ -132,8 +131,8 @@ public class AzureDevopsAdapter
 	private HttpClient GetAzureClient(string pat)
 	{
 		var client = new HttpClient();
-		client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-		client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{""}:{pat}")));
+		client.DefaultRequestHeaders.Accept.Add(new("application/json"));
+		client.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{""}:{pat}")));
 		return client;
 	}
 

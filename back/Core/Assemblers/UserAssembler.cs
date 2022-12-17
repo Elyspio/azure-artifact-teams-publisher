@@ -13,7 +13,7 @@ public class UserAssembler : BaseAssembler<UserData, Identity>
 
 	public override UserData Convert(Identity obj)
 	{
-		return new UserData
+		return new()
 		{
 			Id = obj.EntityId,
 			Mail = obj.Mail,

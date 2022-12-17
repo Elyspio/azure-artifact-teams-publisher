@@ -11,18 +11,18 @@ namespace AzureArtifact.Api.Web.Controllers;
 [ApiController]
 public class ArtifactController : ControllerBase
 {
-	private readonly IArtefactService _artefactService;
+	private readonly IArtifactService _artifactService;
 
-	public ArtifactController(IArtefactService artefactService)
+	public ArtifactController(IArtifactService artifactService)
 	{
-		_artefactService = artefactService;
+		_artifactService = artifactService;
 	}
 
 	[HttpGet("feeds")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<AzureFeed>))]
 	public async Task<IActionResult> GetFeeds(string organization)
 	{
-		return Ok(await _artefactService.GetFeeds(organization));
+		return Ok(await _artifactService.GetFeeds(organization));
 	}
 
 
@@ -30,21 +30,21 @@ public class ArtifactController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<ArtifactInfo>))]
 	public async Task<IActionResult> SearchArtifact(string organization, string feed, string query = "")
 	{
-		return Ok(await _artefactService.Search(organization, feed, query));
+		return Ok(await _artifactService.Search(organization, feed, query));
 	}
 
 	[HttpGet("managed")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(List<Artifact>))]
 	public async Task<IActionResult> GetAllArtifact(string organization)
 	{
-		return Ok(await _artefactService.GetAll(organization));
+		return Ok(await _artifactService.GetAll(organization));
 	}
 
 	[HttpGet("managed/new")]
 	[SwaggerResponse(HttpStatusCode.OK, typeof(Dictionary<ArtifactInfo, Version>))]
 	public async Task<IActionResult> GetAllArtifactWithNewVersion(string organization)
 	{
-		return Ok(await _artefactService.GetAllWithNewVersion(organization));
+		return Ok(await _artifactService.GetAllWithNewVersion(organization));
 	}
 
 
@@ -52,7 +52,7 @@ public class ArtifactController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.Created, typeof(Artifact))]
 	public async Task<IActionResult> AddArtifact(string organization, string feed, AddArtifactRequest request)
 	{
-		var artifact = await _artefactService.Add(new ArtifactBase
+		var artifact = await _artifactService.Add(new()
 		{
 			Organisation = organization,
 			Feed = feed,
@@ -68,7 +68,7 @@ public class ArtifactController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> UpdateArtifact(string organization, Guid id, ArtifactBase artifact)
 	{
-		await _artefactService.Update(organization, id, artifact);
+		await _artifactService.Update(organization, id, artifact);
 		return NoContent();
 	}
 
@@ -77,7 +77,7 @@ public class ArtifactController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> DeleteArtifact(string organization, Guid id)
 	{
-		await _artefactService.Delete(organization, id);
+		await _artifactService.Delete(organization, id);
 		return NoContent();
 	}
 }

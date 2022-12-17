@@ -4,5 +4,5 @@ namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
 public class ArtifactBase : ArtifactInfo
 {
-	[Required] public required List<ArtifactRepository> Notifies { get; set; }
+	[Required] public required List<ArtifactRepositoryId> Notifies { get; set; }
 }

@@ -9,7 +9,7 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 {
 	public override Artifact Convert(ArtifactEntity obj)
 	{
-		return new Artifact
+		return new()
 		{
 			Id = obj.Id.AsGuid(),
 			Feed = obj.Feed,
@@ -23,7 +23,7 @@ public class ArtifactAssembler : BaseAssembler<Artifact, ArtifactEntity>
 
 	public override ArtifactEntity Convert(Artifact obj)
 	{
-		return new ArtifactEntity
+		return new()
 		{
 			Id = obj.Id.AsObjectId(),
 			Feed = obj.Feed,

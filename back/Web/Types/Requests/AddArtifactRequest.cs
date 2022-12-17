@@ -14,7 +14,7 @@ public class AddArtifactRequest
 	public required string Version { get; init; }
 
 	/// <summary>Identifiants des répository à notifier lors d'une update</summary>
-	public required List<ArtifactRepository> Notifies { get; init; }
+	public required List<ArtifactRepositoryId> Notifies { get; init; }
 
 	public required ArtifactProtocol Protocol { get; set; }
 }

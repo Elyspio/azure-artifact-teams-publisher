@@ -1,6 +1,6 @@
 ﻿namespace AzureArtifact.Api.Abstractions.Transports.Artifacts;
 
-public class ArtifactRepository
+public class ArtifactRepositoryId
 {
 	/// <summary>
 	///     Project's name

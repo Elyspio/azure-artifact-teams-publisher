@@ -14,15 +14,15 @@ using System.Collections.Concurrent;
 
 namespace AzureArtifact.Api.Core.Services;
 
-public class ArtefactService : BaseService, IArtefactService
+public class ArtifactService : BaseService, IArtifactService
 {
 	private readonly ArtifactAssembler _artifactAssembler = new();
 	private readonly IArtifactRepository _artifactRepository;
 	private readonly AzureDevopsAdapter _devopsAdapter;
-	private readonly ILogger<ArtefactService> _logger;
+	private readonly ILogger<ArtifactService> _logger;
 	private readonly IHubContext<UpdateHub, IUpdateHub> _updateHub;
 
-	public ArtefactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtefactService> logger, AzureDevopsAdapter devopsAdapter,
+	public ArtifactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtifactService> logger, AzureDevopsAdapter devopsAdapter,
 		IHubContext<UpdateHub, IUpdateHub> updateHub) :
 		base(tokenRepository, logger)
 	{
@@ -69,7 +69,7 @@ public class ArtefactService : BaseService, IArtefactService
 
 		await Parallel.ForEachAsync(entities, async (entity, _) =>
 		{
-			var artifact = await _devopsAdapter.GetArtifact(new ArtifactInfo
+			var artifact = await _devopsAdapter.GetArtifact(new()
 			{
 				Name = entity.Name,
 				Feed = entity.Feed,

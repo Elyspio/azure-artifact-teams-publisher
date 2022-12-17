@@ -10,7 +10,7 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 {
 	public override Token Convert(TokenEntity obj)
 	{
-		return new Token
+		return new()
 		{
 			Id = obj.Id.AsGuid(),
 			Pat = obj.Pat,
@@ -29,7 +29,7 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 
 	public override TokenEntity Convert(Token obj)
 	{
-		return new TokenEntity
+		return new()
 		{
 			Id = obj.Id.AsObjectId(),
 			Pat = obj.Pat,

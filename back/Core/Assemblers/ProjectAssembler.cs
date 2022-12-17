@@ -8,7 +8,7 @@ public class ProjectAssembler : BaseAssembler<Project, ProjectEntity>
 {
 	public override Project Convert(ProjectEntity obj)
 	{
-		return new Project
+		return new()
 		{
 			Organisation = obj.Organisation,
 			Name = obj.Name,

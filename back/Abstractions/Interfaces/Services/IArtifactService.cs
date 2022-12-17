@@ -2,7 +2,7 @@
 
 namespace AzureArtifact.Api.Abstractions.Interfaces.Services;
 
-public interface IArtefactService
+public interface IArtifactService
 {
 	Task<Artifact> Add(ArtifactBase artifact);
 	Task<List<Artifact>> GetAll(string organisation);
