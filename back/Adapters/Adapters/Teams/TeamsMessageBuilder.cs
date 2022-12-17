@@ -4,6 +4,7 @@ namespace AzureArtifact.Api.Adapters.Adapters.Teams;
 
 internal class TeamsMessageBuilder
 {
+	private readonly List<string> _actions = new();
 	private readonly List<string> _body = new();
 	private readonly HashSet<Mention> _mentions = new();
 
@@ -32,6 +33,19 @@ internal class TeamsMessageBuilder
 				{{string.Join(',', dictionary.Select(Stringify))}}
 		      ]
 		    }		
+		""");
+
+		return this;
+	}
+
+	public TeamsMessageBuilder AddOpenLinkAction(string label, string link)
+	{
+		_actions.Add($$"""
+			{
+		      "type": "Action.OpenUrl",
+		      "title": "{{label}}",
+		      "url": "{{link}}"
+			}
 		""");
 
 		return this;
@@ -79,7 +93,10 @@ internal class TeamsMessageBuilder
 								"entities": [
 									{{string.Join(',', _mentions)}}
 								]
-							}
+							},
+							"actions": [
+								{{string.Join(',', _actions)}}
+							]
 						}
 					}
 				]

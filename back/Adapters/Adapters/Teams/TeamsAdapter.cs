@@ -33,7 +33,11 @@ public class TeamsAdapter
 			pair => string.Join(", ", pair.Value.Select(user => builder.Stringify(user)))
 		);
 
-		builder.AddDictionary(relatedProjectDict);
+		builder.AddDictionary(relatedProjectDict)
+			.AddOpenLinkAction(
+				"Ouvrir dans Azure DevOps",
+				$"https://dev.azure.com/{artifact.Organisation}/Templates%20SARA/_packaging?_a=package&feed={artifact.Feed}&package={artifact.Name}&protocolType={artifact.Protocol}&version={artifact.LatestVersion}"
+			);
 
 		var json = builder.Build();
 
@@ -43,4 +47,4 @@ public class TeamsAdapter
 
 		response.EnsureSuccessStatusCode();
 	}
-} 
+}
