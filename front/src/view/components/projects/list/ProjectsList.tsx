@@ -4,9 +4,6 @@ import TreeView from "@mui/lab/TreeView";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { Stack } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
 import { Project, Repository } from "../../../../core/apis/backend/generated";
 import { setSelectedProject, setSelectedRepo } from "../../../../store/module/projects/projects.actions";
 import { AlterProject } from "../alter/AlterProject";
@@ -51,13 +48,7 @@ export function ProjectsList() {
 									labelIcon={RepositoryIconComponent}
 									labelText={repo.name}
 									nodeId={repo.name}
-									endIcon={
-										<Stack direction={"row"} mr={4}>
-											<IconButton size={"small"} onClick={editMaintainers(project, repo)}>
-												<Edit color={"secondary"} />
-											</IconButton>
-										</Stack>
-									}
+									onClick={editMaintainers(project, repo)}
 								/>
 							))}
 					</StyledTreeItem>

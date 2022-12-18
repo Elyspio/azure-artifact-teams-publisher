@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setOrganisation } from "./azure.actions";
-
-export type AzureState = {
-	organisation: string;
-};
+import { AzureState } from "./azure.types";
 
 const initialState: AzureState = {
 	organisation: "coexya-swl-sante",

@@ -5,7 +5,7 @@ import { SearchArtifact } from "./SearchArtifact";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { useTheme } from "@mui/styles";
 import { bindActionCreators } from "redux";
-import { manageArtifact } from "../../../../store/module/artifact/artifact.async.actions";
+import { manageArtifact } from "../../../../store/module/artifact/artifacts.async.actions";
 import { LinkProjects } from "./LinkProjects";
 import { ModalProps } from "../../projects/add/AddProject";
 

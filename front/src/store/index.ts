@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { themeReducer } from "./module/theme/theme.reducer";
 import { container } from "../core/di";
-import { artifactReducer } from "./module/artifact/artifact.reducer";
+import { artifactsReducer } from "./module/artifact/artifacts.reducer";
 import { projectsReducer } from "./module/projects/projects.reducer";
 import { azureReducer } from "./module/azure/azure.reducer";
 import { usersReducer } from "./module/users/users.reducer";
@@ -10,7 +10,7 @@ import { usersReducer } from "./module/users/users.reducer";
 const store = configureStore({
 	reducer: {
 		theme: themeReducer,
-		artifacts: artifactReducer,
+		artifacts: artifactsReducer,
 		azure: azureReducer,
 		projects: projectsReducer,
 		users: usersReducer,

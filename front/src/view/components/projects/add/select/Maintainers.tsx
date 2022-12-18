@@ -37,13 +37,11 @@ export function Maintainers() {
 				sx={{ width: "100%" }}
 				aria-labelledby="nested-list-subheader"
 				subheader={
-					<Stack direction={"row"} spacing={3} alignItems={"center"}>
-						<Typography variant={"overline"} fontSize={"large"}>
-							Maintainers
-						</Typography>
+					<Stack direction={"row"} spacing={2.5} alignItems={"center"}>
+						<Typography variant={"overline"}>Référents</Typography>
 						<Box>
-							<IconButton color={"primary"} size={"small"} onClick={setOpen} sx={{ border: "1px solid currentColor" }}>
-								<Add />
+							<IconButton color={"primary"} size={"small"} onClick={setOpen}>
+								<Add fontSize={"small"} />
 							</IconButton>
 						</Box>
 					</Stack>
@@ -53,12 +51,12 @@ export function Maintainers() {
 					<ListItem
 						key={user.id}
 						secondaryAction={
-							<IconButton onClick={deleteMaintainer(user)}>
-								<DeleteForever color={"error"} />
+							<IconButton size={"small"} onClick={deleteMaintainer(user)}>
+								<DeleteForever fontSize={"small"} color={"error"} />
 							</IconButton>
 						}
 					>
-						<Typography sx={{ opacity: 0.9 }} fontSize={"medium"}>
+						<Typography sx={{ opacity: 0.9 }} fontSize={"smaller"}>
 							{user.name}
 						</Typography>
 					</ListItem>

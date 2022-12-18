@@ -52,10 +52,14 @@ public class ServerBuilder
 
 		// Setup Logging
 		builder.Host.UseSerilog((_, lc) => lc
-			.Enrich.FromLogContext()
+			.ReadFrom.Configuration(builder.Configuration)
 			.MinimumLevel.Debug()
-			.WriteTo.Console(LogEventLevel.Verbose, "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext:l} -- {Message}{NewLine}{Exception}")
+			.Enrich.FromLogContext()
+			.Filter.ByExcluding(@event => @event.Level == LogEventLevel.Debug && @event.Properties["SourceContext"].ToString().Contains("Microsoft.AspNetCore"))
+			.WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext:l} -- {Message}{NewLine}{Exception}")
 		);
+
+
 		builder.Services.AddModule<AdapterModule>(builder.Configuration);
 		builder.Services.AddModule<CoreModule>(builder.Configuration);
 		builder.Services.AddModule<DatabaseModule>(builder.Configuration);

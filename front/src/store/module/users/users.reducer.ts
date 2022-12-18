@@ -1,12 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserData } from "../../../core/apis/backend/generated";
 import { searchUsers } from "./users.async.actions";
+import { UserState } from "./users.types";
 
-export type ArtifactState = {
-	all: UserData[];
-};
-
-const initialState: ArtifactState = {
+const initialState: UserState = {
 	all: [],
 };
 

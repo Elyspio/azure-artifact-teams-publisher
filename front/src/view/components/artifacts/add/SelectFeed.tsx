@@ -3,7 +3,7 @@ import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { AzureFeed } from "../../../../core/apis/backend/generated";
-import { setSelectedFeed } from "../../../../store/module/artifact/artifact.actions";
+import { setSelectedFeed } from "../../../../store/module/artifact/artifacts.actions";
 
 export function SelectFeed() {
 	const feeds = useAppSelector((s) => s.artifacts.feeds);

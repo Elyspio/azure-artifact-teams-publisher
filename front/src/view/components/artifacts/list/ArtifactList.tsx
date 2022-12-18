@@ -11,13 +11,22 @@ import { Artifact, ArtifactProtocol } from "../../../../core/apis/backend/genera
 import { AddArtifacts } from "../add/AddArtifacts";
 import { AlterArtifact } from "../alter/AlterArtifact";
 import { ArtifactIconComponent, NpmIconComponent, NugetIconComponent } from "../../../icons/Icon";
+import { Chip } from "@mui/material";
 
 export function ArtifactList() {
 	const { managedArtifacts, feeds } = useAppSelector((s) => ({ managedArtifacts: s.artifacts.managed, feeds: s.artifacts.feeds }));
 
 	const [selectedArtifact, setSelectedArtifact] = useState<Artifact>();
 
-	const allArtifacts = useMemo(() => groupBy([...managedArtifacts], "feed"), [managedArtifacts]);
+	const allArtifacts = useMemo(() => {
+		const ret = groupBy([...managedArtifacts], "feed");
+
+		Object.keys(ret).forEach((key) => {
+			ret[key].sort((a, b) => a.name.localeCompare(b.name));
+		});
+
+		return ret;
+	}, [managedArtifacts]);
 
 	const dispatch = useAppDispatch();
 
@@ -43,7 +52,11 @@ export function ArtifactList() {
 								<StyledTreeItem
 									key={artifact.id}
 									labelIcon={artifact.protocol === ArtifactProtocol.Npm ? NpmIconComponent : NugetIconComponent}
-									labelText={artifact.name}
+									labelText={
+										<span>
+											{artifact.name} <Chip component={"span"} size={"small"} label={artifact.latestVersion} />
+										</span>
+									}
 									nodeId={artifact.id}
 									level={1}
 									onClick={editArtifact(artifact)}

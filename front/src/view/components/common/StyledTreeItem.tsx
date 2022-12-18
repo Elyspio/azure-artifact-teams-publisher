@@ -1,5 +1,5 @@
 import TreeItem, { treeItemClasses, TreeItemProps } from "@mui/lab/TreeItem";
-import React from "react";
+import React, { ReactNode } from "react";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -77,6 +77,6 @@ type StyledTreeItemProps = TreeItemProps & {
 	color?: string;
 	labelIcon: React.ElementType<SvgIconProps>;
 	labelInfo?: string;
-	labelText: string;
+	labelText: ReactNode;
 	level?: 0 | number;
 };

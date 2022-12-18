@@ -1,18 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Artifact, ArtifactBase, AzureFeed } from "../../../core/apis/backend/generated";
-import { setSelectedArtifact, setSelectedFeed, setSelectedNotifies, updateLocalManagedArtifact } from "./artifact.actions";
-import { getFeeds, getManagedArtifacts, searchArtifacts } from "./artifact.async.actions";
-
-export type ArtifactState = {
-	feeds: AzureFeed[];
-	searchResult: ArtifactBase[];
-	managed: Artifact[];
-
-	selected: {
-		feed?: AzureFeed;
-		artifact?: ArtifactBase;
-	};
-};
+import { deleteLocalArtifact, setSelectedArtifact, setSelectedFeed, setSelectedNotifies, updateLocalManagedArtifact } from "./artifacts.actions";
+import { getFeeds, getManagedArtifacts, searchArtifacts } from "./artifacts.async.actions";
+import { ArtifactState } from "./artifacts.types";
 
 const initialState: ArtifactState = {
 	feeds: [],
@@ -56,7 +45,11 @@ const slice = createSlice({
 			state.managed = state.managed.filter((artifact) => artifact.id !== action.payload.id);
 			state.managed.push(action.payload);
 		});
+
+		addCase(deleteLocalArtifact, (state, action) => {
+			state.managed = state.managed.filter((artifact) => artifact.id !== action.payload);
+		});
 	},
 });
 
-export const artifactReducer = slice.reducer;
+export const artifactsReducer = slice.reducer;

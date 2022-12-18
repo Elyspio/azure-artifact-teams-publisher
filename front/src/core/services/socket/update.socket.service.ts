@@ -6,6 +6,8 @@ import { injectable } from "inversify";
 interface UpdateHub extends HubConnection {
 	on(event: "ArtifactUpdated", callback: (artifact: Artifact) => void);
 
+	on(event: "ArtifactDeleted", callback: (idArtifact: Artifact["id"]) => void);
+
 	on(event: "ProjectUpdated", callback: (project: Project) => void);
 }
 

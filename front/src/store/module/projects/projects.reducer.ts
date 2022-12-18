@@ -1,15 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Project, Repository } from "../../../core/apis/backend/generated";
 import { getProjects } from "./projects.async.actions";
 import { setSelectedProject, setSelectedRepo, updateProject } from "./projects.actions";
-
-export type ProjectState = {
-	all: Record<Project["name"], Project>;
-	selected: {
-		project?: Project["name"];
-		repository?: Repository["name"];
-	};
-};
+import { ProjectState } from "./projects.types";
 
 const initialState: ProjectState = {
 	all: {},

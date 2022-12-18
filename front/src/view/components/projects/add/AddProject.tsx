@@ -26,8 +26,8 @@ export function AddProject({ setClose, open }: ModalProps) {
 		<Dialog open={open} onClose={setClose}>
 			<DialogTitle> Ajouter une application</DialogTitle>
 			<DialogContent dividers>
-				<Stack p={2} m={1} spacing={4} alignItems={"center"}>
-					<Stack direction={"row"} spacing={2}>
+				<Stack p={2} m={1} spacing={4} alignItems={"center"} minWidth={350}>
+					<Stack spacing={2} width={"100%"}>
 						<SelectProjects />
 						{selected.project && <Repositories />}
 					</Stack>

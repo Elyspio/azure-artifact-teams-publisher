@@ -5,7 +5,7 @@ import { Box, Stack, TextField, Typography } from "@mui/material";
 import { ArtifactRepository } from "../../../../core/apis/backend/generated";
 import { Add, Clear } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-import { setSelectedNotifies } from "../../../../store/module/artifact/artifact.actions";
+import { setSelectedNotifies } from "../../../../store/module/artifact/artifacts.actions";
 
 export function LinkProjects() {
 	const dispatch = useAppDispatch();

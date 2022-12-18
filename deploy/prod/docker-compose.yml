@@ -3,6 +3,7 @@ services:
     coexya-azure-artifact-teams-publisher:
         container_name: coexya-azure-artifact-teams-publisher
         image: elyspio/azure-artifact-teams-publisher
+        restart: always
         volumes:
             - "./config/front/conf.js:/back/wwwroot/conf.js"
             - "./config/back/appsettings.json:/back/appsettings.json"

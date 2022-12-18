@@ -13,18 +13,6 @@ export const getProjects = createAsyncThunk("projects/getAvailableProjects", (_,
 	return project.getAllProjects(organisation);
 });
 
-export const refreshProjects = createAsyncThunk("projects/getAvailableProjects", async (_, { extra, getState, dispatch }) => {
-	const project = getService(ProjectService, extra);
-
-	const {
-		azure: { organisation },
-	} = getState() as StoreState;
-
-	await project.refreshProjects(organisation);
-
-	dispatch(getProjects());
-});
-
 export const addMaintainer = createAsyncThunk("projects/addMaintainer", async (user: UserData, { extra, getState, dispatch }) => {
 	const projectService = getService(ProjectService, extra);
 
@@ -45,8 +33,6 @@ export const addMaintainer = createAsyncThunk("projects/addMaintainer", async (u
 		});
 
 		await projectService.setRepositoryMaintainers(organisation, repository.id, Object.values(maintainers));
-
-		await dispatch(getProjects());
 	}
 });
 
@@ -66,8 +52,6 @@ export const removeMaintainer = createAsyncThunk("projects/addMaintainer", async
 			repository.id,
 			repository.maintainers.filter((user) => user.id !== idUser)
 		);
-
-		await dispatch(getProjects());
 	}
 });
 
@@ -85,5 +69,20 @@ export const addSelectedProject = createAsyncThunk("projects/addSelectedProject"
 		await projectService.setRepositoryMaintainers(organisation, repository.id, repository.maintainers);
 
 		await dispatch(getProjects());
+	}
+});
+
+export const deleteProject = createAsyncThunk("projects/deleteProject", async (_, { getState, extra }) => {
+	const projectService = getService(ProjectService, extra);
+
+	const {
+		azure: { organisation },
+		projects: { all, selected },
+	} = getState() as StoreState;
+
+	if (selected.project && selected.repository) {
+		let repository = all[selected.project!].repositories.find((repo) => repo.name === selected.repository)!;
+
+		await projectService.setRepositoryMaintainers(organisation, repository.id, []);
 	}
 });

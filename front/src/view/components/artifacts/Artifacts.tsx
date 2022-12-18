@@ -30,7 +30,7 @@ export function Artifacts({}: ArtifactProps) {
 				<Divider flexItem />
 
 				<Stack alignItems={"flex-end"}>
-					<Button variant={"outlined"} color={"success"} onClick={setOpen}>
+					<Button variant={"outlined"} color={"primary"} onClick={setOpen}>
 						Ajouter
 					</Button>
 				</Stack>

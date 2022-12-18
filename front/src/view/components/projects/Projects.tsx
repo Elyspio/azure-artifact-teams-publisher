@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Button, Divider, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
-import { getProjects, removeMaintainer } from "../../../store/module/projects/projects.async.actions";
-import { UserData } from "../../../core/apis/backend/generated";
+import { getProjects } from "../../../store/module/projects/projects.async.actions";
 import { useModal } from "../../hooks/useModal";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { ProjectsList } from "./list/ProjectsList";
 import { AddProject } from "./add/AddProject";
+import { setSelectedProject } from "../../../store/module/projects/projects.actions";
+import { setSelectedArtifact } from "../../../store/module/artifact/artifacts.actions";
 
 export function Projects() {
 	const { allProjects } = useAppSelector((s) => ({
@@ -17,14 +18,13 @@ export function Projects() {
 
 	const { open, setOpen, setClose } = useModal();
 
-	const actions = useActions({ removeMaintainer });
+	const actions = useActions({ setSelectedProject, setSelectedArtifact });
 
-	const deleteMaintainer = React.useCallback(
-		(user: UserData) => () => {
-			actions.removeMaintainer(user.id);
-		},
-		[actions]
-	);
+	const addProject = React.useCallback(() => {
+		actions.setSelectedProject();
+		actions.setSelectedArtifact();
+		setOpen();
+	}, [actions, setOpen]);
 
 	useEffect(() => {
 		dispatch(getProjects());
@@ -48,7 +48,7 @@ export function Projects() {
 				<Divider flexItem />
 
 				<Stack alignItems={"flex-end"}>
-					<Button variant={"outlined"} color={"success"} onClick={setOpen}>
+					<Button variant={"outlined"} color={"primary"} onClick={addProject}>
 						Ajouter
 					</Button>
 				</Stack>

@@ -9,3 +9,4 @@ export const setSelectedArtifact = createAction<ArtifactBase | undefined>("setSe
 export const setSelectedNotifies = createAction<ArtifactRepository[]>("setSelectedNotifies");
 
 export const updateLocalManagedArtifact = createAction<Artifact>("updateLocalManagedArtifact");
+export const deleteLocalArtifact = createAction<Artifact["id"]>("deleteLocalArtifact");

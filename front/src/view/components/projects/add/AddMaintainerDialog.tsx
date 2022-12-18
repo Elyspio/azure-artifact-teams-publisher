@@ -45,13 +45,13 @@ export function AddMaintainerDialog({ setClose, open }: AddMaintainerDialogProps
 
 	return (
 		<Dialog open={open} onClose={setClose} fullWidth maxWidth={"xs"}>
-			<DialogTitle>Add Maintainer</DialogTitle>
+			<DialogTitle>Ajouter un référent</DialogTitle>
 			<DialogContent dividers>
 				<Autocomplete
 					onChange={onSelect}
-					renderInput={(params) => <TextField {...params} label={"Name or email"} helperText={"Enter user's name or mail"} onChange={search} />}
+					renderInput={(params) => <TextField {...params} label={"Prénom ou nom"} onChange={search} />}
 					options={usersSorted}
-					noOptionsText={"Enter first letters"}
+					noOptionsText={"Entrer les premières lettres"}
 					getOptionLabel={(option) => option.name}
 				/>
 			</DialogContent>

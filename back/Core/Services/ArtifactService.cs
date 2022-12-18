@@ -33,10 +33,9 @@ public class ArtifactService : BaseService, IArtifactService
 		_logger = logger;
 		_devopsAdapter = devopsAdapter;
 		_updateHub = updateHub;
-		
+
 		var ignoredVersionsRaw = configuration.GetSection("IgnoredVersions").Get<string[]>() ?? Array.Empty<string>();
 		_ignoredVersions = ignoredVersionsRaw.Select(str => new Regex(str)).ToList();
-
 	}
 
 
@@ -93,11 +92,7 @@ public class ArtifactService : BaseService, IArtifactService
 
 			var latestVersion = artifact.Versions.First(version => version.IsLatest).Version;
 
-			if (_ignoredVersions.All(regex => !regex.IsMatch(latestVersion)) && latestVersion != entity.LatestVersion)
-			{
-				newArtifacts[_artifactAssembler.Convert(entity)] = latestVersion;
-			}
- 			
+			if (_ignoredVersions.All(regex => !regex.IsMatch(latestVersion)) && latestVersion != entity.LatestVersion) newArtifacts[_artifactAssembler.Convert(entity)] = latestVersion;
 		});
 
 
@@ -111,6 +106,8 @@ public class ArtifactService : BaseService, IArtifactService
 		var logger = _logger.Enter($"{Log.Format(organisation)} {Log.Format(id)}");
 
 		await _artifactRepository.Delete(id);
+
+		await _updateHub.Clients.All.ArtifactDeleted(id);
 
 		logger.Exit();
 	}

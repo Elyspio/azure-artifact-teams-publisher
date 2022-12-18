@@ -1,17 +1,17 @@
 import React, { useCallback, useMemo } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
 import { Artifact, ArtifactRepository, Project } from "../../../../core/apis/backend/generated";
 import { NpmIconComponent, NugetIconComponent } from "../../../icons/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { updateManagedArtifact } from "../../../../store/module/artifact/artifact.async.actions";
+import { deleteManagedArtifact, updateManagedArtifact } from "../../../../store/module/artifact/artifacts.async.actions";
 
 type AddProjectProps = {
 	data?: Artifact;
 	setData: React.Dispatch<React.SetStateAction<Artifact | undefined>>;
 };
 
-const getRepoId = (repo: ArtifactRepository) => `${repo.project}.${repo.repository}`;
+const getRepoId = (repo: ArtifactRepository) => `${repo.repository}`;
 
 const getArtifactRepositories = (project: Project) => {
 	const ret: ArtifactRepository[] = [];
@@ -51,43 +51,61 @@ export function AlterArtifact({ data, setData }: AddProjectProps) {
 		setClose();
 	}, [dispatch, data, setClose]);
 
+	const del = useCallback(async () => {
+		await dispatch(deleteManagedArtifact(data!));
+		setClose();
+	}, [dispatch, data, setClose]);
+
 	if (!data) return null;
 
 	return (
 		<Dialog open={true} onClose={setClose}>
 			<DialogTitle> Modifier un artéfact</DialogTitle>
 			<DialogContent dividers sx={{ minWidth: 400 }}>
-				<Stack m={2} spacing={2}>
+				<Stack m={2} spacing={1.2}>
 					<Stack direction={"row"} spacing={2} alignItems={"center"}>
-						<Typography variant={"overline"}>Feed:</Typography>
-						<Typography>{data.feed}</Typography>
+						<Typography variant={"overline"}>Feed :</Typography>
+						<Typography variant={"body2"}>{data.feed}</Typography>
 					</Stack>
 
 					<Stack direction={"row"} spacing={2} alignItems={"center"}>
-						<Typography variant={"overline"}>Nom:</Typography>
-						<Typography>{data.name}</Typography>
+						<Typography variant={"overline"}>Nom :</Typography>
+						<Typography variant={"body2"}>{data.name}</Typography>
 					</Stack>
 
 					<Stack direction={"row"} spacing={2} alignItems={"center"}>
-						<Typography variant={"overline"}>Protocol:</Typography>
-						{data.protocol === "Npm" ? <NpmIconComponent style={{ height: 40, width: 40 }} /> : <NugetIconComponent style={{ height: 40, width: 40 }} />}
+						<Typography variant={"overline"}>Protocole :</Typography>
+						{data.protocol === "Npm" ? <NpmIconComponent style={{ height: 32, width: 32 }} /> : <NugetIconComponent style={{ height: 25, width: 25 }} />}
 					</Stack>
 
-					<Autocomplete
-						multiple
-						renderInput={(params) => <TextField {...params} label={"Project related"} />}
-						getOptionLabel={getRepoId}
-						value={data.notifies}
-						options={projectArtifact}
-						onChange={updateRepositories}
-						isOptionEqualToValue={(option, value) => getRepoId(option) === getRepoId(value)}
-					/>
+					<Stack direction={"row"} spacing={2} alignItems={"center"}>
+						<Typography variant={"overline"}>Version :</Typography>
+						<Typography variant={"body2"}>{data.latestVersion}</Typography>
+					</Stack>
+
+					<Box pt={2}>
+						<Autocomplete
+							multiple
+							renderInput={(params) => <TextField {...params} helperText={"Seul les projets avec des référents sont affichés"} label={"Projets concernés"} />}
+							getOptionLabel={getRepoId}
+							value={data.notifies}
+							options={projectArtifact}
+							onChange={updateRepositories}
+							isOptionEqualToValue={(option, value) => getRepoId(option) === getRepoId(value)}
+						/>
+					</Box>
 				</Stack>
 			</DialogContent>
 			<DialogActions>
-				<Button variant={"outlined"} color={"success"} onClick={update}>
-					Valider
-				</Button>
+				<Stack direction={"row"} spacing={2}>
+					<Button variant={"outlined"} color={"error"} onClick={del}>
+						Supprimer
+					</Button>
+
+					<Button variant={"outlined"} color={"success"} onClick={update}>
+						Valider
+					</Button>
+				</Stack>
 			</DialogActions>
 		</Dialog>
 	);

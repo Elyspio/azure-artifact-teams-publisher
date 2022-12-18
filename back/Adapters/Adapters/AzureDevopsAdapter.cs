@@ -33,12 +33,16 @@ public class AzureDevopsAdapter
 		var logger = _logger.Enter($"{Log.Format(info.Organisation)} {Log.Format(info.Feed)} {Log.Format(info.Name)} {Log.Format(pat.IsNullOrEmpty())}");
 		using var client = GetAzureClient(pat);
 
-		var responseBody = await client.GetStringAsync(
-			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.Feed}/Packages?packageNameQuery={info.Name}&includeDescription=true&%24top=100&includeDeleted=true&includeAllVersions=true&isRelease=false"
+		var response = await client.GetAsync(
+			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.Feed}/Packages?packageNameQuery={info.Name}&top=100&includeDeleted=true&includeAllVersions=true"
 		);
 
+		var content = await response.Content.ReadAsStringAsync();
 
-		var artifacts = JsonConvert.DeserializeObject<AzureArtifacts>(responseBody) ?? new AzureArtifacts();
+		response.EnsureSuccessStatusCode();
+
+
+		var artifacts = JsonConvert.DeserializeObject<AzureArtifacts>(content) ?? new AzureArtifacts();
 
 		var azureArtifact = artifacts.Value.FirstOrDefault(artifact => artifact.Name == info.Name);
 

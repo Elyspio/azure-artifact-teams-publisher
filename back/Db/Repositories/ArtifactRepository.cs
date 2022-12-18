@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using System.Security;
 
 namespace AzureArtifact.Api.Db.Repositories;
 
@@ -41,7 +42,8 @@ internal class ArtifactRepository : BaseRepository<ArtifactEntity>, IArtifactRep
 
 	public async Task Delete(Guid id)
 	{
-		await EntityCollection.DeleteOneAsync(artifact => artifact.Id == id.AsObjectId());
+		var result = await EntityCollection.DeleteOneAsync(artifact => artifact.Id == id.AsObjectId());
+		if (result.DeletedCount == 0) throw new VerificationException("None artifact was removed");
 	}
 
 	public async Task<ArtifactEntity> Update(Guid id, ArtifactBase artifact)

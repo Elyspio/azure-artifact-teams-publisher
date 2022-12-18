@@ -3,8 +3,8 @@ import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { ArtifactBase } from "../../../../core/apis/backend/generated";
-import { searchArtifacts } from "../../../../store/module/artifact/artifact.async.actions";
-import { setSelectedArtifact } from "../../../../store/module/artifact/artifact.actions";
+import { searchArtifacts } from "../../../../store/module/artifact/artifacts.async.actions";
+import { setSelectedArtifact } from "../../../../store/module/artifact/artifacts.actions";
 
 export function SearchArtifact() {
 	const dispatch = useAppDispatch();
