@@ -34,7 +34,7 @@ public class AzureDevopsAdapter
 		using var client = GetAzureClient(pat);
 
 		var responseBody = await client.GetStringAsync(
-			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.Feed}/Packages?packageNameQuery={info.Name}&includeDescription=true&%24top=100&includeDeleted=true"
+			$" https://feeds.dev.azure.com/{info.Organisation}/_apis/Packaging/Feeds/{info.Feed}/Packages?packageNameQuery={info.Name}&includeDescription=true&%24top=100&includeDeleted=true&includeAllVersions=true&isRelease=false"
 		);
 
 

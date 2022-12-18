@@ -9,8 +9,10 @@ using AzureArtifact.Api.Core.Assemblers;
 using AzureArtifact.Api.Core.Services.Internal;
 using AzureArtifact.Api.Sockets.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace AzureArtifact.Api.Core.Services;
 
@@ -19,17 +21,22 @@ public class ArtifactService : BaseService, IArtifactService
 	private readonly ArtifactAssembler _artifactAssembler = new();
 	private readonly IArtifactRepository _artifactRepository;
 	private readonly AzureDevopsAdapter _devopsAdapter;
+	private readonly IList<Regex> _ignoredVersions;
 	private readonly ILogger<ArtifactService> _logger;
 	private readonly IHubContext<UpdateHub, IUpdateHub> _updateHub;
 
 	public ArtifactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtifactService> logger, AzureDevopsAdapter devopsAdapter,
-		IHubContext<UpdateHub, IUpdateHub> updateHub) :
+		IHubContext<UpdateHub, IUpdateHub> updateHub, IConfiguration configuration) :
 		base(tokenRepository, logger)
 	{
 		_artifactRepository = artifactRepository;
 		_logger = logger;
 		_devopsAdapter = devopsAdapter;
 		_updateHub = updateHub;
+		
+		var ignoredVersionsRaw = configuration.GetSection("IgnoredVersions").Get<string[]>() ?? Array.Empty<string>();
+		_ignoredVersions = ignoredVersionsRaw.Select(str => new Regex(str)).ToList();
+
 	}
 
 
@@ -85,7 +92,12 @@ public class ArtifactService : BaseService, IArtifactService
 			}
 
 			var latestVersion = artifact.Versions.First(version => version.IsLatest).Version;
-			if (latestVersion != entity.LatestVersion) newArtifacts[_artifactAssembler.Convert(entity)] = latestVersion;
+
+			if (_ignoredVersions.All(regex => !regex.IsMatch(latestVersion)) && latestVersion != entity.LatestVersion)
+			{
+				newArtifacts[_artifactAssembler.Convert(entity)] = latestVersion;
+			}
+ 			
 		});
 
 
