@@ -12,4 +12,6 @@ public class TokenBase
 	public required TokenExpiration Expiration { get; set; }
 
 	public required string Organisation { get; set; }
+
+	public required string Webhook { get; set; }
 }

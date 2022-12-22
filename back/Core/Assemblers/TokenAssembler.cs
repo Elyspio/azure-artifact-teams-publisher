@@ -23,7 +23,8 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 				TokenExpiration.Day60 => TimeSpan.FromDays(60),
 				TokenExpiration.Day90 => TimeSpan.FromDays(90),
 				_ => throw new ArgumentOutOfRangeException()
-			})
+			}),
+			Webhook = obj.Webhook
 		};
 	}
 
@@ -34,7 +35,8 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 			Id = obj.Id.AsObjectId(),
 			Pat = obj.Pat,
 			Expiration = obj.Expiration,
-			Organisation = obj.Organisation
+			Organisation = obj.Organisation,
+			Webhook = obj.Webhook
 		};
 	}
 }

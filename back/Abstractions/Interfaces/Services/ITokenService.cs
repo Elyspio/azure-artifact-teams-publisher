@@ -16,8 +16,9 @@ public interface ITokenService
 	///     Remplace le PAT utilisé pour faire les requêtes en direction d'Azure DevOps
 	/// </summary>
 	/// <param name="organisation"></param>
+	/// <param name="webhook"></param>
 	/// <param name="pat"></param>
 	/// <param name="expiration"></param>
 	/// <returns></returns>
-	Task SetToken(string organisation, string pat, TokenExpiration expiration);
+	Task SetToken(string organisation, string webhook, string pat, TokenExpiration expiration);
 }

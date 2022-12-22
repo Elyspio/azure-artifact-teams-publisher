@@ -31,11 +31,11 @@ public class TokenService : BaseService, ITokenService
 		return token;
 	}
 
-	public async Task SetToken(string organisation, string pat, TokenExpiration expiration)
+	public async Task SetToken(string organisation, string webhook, string pat, TokenExpiration expiration)
 	{
 		var logger = _logger.Enter(Log.Format(expiration));
 
-		await _tokenRepository.SetToken(organisation, pat, expiration);
+		await _tokenRepository.SetToken(organisation, webhook, pat, expiration);
 
 		logger.Exit();
 	}

@@ -30,7 +30,7 @@ public class TokenController : ControllerBase
 	[SwaggerResponse(HttpStatusCode.NoContent, typeof(void))]
 	public async Task<IActionResult> SetToken(string organisation, SetTokenRequest request)
 	{
-		await _tokenService.SetToken(organisation, request.Pat, request.Expiration);
+		await _tokenService.SetToken(organisation, request.Webhook, request.Pat, request.Expiration);
 		return NoContent();
 	}
 }

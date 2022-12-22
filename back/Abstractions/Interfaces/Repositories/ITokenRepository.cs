@@ -6,5 +6,5 @@ namespace AzureArtifact.Api.Abstractions.Interfaces.Repositories;
 public interface ITokenRepository
 {
 	Task<TokenEntity?> GetToken(string organisation);
-	Task<TokenEntity> SetToken(string organisation, string pat, TokenExpiration expiration);
+	Task<TokenEntity> SetToken(string organisation, string webhook, string pat, TokenExpiration expiration);
 }

@@ -20,14 +20,15 @@ internal class TokenRepository : BaseRepository<TokenEntity>, ITokenRepository
 		return await EntityCollection.AsQueryable().FirstOrDefaultAsync(token => token.Organisation == organisation);
 	}
 
-	public async Task<TokenEntity> SetToken(string organisation, string pat, TokenExpiration expiration)
+	public async Task<TokenEntity> SetToken(string organisation, string webhook, string pat, TokenExpiration expiration)
 	{
 		await EntityCollection.DeleteManyAsync(entity => true);
 		var entity = new TokenEntity
 		{
 			Pat = pat,
 			Expiration = expiration,
-			Organisation = organisation
+			Organisation = organisation,
+			Webhook = webhook
 		};
 
 		await EntityCollection.InsertOneAsync(entity);
