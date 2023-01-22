@@ -4,7 +4,7 @@ import { Projects } from "./projects/Projects";
 import { Artifacts } from "./artifacts/Artifacts";
 import { useAppDispatch } from "../../store";
 import { getFeeds, getManagedArtifacts } from "../../store/module/artifact/artifacts.async.actions";
-import { startSocket } from "../../store/module/azure/azure.actions";
+import { startSocket } from "../../store/common/common.action";
 
 export function Azure() {
 	const dispatch = useAppDispatch();

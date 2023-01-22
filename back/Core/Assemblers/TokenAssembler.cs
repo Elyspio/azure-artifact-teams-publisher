@@ -6,9 +6,9 @@ using AzureArtifact.Api.Abstractions.Transports.Token;
 
 namespace AzureArtifact.Api.Core.Assemblers;
 
-public class TokenAssembler : BaseAssembler<Token, TokenEntity>
+public class TokenAssembler : BaseAssembler<Config, ConfigEntity>
 {
-	public override Token Convert(TokenEntity obj)
+	public override Config Convert(ConfigEntity obj)
 	{
 		return new()
 		{
@@ -24,11 +24,12 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 				TokenExpiration.Day90 => TimeSpan.FromDays(90),
 				_ => throw new ArgumentOutOfRangeException()
 			}),
-			Webhook = obj.Webhook
+			Webhook = obj.Webhook,
+			IgnoredPattern = obj.IgnoredPattern
 		};
 	}
 
-	public override TokenEntity Convert(Token obj)
+	public override ConfigEntity Convert(Config obj)
 	{
 		return new()
 		{
@@ -36,7 +37,8 @@ public class TokenAssembler : BaseAssembler<Token, TokenEntity>
 			Pat = obj.Pat,
 			Expiration = obj.Expiration,
 			Organisation = obj.Organisation,
-			Webhook = obj.Webhook
+			Webhook = obj.Webhook,
+			IgnoredPattern = obj.IgnoredPattern
 		};
 	}
 }

@@ -21,9 +21,9 @@ public class ProjectService : BaseService, IProjectService
 	private readonly IProjectRepository _projectRepository;
 	private readonly IHubContext<UpdateHub, IUpdateHub> _updateHub;
 
-	public ProjectService(ITokenRepository tokenRepository, ILogger<ProjectService> logger, AzureDevopsAdapter devopsAdapter, IProjectRepository projectRepository,
+	public ProjectService(IConfigRepository configRepository, ILogger<ProjectService> logger, AzureDevopsAdapter devopsAdapter, IProjectRepository projectRepository,
 		IHubContext<UpdateHub, IUpdateHub> updateHub) :
-		base(tokenRepository, logger)
+		base(configRepository, logger)
 	{
 		_logger = logger;
 		_devopsAdapter = devopsAdapter;

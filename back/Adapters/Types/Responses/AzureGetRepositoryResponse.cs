@@ -18,4 +18,3 @@ public class AzureRepository
 	public required Uri WebUrl { get; set; }
 	public bool IsDisabled { get; set; }
 }
-

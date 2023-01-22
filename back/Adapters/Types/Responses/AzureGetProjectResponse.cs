@@ -27,5 +27,3 @@ public class AzureGetProjectsResponse
 		public DateTimeOffset LastUpdateTime { get; set; }
 	}
 }
-
-

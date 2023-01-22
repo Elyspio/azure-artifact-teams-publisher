@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Box, Stack, TextField, Typography } from "@mui/material";
-import { ArtifactRepository } from "../../../../core/apis/backend/generated";
+import { ArtifactRepositoryId } from "../../../../core/apis/backend/generated";
 import { Add, Clear } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { setSelectedNotifies } from "../../../../store/module/artifact/artifacts.actions";
@@ -14,15 +14,15 @@ export function LinkProjects() {
 		projects: s.projects.all,
 	}));
 
-	const [elems, setElems] = useState<ArtifactRepository[]>([]);
+	const [elems, setElems] = useState<ArtifactRepositoryId[]>([]);
 
 	const managedProjects = useMemo(() => Object.values(projects).filter((p) => p.repositories.some((r) => r.maintainers.length > 0)), [projects]);
 
 	const addElem = useCallback(() => setElems((prev) => [...prev, { project: "", repository: "" }]), []);
-	const deleteElem = useCallback((elem: ArtifactRepository) => () => setElems((prev) => prev.filter((e) => e.project !== elem.project)), []);
+	const deleteElem = useCallback((elem: ArtifactRepositoryId) => () => setElems((prev) => prev.filter((e) => e.project !== elem.project)), []);
 
 	const onChange = useCallback(
-		(kind: "project" | "repository", current: ArtifactRepository) => (e: React.SyntheticEvent, value: string | null) => {
+		(kind: "project" | "repository", current: ArtifactRepositoryId) => (e: React.SyntheticEvent, value: string | null) => {
 			setElems((prevState) => {
 				const others = prevState.filter((elem) => elem[kind] !== current[kind]);
 				const elem = { ...current };

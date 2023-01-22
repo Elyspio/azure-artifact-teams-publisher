@@ -6,8 +6,10 @@ import { toggleTheme } from "../../store/module/theme/theme.action";
 import { createDrawerAction, withDrawer } from "./common/drawer/Drawer.hoc";
 import { Box } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { DarkMode, LightMode } from "@mui/icons-material";
+import { DarkMode, Edit, LightMode, Settings } from "@mui/icons-material";
 import { Azure } from "./Azure";
+import { toggleModal } from "../../store/module/workflow/workflow.reducer";
+import { EditConfigModal } from "./actions/edit-config/EditConfigModal";
 
 function Application() {
 	const dispatch = useDispatch();
@@ -23,12 +25,30 @@ function Application() {
 				icon: themeIcon,
 				onClick: () => dispatch(toggleTheme()),
 			}),
+			createDrawerAction("Configure", {
+				icon: <Settings />,
+				onClick: () => dispatch(toggleModal("editConfig")),
+			}),
 		],
 		[dispatch]
 	);
 
+	const actionsComponents = useMemo(
+		() => (
+			<>
+				<EditConfigModal />
+			</>
+		),
+		[]
+	);
+
 	const drawer = withDrawer({
-		component: <Azure />,
+		component: (
+			<>
+				<Azure />
+				{actionsComponents}
+			</>
+		),
 		actions,
 		title: "Azure",
 	});

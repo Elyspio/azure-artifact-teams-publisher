@@ -11,35 +11,35 @@ public class BaseService
 {
 	private readonly ILogger<BaseService> _logger;
 	private readonly TokenAssembler _tokenAssembler = new();
-	private readonly ITokenRepository _tokenRepository;
+	private readonly IConfigRepository _configRepository;
 
 
-	protected BaseService(ITokenRepository tokenRepository, ILogger<BaseService> logger)
+	protected BaseService(IConfigRepository configRepository, ILogger<BaseService> logger)
 	{
-		_tokenRepository = tokenRepository;
+		_configRepository = configRepository;
 		_logger = logger;
 	}
 
-	async protected Task<Token?> GetToken(string organisation)
+	async protected Task<Config?> GetToken(string organisation)
 	{
 		var logger = _logger.Enter();
 
-		var token = await _tokenRepository.GetToken(organisation);
+		var token = await _configRepository.GetToken(organisation);
 
 		logger.Exit();
 
 		return token is null ? null : _tokenAssembler.Convert(token);
 	}
 
-	async protected Task<Token> RequiredToken(string organisation)
+	async protected Task<Config> RequiredToken(string organisation)
 	{
 		var logger = _logger.Enter();
 		var token = await GetToken(organisation);
 
 		if (token is null)
 		{
-			logger.Error("Aucun token n'est inscrit en base de données");
-			throw new AuthenticationException("Aucun token n'est inscrit en base de données");
+			logger.Error("Aucun config n'est inscrit en base de données");
+			throw new AuthenticationException("Aucun config n'est inscrit en base de données");
 		}
 
 		logger.Exit();

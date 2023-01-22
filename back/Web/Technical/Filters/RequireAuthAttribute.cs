@@ -12,7 +12,7 @@ namespace AzureArtifact.Api.Web.Technical.Filters;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class RequireAuthAttribute : ActionFilterAttribute
 {
-	private const string AuthenticationTokenField = "authentication-token";
+	private const string AuthenticationTokenField = "authentication-config";
 
 
 	public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -32,7 +32,7 @@ public class RequireAuthAttribute : ActionFilterAttribute
 
 		if (token == default)
 		{
-			context.Result = new UnauthorizedObjectResult("Token not found");
+			context.Result = new UnauthorizedObjectResult("Config not found");
 			return;
 		}
 
@@ -68,7 +68,7 @@ public class RequireAuthAttribute : ActionFilterAttribute
 					Kind = OpenApiParameterKind.Header,
 					IsRequired = false,
 					AllowEmptyValue = true,
-					Description = "Authentication Token",
+					Description = "Authentication Config",
 					Schema = new()
 					{
 						Type = JsonObjectType.String
@@ -82,7 +82,7 @@ public class RequireAuthAttribute : ActionFilterAttribute
 					Kind = OpenApiParameterKind.Cookie,
 					IsRequired = false,
 					AllowEmptyValue = true,
-					Description = "Authentication Token",
+					Description = "Authentication Config",
 					Schema = new()
 					{
 						Type = JsonObjectType.String

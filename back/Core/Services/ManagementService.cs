@@ -17,7 +17,7 @@ public class ManagementService : BaseService, IManagementService
 	private readonly TeamsAdapter _teamsAdapter;
 
 	public ManagementService(IArtifactService artifactService, IProjectRepository projectRepository, TeamsAdapter teamsAdapter, ILogger<ManagementService> logger,
-		ITokenRepository tokenRepository) : base(tokenRepository, logger)
+		IConfigRepository configRepository) : base(configRepository, logger)
 	{
 		_artifactService = artifactService;
 		_projectRepository = projectRepository;
@@ -47,7 +47,7 @@ public class ManagementService : BaseService, IManagementService
 		logger.Exit();
 	}
 
-	private async Task HandleArtifactNewVersion(KeyValuePair<Artifact, string> pair, Token token)
+	private async Task HandleArtifactNewVersion(KeyValuePair<Artifact, string> pair, Config config)
 	{
 		var artifact = pair.Key;
 		var newVersion = pair.Value;
@@ -59,7 +59,7 @@ public class ManagementService : BaseService, IManagementService
 		artifact.LatestVersion = newVersion;
 		await _artifactService.Update(artifact.Id, artifact);
 
-		await _teamsAdapter.Notify(token.Webhook, artifact, maintainers);
+		await _teamsAdapter.Notify(config.Webhook, artifact, maintainers);
 
 		logger.Exit();
 	}

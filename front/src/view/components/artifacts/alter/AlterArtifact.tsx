@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
-import { Artifact, ArtifactRepository, Project } from "../../../../core/apis/backend/generated";
+import { Artifact, ArtifactRepositoryId, Project } from "../../../../core/apis/backend/generated";
 import { NpmIconComponent, NugetIconComponent } from "../../../icons/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAppDispatch, useAppSelector } from "../../../../store";
@@ -11,10 +11,10 @@ type AddProjectProps = {
 	setData: React.Dispatch<React.SetStateAction<Artifact | undefined>>;
 };
 
-const getRepoId = (repo: ArtifactRepository) => `${repo.repository}`;
+const getRepoId = (repo: ArtifactRepositoryId) => `${repo.repository}`;
 
 const getArtifactRepositories = (project: Project) => {
-	const ret: ArtifactRepository[] = [];
+	const ret: ArtifactRepositoryId[] = [];
 
 	for (let repository of project.repositories) {
 		if (repository.maintainers.length > 0) ret.push({ project: project.name, repository: repository.name });
@@ -37,7 +37,7 @@ export function AlterArtifact({ data, setData }: AddProjectProps) {
 	}, [setData]);
 
 	const updateRepositories = useCallback(
-		(_, repos: ArtifactRepository[]) => {
+		(_, repos: ArtifactRepositoryId[]) => {
 			setData((old) => ({
 				...old!,
 				notifies: repos,

@@ -5,7 +5,9 @@ import { container } from "../core/di";
 import { artifactsReducer } from "./module/artifact/artifacts.reducer";
 import { projectsReducer } from "./module/projects/projects.reducer";
 import { azureReducer } from "./module/azure/azure.reducer";
+import { configReducer } from "./module/config/config.reducer";
 import { usersReducer } from "./module/users/users.reducer";
+import { workflowReducer } from "./module/workflow/workflow.reducer";
 
 const store = configureStore({
 	reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
 		azure: azureReducer,
 		projects: projectsReducer,
 		users: usersReducer,
+		config: configReducer,
+		workflow: workflowReducer,
 	},
 	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument: { container } as ExtraArgument } }),

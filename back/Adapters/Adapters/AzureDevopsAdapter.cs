@@ -89,9 +89,9 @@ public class AzureDevopsAdapter
 	}
 
 
-	public async Task<List<Project>> GetProjects(Token token)
+	public async Task<List<Project>> GetProjects(Config config)
 	{
-		using var client = GetAzureClient(token.Pat);
+		using var client = GetAzureClient(config.Pat);
 
 		var response = await client.GetAsync("https://dev.azure.com/coexya-swl-sante/_apis/projects");
 
@@ -112,7 +112,7 @@ public class AzureDevopsAdapter
 
 			projects.Add(new()
 			{
-				Organisation = token.Organisation,
+				Organisation = config.Organisation,
 				IdAzure = project.Id,
 				Name = project.Name,
 				Repositories = repositories.Select(repo => new Repository
@@ -140,9 +140,9 @@ public class AzureDevopsAdapter
 		return client;
 	}
 
-	public async Task<List<RawArtifact>> SearchArtifacts(string query, string feed, Token token)
+	public async Task<List<RawArtifact>> SearchArtifacts(string query, string feed, Config config)
 	{
-		using var client = GetAzureClient(token.Pat);
+		using var client = GetAzureClient(config.Pat);
 
 		var qs = $"packageNameQuery={HttpUtility.UrlEncode(query)}&includeDescription=true&%24top=1000&includeDeleted=true";
 		var response = await client.GetAsync($"https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds/{feed}/Packages?{qs}");
@@ -156,13 +156,13 @@ public class AzureDevopsAdapter
 		return data.Value;
 	}
 
-	public async Task<List<AzureGetFeedsResponse.AzureFeed>> GetArtifactFeeds(Token token)
+	public async Task<List<AzureGetFeedsResponse.AzureFeed>> GetArtifactFeeds(Config config)
 	{
 		const string key = "feeds";
 
 		if (_cache.TryGetValue(key, out List<AzureGetFeedsResponse.AzureFeed> feeds)) return feeds;
 
-		using var client = GetAzureClient(token.Pat);
+		using var client = GetAzureClient(config.Pat);
 
 		var response = await client.GetAsync("https://feeds.dev.azure.com/coexya-swl-sante/_apis/Packaging/Feeds");
 

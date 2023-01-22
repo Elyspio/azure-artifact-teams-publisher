@@ -1,6 +1,6 @@
 ﻿namespace AzureArtifact.Api.Abstractions.Transports.Token;
 
-public class Token : TokenBase
+public class Config : ConfigBase
 {
 	public Guid Id { get; init; }
 	public DateTime ExpireAt { get; set; }

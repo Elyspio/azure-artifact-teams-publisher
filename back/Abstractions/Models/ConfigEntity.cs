@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AzureArtifact.Api.Abstractions.Models;
 
-public class TokenEntity : TokenBase
+public class ConfigEntity : ConfigBase
 {
 	[BsonId]
 	public ObjectId Id { get; init; }

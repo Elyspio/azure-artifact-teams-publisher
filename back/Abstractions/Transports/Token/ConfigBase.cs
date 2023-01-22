@@ -2,10 +2,10 @@
 
 namespace AzureArtifact.Api.Abstractions.Transports.Token;
 
-public class TokenBase
+public class ConfigBase
 {
 	/// <summary>
-	///     Access token d'un utilisateur azure ayant la permission de voir les repos et les feeds d'artéfact
+	///     Access config d'un utilisateur azure ayant la permission de voir les repos et les feeds d'artéfact
 	/// </summary>
 	public required string Pat { get; init; }
 
@@ -14,4 +14,6 @@ public class TokenBase
 	public required string Organisation { get; set; }
 
 	public required string Webhook { get; set; }
+
+	public required List<string> IgnoredPattern { get; init; }
 }

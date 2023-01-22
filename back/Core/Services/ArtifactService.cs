@@ -25,9 +25,9 @@ public class ArtifactService : BaseService, IArtifactService
 	private readonly ILogger<ArtifactService> _logger;
 	private readonly IHubContext<UpdateHub, IUpdateHub> _updateHub;
 
-	public ArtifactService(ITokenRepository tokenRepository, IArtifactRepository artifactRepository, ILogger<ArtifactService> logger, AzureDevopsAdapter devopsAdapter,
+	public ArtifactService(IConfigRepository configRepository, IArtifactRepository artifactRepository, ILogger<ArtifactService> logger, AzureDevopsAdapter devopsAdapter,
 		IHubContext<UpdateHub, IUpdateHub> updateHub, IConfiguration configuration) :
-		base(tokenRepository, logger)
+		base(configRepository, logger)
 	{
 		_artifactRepository = artifactRepository;
 		_logger = logger;

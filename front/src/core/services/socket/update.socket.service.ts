@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 import { HubConnection, LogLevel } from "@microsoft/signalr";
-import { Artifact, Project } from "../../apis/backend/generated";
+import { Artifact, Config, Project } from "../../apis/backend/generated";
 import { injectable } from "inversify";
 
 interface UpdateHub extends HubConnection {
@@ -9,6 +9,7 @@ interface UpdateHub extends HubConnection {
 	on(event: "ArtifactDeleted", callback: (idArtifact: Artifact["id"]) => void);
 
 	on(event: "ProjectUpdated", callback: (project: Project) => void);
+	on(event: "ConfigUpdated", callback: (config: Config) => void);
 }
 
 @injectable()

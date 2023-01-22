@@ -42,7 +42,7 @@ public static class ApplicationServer
 			application.UseEndpoints(endpoints => { endpoints.MapFallbackToFile("/index.html"); });
 		}
 
-		application.Services.GetRequiredService<IManagementService>().WatchChanged();
+		Task.Run(() => application.Services.GetRequiredService<IManagementService>().WatchChanged());
 
 		return application;
 	}
